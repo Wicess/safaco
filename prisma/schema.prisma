@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../server/generated/prisma"
+  runtime  = "nodejs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Division {
+  GROUP
+  CONSTRUCTION
+  APARTMENTS
+  DESIGNS
+}
+
+/// One enquiry sent through the website. Written only on form submit, so the
+/// database stays asleep between enquiries (Neon scale-to-zero).
+model Lead {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  division  Division
+  topic     String?
+  name      String
+  phone     String
+  email     String?
+  message   String
+  lang      String   @db.VarChar(2)
+  page      String?
+  // Visitor location from Vercel edge headers (x-vercel-ip-*). Free, no analytics package.
+  country   String?  @db.VarChar(2)
+  region    String?
+  city      String?
+  emailed   Boolean  @default(false)
+
+  @@index([createdAt])
+  @@index([division, createdAt])
+}

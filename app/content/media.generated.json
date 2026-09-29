@@ -1,0 +1,478 @@
+{
+  "apartments-bedroom-linen-01": {
+    "w": 1600,
+    "h": 2397,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRsIAAABXRUJQVlA4ILYAAABwBQCdASoUAB4APu1kqU2ppaQiMAgBMB2JZwDGRAgBQsyUJe8Fao9Gr0vRNIuI8wNPywCAAP7xEWpV7/AprsC+/JqVZYEsNnZFE759l5GN9xhjNszZJ43fj0zOsmNmHZ5c75a6Ln4xtv2w1E9un0BRdSvlICece6PKMvKAzjJO8BDJ4LDQppsOY7t1MSdAvnoPPbYzufDRjzNfXdQ9XHnm1a8et6xXyZpUo7twP7cBaVHaxKgAAA==",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "apartments-detail-coffee-01": {
+    "w": 1600,
+    "h": 1067,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAAAwAwCdASoUAA0APu1iqk2ppaQiMAgBMB2JaQAAW+i9g5uAAP7x1DFZiU4QAECk4cgVdvofCnkKOisKAAA=",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "apartments-kitchen-01": {
+    "w": 1600,
+    "h": 1068,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAAAQBACdASoUAA0APu1iqU2ppaOiMAgBMB2JYgCw7B7H2z1mNUhWzDkqgAD+3PkPZrTpfX6o7HndCv+pJ9/IlTylox3oHGQmlyY0CGi5CnsUuzsDg/W06lz41u2wdf4tww0dUu2ui7PW1Vj62uf/OZ6zXz6mW53V09g/cAAA",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "apartments-living-room-01": {
+    "w": 1600,
+    "h": 1068,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRqAAAABXRUJQVlA4IJQAAAAwBACdASoUAA0APu1iqU2ppaQiMAgBMB2JQBOgA4WQkuLRSfLQcnH/lYAA/iNQlqlF75MdFH3lqPl12r/D5llYHcADRb9FHCfh+FX8tvz9LKiYbmus1jGz9opgRuO+0CLyLiNBhQyCd+Zprw+Qbb+pt8Bj+l45Q6KKgO3lM8fnuBLn57BzKall9BOVmsfnBRU4U4AA",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "apartments-living-room-view-01": {
+    "w": 1600,
+    "h": 1068,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAACQAwCdASoUAA0APu1iqU2ppaOiMAgBMB2JZQDCgCHH+0i8QyXQAP7luYUhGN2i5deILW6vmygBD4zqNOxULVIb2l+dCi8NE6KFj1bbzIXgLpXAKIyhuiGaolPs8lIKbrWXRWp7pKBkekNvuw36nuOXbzR1IIVkrSEJtAAA",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "construction-block-making-machine-01": {
+    "w": 1600,
+    "h": 1200,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAABwBACdASoUAA8APu1iqU2ppaOiMAgBMB2JZgCdMoKCAAg4BdBWK95xMKLfgAD+a3/3ezzDH/OA8wLu1+SJZdU+rclT2crBARhB4j4x0vsqF/ouUuZL0BrSil5VVqU7eViFSHqipKTgHJdUqjL6a8pZgErThF6+cOfNcncuBtfEYAAA",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "construction-building-golden-hour-01": {
+    "w": 1600,
+    "h": 1067,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAADwAwCdASoUAA0APu1iqU2ppaOiMAgBMB2JbACdL1yBoMA1eeXnrWrgAP7jSnLMJKOXlETlhJUlKNXFBAximSBiLsdx2+rHGj77YxgmzZvKeRJhiEHBgFIuynahrBL3hR7lKxsf4ONzTG+/g4uuMFWpZkAAAA==",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "construction-concrete-blocks-stacked-01": {
+    "w": 1600,
+    "h": 1200,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAADQAwCdASoUAA8APu1iqU2ppaOiMAgBMB2JZwAOcAMJUJmV3f/osGAA4QpsnCDWt1S/lxYz8DzUfqNZIa+QR9L76awKqOGCcsdw5FLLCgijqTVK/87rdhP0nLMkavOCdD/rmxbbfoVjSn94C1yDL21chwUXLd8269XMuRe6wAA=",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "construction-mast-climbing-platform-01": {
+    "w": 1600,
+    "h": 1200,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRpIAAABXRUJQVlA4IIYAAAAwBACdASoUAA8APu1iqU2ppaOiMAgBMB2JYwC7ABu16C4VpBy97LqzMIAA/pupE0nZ94RyPhlwHghs3KaShHZdEkB2SvgcEgGv7TKA+pBj7HQsKiEa5XGiZ2dfHLzgXKvlrVk9Ys8++BQjOYxOdVB0NddzPuvDZSr5w45mLZFm3aPmt8/AAA==",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "construction-plastering-wall-01": {
+    "w": 1600,
+    "h": 1067,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAADQAwCdASoUAA0APu1kqU2ppaOiMAgBMB2JYwC7ABZrd3j8/GZuIaAA/s/j3JEZs7ZRqge+wQBjUZ4P5MP6/228I147ZdU9TvMt97Vp0XZ7BgjnLCPsaTT77jYq6KG1tQ+lkqWLKwMW+u2+JzAAAA==",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "construction-rendered-wall-texture-01": {
+    "w": 1600,
+    "h": 1200,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRkoAAABXRUJQVlA4ID4AAABwAwCdASoUAA8APu1qrU8ppiQiMAgBMB2JZwABBVwKaSw5H4AA/oMcGJ8gYecf16PWWe4UQ9V6exlH4gAAAA==",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "construction-site-douala-scaffold-01": {
+    "w": 1600,
+    "h": 2162,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRt4AAABXRUJQVlA4INIAAAAQBQCdASoUABsAPu1qrlCppaQiqAqpMB2JYwC06Yv+cHxbrgWMEgbQOqNXX9m/9KYAAP7n7COH2TiFIz34Kmqhr0rwtPZBGXLirhb6ivEYSTLo23kBblUyAmvMXVNnBFxzEYXQKyrmWlx8sUOoTXmmvdWa3IUSMm+st7iVhgYQbiZyhIn5acNTzV52rVl2uzCkH2kJzSmHL41Cin4GfvTqQe5inVA1qtMYGOEOu3hXxvfV5anrtksTt30C/ajnw2W2A751A/NeQS9B9jXWbIzgAAA=",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "construction-site-yaounde-01": {
+    "w": 1600,
+    "h": 1200,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAADwAwCdASoUAA8APu1iqU2ppaOiMAgBMB2JZQCAAAfftlCsJdjE5cvAAP352EGzBuUrcFN9TTGGjkts9KUPAoz6ow1ShxbRV3ofcXtx+AMAV7YbHabpOEWzFaLO+NxpAohB9YZRvlFJHfY0uSQoAA==",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "construction-trowel-01": {
+    "w": 1600,
+    "h": 1228,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAACQAwCdASoUAA8APu1kqU2ppaQiMAgBMB2JaQAANfEAj4Xb6cQAAP3OrQTlC7t01AR0rVVfQVrXUWRUTTBp9BY0d7qoeAwbFdMAAA==",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "designs-bespoke-mannequin-01": {
+    "w": 1600,
+    "h": 1067,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRqgAAABXRUJQVlA4IJwAAACwBACdASoUAA0APu1iqU2ppaQiMAgBMB2JaACdMoR8jf/gNZxk60tXSf/iyfaAAP5EoD0BM9jdCK5+CrjrcXSljwRoqgYvXZsbIO975Qa4Zc8kiuN+I2shOrHyiHMZ2737rk7Su0Dg57LuBX0VpwVhjl3N1Cexynp2d/j5pIdLRbx0ecdUTmPdxXFPRx5GOL6aNv7uNeadVGhY0AA=",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "designs-cutting-chalk-fabric-01": {
+    "w": 1600,
+    "h": 1067,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRnIAAABXRUJQVlA4IGYAAADwAwCdASoUAA0APu1iqk2ppaQiMAgBMB2JYgCdACFoVm6epNjdT74AAP7p1tXl5i2uquwv7RSSLFiSJQKdSHPsG2LUf4sKl8/f3q1s7srH8kASyM9IYxzQJ5jgF8YsXlkDiQ/2AAA=",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "designs-fabric-bolts-01": {
+    "w": 1600,
+    "h": 1099,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRmYAAABXRUJQVlA4IFoAAADQAwCdASoUAA4APu1kq04ppaQiMAgBMB2JQBOgkv4J0z9vErtl5gAAyTfNHtduYjQMKHM2m8qKm40Hhm1L/YCK3P+LWjPRCSKP3tfYjKnvGKztU0rpP1P5QAA=",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "designs-mens-tailored-jacket-01": {
+    "w": 1600,
+    "h": 1107,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRn4AAABXRUJQVlA4IHIAAAAQBACdASoUAA4APu1iqU2ppaQiMAgBMB2JQBWABENKgTW7SyudlAjAAAD+78Ol/sCNHQr0alw3lE5w0Gj89BU+ZPfzfzQUwHo4p0mde/V4laxYpdAwj7Y5zTrP2hgx6HXZRMeKclSeOqJae8EEZRtiAAA=",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "designs-sewing-class-01": {
+    "w": 1600,
+    "h": 2133,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRvQAAABXRUJQVlA4IOgAAADwBQCdASoUABsAPu1qrlCppaQiqAqpMB2JYgCdISB4ZbkYd77g+PcpZEffIVcXbPQxyCR7tAFuAAD+wDHhTfnOurrTiqyoAcgPVJ1X/SaJrYZAWf4tqfWdOfR2gAydQFRgak06wnsih8Q2vhXoYDvQRJoCSCTfS/NhcWWdvm7+Idv+bNdSMU44hWuEPRkYcE9KxVNa10PFMIizo85LcF68GfQiaeZ40P4XUFJIAfqL6JjnDAf0NIGBW3AzhDojh30+Dx7OrMULGYolDJCRzvCDTKcI7YVoPUpu9YnH5Q4vjqhJOCvA/AAA",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "designs-sewing-machine-closeup-01": {
+    "w": 1600,
+    "h": 1067,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRowAAABXRUJQVlA4IIAAAAAwBACdASoUAA0APu1iqU2ppaOiMAgBMB2JYgCdMoMulEPwNCsRtzIGNIgA/trVfu6kXfxr/nhunHPHfOLPNZxF3lk9F3dYGHK/WYdbCTn6vbuTjJ26oV4d9DXwftwZIO131tRChSFGeUVWPKpFGzT6vHbURg+/vQmCR5WjJiMAAA==",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "designs-tailor-at-work-01": {
+    "w": 1600,
+    "h": 1067,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAADwAwCdASoUAA0APu1iqU2ppaOiMAgBMB2JYwC06B+DZUHhGpcIUwAAAP7Tn9Ac8Y38Bri4VS6Zb84SicRIpw/5lXAoHZ8Vn9qlyuyn/kQ9RdzY9BcocHAbvjaQ1nbqnX6qMkddFcAYmEyfa1gAAA==",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "designs-tailor-at-work-cameroon-01": {
+    "w": 1600,
+    "h": 1059,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRpAAAABXRUJQVlA4IIQAAACwAwCdASoUAA0APu1iqk2ppaQiMAgBMB2JQBdgBCpmtUZXGUVJwAD+7VDjsygUAwBTfrI/Npb+IWiIAQBj+g09N/gfeA7s4vDkcf74+4zvoaXlRCwDnVi0UsiT6Y5N+fAIdZssn2BWV4OerZ3zcrwcoInnF5uMY9DomlceYnbGYqgIEAA=",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "designs-tape-measure-fitting-01": {
+    "w": 1600,
+    "h": 1067,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAADwAwCdASoUAA0APu1iqU2ppaQiMAgBMB2JZwC+SB0lzuZoXH7ZhqRAAP7r+wy9n7obRQ+8wEdhJ7J1upSyWvjCUVfvHmPwYgQiuk6BCH0+rkPyM3WpRoMeq10nhPM/lmzeo80Ft23JfVCjr0kzsFQRroAAAA==",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "designs-tape-measure-scissors-01": {
+    "w": 1600,
+    "h": 1067,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAADQAwCdASoUAA0APu1iqU2ppaOiMAgBMB2JZQCw7BuMZC59GoIs7oAA/vHdmLTATavWlGzCUQ9AtECm0XBRkaFcbz4zCukMzAjKhIrjDAit4Nq7YHU+FCUYWhCblAAA",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "group-concrete-architecture-01": {
+    "w": 1600,
+    "h": 1067,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAADQAwCdASoUAA0APu1iqU2ppaOiMAgBMB2JQBYdhEEoBnaLfjLAuSgA/u1KEPTqgAA91LK3XyPubfEuQgXLYFBf5EbCL00vtgcUXeUWb+H3U4B9/4qwAA==",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "group-ivory-plaster-texture-01": {
+    "w": 1600,
+    "h": 1600,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAAAQAwCdASoUABQAPu1qrVCppaSiqAqpMB2JaQDIXBkzxMAA/sDJGzMk17Dr5T9gAAA=",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "group-yaounde-cityscape-01": {
+    "w": 1600,
+    "h": 1067,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAACwAwCdASoUAA0APu1iqk4ppaQiMAgBMB2JZQDImCHZnMLiT12tUAD+3nZxUsPLKNx+bVdYVEHMgXZ8lBv6XtxA8abx+Rbxk6ZY4EhzHVa4AAAA",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "group-yaounde-cityscape-02": {
+    "w": 1600,
+    "h": 1200,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRn4AAABXRUJQVlA4IHIAAAAQBACdASoUAA8APu1iqU2ppaQiMAgBMB2JQBdld+AagrbS9kTva9JhAAD+30R0amyzfZV/Om6AZNRNO937dJI348YY5X5aR5+oKsWxCeCa5lvIv6mWCmhWmpQ9ZVBjGKd/9Avpjt91NZgWBMuqMfIAAAA=",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  }
+}
