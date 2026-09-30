@@ -13,7 +13,7 @@ export const IMG = {
   constructionSite: "construction-site-yaounde-01",
   plasteringAction: "construction-plastering-wall-01",
   wallRaw: "construction-concrete-blocks-stacked-01",
-  wallSmooth: "group-ivory-plaster-texture-01",
+  wallSmooth: "construction-rendered-wall-texture-01",
   trowel: "construction-trowel-01",
   scaffold: "construction-site-douala-scaffold-01",
   blocks: "construction-concrete-blocks-stacked-01",

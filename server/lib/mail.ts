@@ -16,7 +16,7 @@ function inboxFor(division: ContactInput["division"]): string | undefined {
 const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
 
 /**
- * Plain SMTP through the domain's own mailbox (Hostinger for mimosalsd.com:
+ * Plain SMTP through the domain's own mailbox (Hostinger for safaandcosarl.com:
  * smtp.hostinger.com, 465/SSL, user = the full address). One transporter per
  * function instance; no pool, since a serverless function sends a couple of
  * mails and exits.

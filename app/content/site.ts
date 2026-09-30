@@ -21,13 +21,13 @@ function env(key: string): string | undefined {
 }
 
 /** Public contact address (owner, 2026-09-30). Mail is sent over SMTP from this mailbox. */
-const EMAIL = env("VITE_CONTACT_EMAIL") ?? "sales@mimosalsd.com";
+const EMAIL = env("VITE_CONTACT_EMAIL") ?? "sales@safaandcosarl.com";
 
 export const SITE = {
   name: "SAFA & Co",
   legalName: "SAFA & Co SARL",
   // Canonical origin for SEO (canonical, hreflang, sitemap). Set VITE_SITE_URL per environment.
-  url: (env("VITE_SITE_URL") ?? "https://CLIENT_TODO-domain.cm").replace(/\/$/, ""), // CLIENT_TODO: confirm production domain
+  url: (env("VITE_SITE_URL") ?? "https://safaandcosarl.com").replace(/\/$/, ""),
   city: "Yaoundé",
   country: "Cameroon",
   countryCode: "CM",

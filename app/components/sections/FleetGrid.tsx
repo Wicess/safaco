@@ -2,6 +2,7 @@ import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router";
 import type { Unit } from "~/content/construction";
 import { href, type Lang } from "~/lib/i18n";
+import { PLACEHOLDER_MEDIA } from "~/content/media-map";
 import { Picture } from "../ui/Picture";
 
 /** Fleet cards. On phones: a horizontal swipe strip with snap (native scroll,
@@ -12,12 +13,26 @@ export function FleetGrid({ lang, units, link = true }: { lang: Lang; units: Uni
       {units.map((u) => {
         const inner = (
           <>
-            <div className="relative">
-              <Picture name={u.img} alt="" sizes="(min-width: 64rem) 30vw, (min-width: 48rem) 45vw, 80vw" className="grain aspect-[4/3]" />
-              <span className="tabular absolute left-3 top-3 bg-navy-950/85 px-2 py-1 text-[0.625rem] font-semibold tracking-[0.18em] text-gold-300">
-                N° {u.code}
-              </span>
-            </div>
+            {PLACEHOLDER_MEDIA ? (
+              // No stock photo here: a card captioned "unit N°" must show SAFA's real
+              // machine or nothing. Typographic panel until the client's shoot.
+              <div className="grain relative flex aspect-[4/3] flex-col justify-between overflow-hidden bg-navy-900 p-5 text-ivory">
+                <span className="eyebrow text-gold-300">SAFA Construction</span>
+                <div>
+                  <span aria-hidden className="block h-px w-12 bg-gold transition-[width] duration-700 ease-(--ease-out-quart) group-hover:w-24" />
+                  <span className="tabular mt-3 block font-display text-[4.5rem] leading-none text-ivory/90">
+                    <span className="text-[0.4em] text-gold-300">N°</span> {u.code}
+                  </span>
+                </div>
+              </div>
+            ) : (
+              <div className="relative">
+                <Picture name={u.img} alt="" sizes="(min-width: 64rem) 30vw, (min-width: 48rem) 45vw, 80vw" className="grain aspect-[4/3]" />
+                <span className="tabular absolute left-3 top-3 bg-navy-950/85 px-2 py-1 text-[0.625rem] font-semibold tracking-[0.18em] text-gold-300">
+                  N° {u.code}
+                </span>
+              </div>
+            )}
             <div className="flex items-start justify-between gap-4 pt-5">
               <div>
                 <h3 className="text-[1.5rem] leading-tight">{u.name[lang]}</h3>

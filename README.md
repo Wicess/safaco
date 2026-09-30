@@ -38,6 +38,12 @@ pnpm dev:api              # contact API on :3001 (Vite proxies /api)
 | `pnpm media` | Converts `media-src/*.jpg` into AVIF/WebP/JPEG at 360–1600 w in `public/media`, plus the manifest and photo credits |
 | `pnpm db:migrate` | `prisma migrate deploy` against `DATABASE_URL_UNPOOLED` |
 
+### Troubleshooting
+
+If `pnpm build` fails locally with `ENOSPC: System limit for number of file watchers reached`, other
+dev servers are holding the inotify limit. Build with polling instead:
+`CHOKIDAR_USEPOLLING=1 pnpm build`. Vercel and CI are not affected.
+
 ## Where things live
 
 - **Every public URL, in both languages:** `app/lib/i18n.ts` (`PAGES`). `app/routes.ts` mounts each page once per language.
