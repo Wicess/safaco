@@ -12,7 +12,16 @@ import { langFromPath, pageFromPath } from "./lib/i18n";
 import { useRevealAll } from "./lib/hooks";
 import "./styles/app.css";
 
+const MEDIA_ORIGIN = (() => {
+  try {
+    return new URL(import.meta.env.VITE_MEDIA_BASE as string).origin;
+  } catch {
+    return null;
+  }
+})();
+
 export const links: Route.LinksFunction = () => [
+  ...(MEDIA_ORIGIN ? [{ rel: "preconnect", href: MEDIA_ORIGIN, crossOrigin: "anonymous" as const }] : []),
   { rel: "preload", href: "/fonts/cormorant.woff2", as: "font", type: "font/woff2", crossOrigin: "anonymous" },
   { rel: "icon", href: "/favicon.ico", sizes: "32x32" },
   { rel: "icon", href: "/icon-512.png", type: "image/png", sizes: "512x512" },

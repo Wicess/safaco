@@ -1,4 +1,4 @@
-import { BrevoClient } from "@getbrevo/brevo";
+import nodemailer, { type Transporter } from "nodemailer";
 import type { ContactInput } from "../../app/lib/contact-schema";
 
 const DIVISION_LABEL: Record<ContactInput["division"], string> = {
@@ -15,12 +15,27 @@ function inboxFor(division: ContactInput["division"]): string | undefined {
 
 const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
 
-let client: BrevoClient | null = null;
-function brevo(): BrevoClient | null {
-  const apiKey = process.env.BREVO_API_KEY;
-  if (!apiKey) return null;
-  client ??= new BrevoClient({ apiKey });
-  return client;
+/**
+ * Plain SMTP through the domain's own mailbox (Hostinger for mimosalsd.com:
+ * smtp.hostinger.com, 465/SSL, user = the full address). One transporter per
+ * function instance; no pool, since a serverless function sends a couple of
+ * mails and exits.
+ */
+let transporter: Transporter | null = null;
+function smtp(): Transporter | null {
+  const { SMTP_HOST, SMTP_USER, SMTP_PASS } = process.env;
+  if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS) return null;
+  const port = Number(process.env.SMTP_PORT ?? 465);
+  transporter ??= nodemailer.createTransport({
+    host: SMTP_HOST,
+    port,
+    secure: port === 465,
+    auth: { user: SMTP_USER, pass: SMTP_PASS },
+    connectionTimeout: 8000,
+    greetingTimeout: 8000,
+    socketTimeout: 10000,
+  });
+  return transporter;
 }
 
 type Geo = { country?: string; city?: string };
@@ -28,14 +43,14 @@ type Geo = { country?: string; city?: string };
 /**
  * 1) Notify the division inbox (reply-to = the visitor, when they gave an email).
  * 2) Auto-reply to the visitor in their language, if they gave an email.
- * Returns true when the notification was accepted by Brevo.
+ * Returns true when the notification was accepted by the SMTP server.
  */
 export async function sendLeadEmails(lead: ContactInput, geo: Geo): Promise<boolean> {
-  const b = brevo();
+  const t = smtp();
   const to = inboxFor(lead.division);
-  const sender = { email: process.env.MAIL_FROM ?? "no-reply@example.com", name: "SAFA & Co — Site web" };
-  if (!b || !to) {
-    console.warn("[mail] Brevo not configured — lead stored only");
+  const from = process.env.MAIL_FROM ?? process.env.SMTP_USER ?? "";
+  if (!t || !to || !from) {
+    console.warn("[mail] SMTP not configured — lead stored only");
     return false;
   }
   const division = DIVISION_LABEL[lead.division];
@@ -60,13 +75,13 @@ export async function sendLeadEmails(lead: ContactInput, geo: Geo): Promise<bool
     </div>`;
 
   try {
-    await b.transactionalEmails.sendTransacEmail({
-      sender,
-      to: [{ email: to }],
-      replyTo: lead.email ? { email: lead.email, name: lead.name } : undefined,
+    await t.sendMail({
+      from: { name: "SAFA & Co — Site web", address: from },
+      to,
+      replyTo: lead.email ? { name: lead.name, address: lead.email } : undefined,
       subject: `[${division}] ${lead.name} — ${lead.phone}`,
-      htmlContent: html,
-      tags: ["lead", lead.division.toLowerCase()],
+      html,
+      text: rows.map(([k, v]) => `${k}: ${v}`).join("\n") + `\n\n${lead.message}`,
     });
   } catch (err) {
     console.error("[mail] notification failed", err);
@@ -86,13 +101,12 @@ export async function sendLeadEmails(lead: ContactInput, geo: Geo): Promise<bool
         <p style="color:#5a6570;font-size:13px;margin-top:28px">SAFA &amp; Co SARL · Yaoundé, ${fr ? "Cameroun" : "Cameroon"}</p>
       </div>`;
     try {
-      await b.transactionalEmails.sendTransacEmail({
-        sender: { ...sender, name: division },
-        to: [{ email: lead.email, name: lead.name }],
-        replyTo: { email: to, name: division },
+      await t.sendMail({
+        from: { name: division, address: from },
+        to: { name: lead.name, address: lead.email },
+        replyTo: { name: division, address: to },
         subject: fr ? `Votre demande à ${division}` : `Your enquiry to ${division}`,
-        htmlContent: reply,
-        tags: ["autoreply"],
+        html: reply,
       });
     } catch (err) {
       console.error("[mail] auto-reply failed", err); // non-fatal

@@ -13,11 +13,11 @@ The plan and research behind it are in [`docs/PLAN.md`](docs/PLAN.md) and
 | Styling | Tailwind CSS 4 (`@theme` tokens in `app/styles/app.css`) · shadcn/ui primitives |
 | API | Express 5 → one Vercel Function (`api/index.ts`), used **only** by the contact form |
 | Data | Prisma 7 + Neon Postgres (`Lead` table), via the pooled URL and `@prisma/adapter-neon` |
-| Email | Brevo transactional API (`server/lib/mail.ts`) |
-| Edge | Vercel (hosting, `cdg1`) · Cloudflare DNS (grey cloud), Turnstile, Web Analytics |
+| Email | Plain SMTP via the domain mailbox, nodemailer (`server/lib/mail.ts`) |
+| Edge | Vercel (hosting; function in `cle1`, next to Neon us-east-2) · Cloudflare DNS (grey cloud), Turnstile, Web Analytics |
 
 **Cost model:** page views never run a function or touch the database. Only a form submission
-wakes the API and Neon, so Neon can scale to zero between enquiries. Nothing polls on a timer.
+wakes the API, Neon and the SMTP send, so Neon can scale to zero between enquiries. Nothing polls on a timer.
 
 ## Develop
 

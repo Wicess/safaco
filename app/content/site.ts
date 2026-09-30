@@ -12,14 +12,26 @@ import type { Lang, PageKey, T } from "~/lib/i18n";
 
 export const CLIENT_TODO = "CLIENT_TODO";
 
+/** Reads a build-time variable in both Vite (import.meta.env) and Node scripts
+ *  (process.env, e.g. scripts/postbuild.ts). */
+function env(key: string): string | undefined {
+  const vite = (import.meta as { env?: Record<string, string | undefined> }).env?.[key];
+  const node = (globalThis as { process?: { env: Record<string, string | undefined> } }).process?.env?.[key];
+  return vite || node || undefined;
+}
+
+/** Public contact address (owner, 2026-09-30). Mail is sent over SMTP from this mailbox. */
+const EMAIL = env("VITE_CONTACT_EMAIL") ?? "sales@mimosalsd.com";
+
 export const SITE = {
   name: "SAFA & Co",
   legalName: "SAFA & Co SARL",
-  url: "https://CLIENT_TODO-domain.cm", // CLIENT_TODO: production domain
+  // Canonical origin for SEO (canonical, hreflang, sitemap). Set VITE_SITE_URL per environment.
+  url: (env("VITE_SITE_URL") ?? "https://CLIENT_TODO-domain.cm").replace(/\/$/, ""), // CLIENT_TODO: confirm production domain
   city: "Yaoundé",
   country: "Cameroon",
   countryCode: "CM",
-  email: "contact@CLIENT_TODO-domain.cm", // CLIENT_TODO
+  email: EMAIL,
   rccm: "CLIENT_TODO", // Registre du Commerce (RCCM) number
   niu: "CLIENT_TODO", // Numéro d'Identifiant Unique (tax ID)
   founded: "CLIENT_TODO",
@@ -69,7 +81,7 @@ export const DIVISIONS: Record<DivisionKey, Division> = {
     short: { en: "Build", fr: "Bâtir" },
     whatsapp: "237600000001", // CLIENT_TODO
     phone: "+237 6 00 00 00 01", // CLIENT_TODO
-    email: "construction@CLIENT_TODO-domain.cm",
+    email: EMAIL,
     address: {
       line: { en: "Yard address to be confirmed, Yaoundé", fr: "Adresse du dépôt à confirmer, Yaoundé" }, // CLIENT_TODO
       district: "Yaoundé",
@@ -89,7 +101,7 @@ export const DIVISIONS: Record<DivisionKey, Division> = {
     short: { en: "Stay", fr: "Séjourner" },
     whatsapp: "237600000002", // CLIENT_TODO
     phone: "+237 6 00 00 00 02", // CLIENT_TODO
-    email: "apartments@CLIENT_TODO-domain.cm",
+    email: EMAIL,
     address: {
       line: { en: "Meyo, Yaoundé IV (exact address to be confirmed)", fr: "Meyo, Yaoundé IV (adresse exacte à confirmer)" }, // CLIENT_TODO
       district: "Meyo, Yaoundé IV",
@@ -109,7 +121,7 @@ export const DIVISIONS: Record<DivisionKey, Division> = {
     short: { en: "Wear", fr: "S'habiller" },
     whatsapp: "237600000003", // CLIENT_TODO
     phone: "+237 6 00 00 00 03", // CLIENT_TODO
-    email: "designs@CLIENT_TODO-domain.cm",
+    email: EMAIL,
     address: {
       line: { en: "Carrefour MEEC, Yaoundé VI (exact address to be confirmed)", fr: "Carrefour MEEC, Yaoundé VI (adresse exacte à confirmer)" }, // CLIENT_TODO
       district: "Carrefour MEEC, Yaoundé VI",

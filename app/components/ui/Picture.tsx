@@ -4,6 +4,11 @@ import { cn } from "~/lib/utils";
 type Entry = { w: number; h: number; widths: number[]; blur: string; formats: string[] };
 const MEDIA = manifest as Record<string, Entry>;
 
+/** Where optimized images are served from. Set VITE_MEDIA_BASE to the R2 public
+ *  URL (e.g. https://media.<domain>/media) to serve them from Cloudflare R2 —
+ *  zero egress, and Vercel then serves no image bytes. Defaults to /media. */
+const BASE = ((import.meta.env.VITE_MEDIA_BASE as string | undefined) || "/media").replace(/\/$/, "");
+
 export type MediaName = string;
 
 /**
@@ -42,14 +47,14 @@ export function Picture({
       />
     );
   }
-  const set = (fmt: string) => m.widths.map((w) => `/media/${name}-${w}.${fmt} ${w}w`).join(", ");
+  const set = (fmt: string) => m.widths.map((w) => `${BASE}/${name}-${w}.${fmt} ${w}w`).join(", ");
   const fallbackW = m.widths.find((w) => w >= 1080) ?? m.widths.at(-1)!;
   return (
     <picture className={cn("block overflow-hidden", className)} style={ratio ? { aspectRatio: ratio } : undefined}>
       {m.formats.includes("avif") && <source type="image/avif" srcSet={set("avif")} sizes={sizes} />}
       <source type="image/webp" srcSet={set("webp")} sizes={sizes} />
       <img
-        src={`/media/${name}-${fallbackW}.jpg`}
+        src={`${BASE}/${name}-${fallbackW}.jpg`}
         srcSet={set("jpg")}
         sizes={sizes}
         alt={alt}

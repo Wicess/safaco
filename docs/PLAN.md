@@ -504,3 +504,9 @@ and photos.
   the client's shoot.
 - **Placeholders:** every one is marked `CLIENT_TODO`. `pnpm build` lists them, and
   `STRICT_CONTENT=1` fails the build while any remain.
+
+### 2026-09-30 — infrastructure
+- **Neon** connected (project in AWS us-east-2); `Lead` table migrated (`prisma/migrations/20260930000000_init`). End-to-end test: JSON + no-JS form posts stored with geo; test rows deleted.
+- **Vercel function region → `cle1`** (Cleveland = AWS us-east-2, same as Neon).
+- **R2** bucket `sako`: 420 optimized images uploaded (`pnpm media:upload`), served via `VITE_MEDIA_BASE` (r2.dev for now → custom domain before launch). Build drops its own copy of the images so Vercel serves no image bytes.
+- **Email: Brevo dropped (owner decision)** → plain SMTP with nodemailer through the domain mailbox.

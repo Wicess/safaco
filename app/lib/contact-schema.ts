@@ -25,7 +25,7 @@ export const ContactSchema = z.object({
   lang: z.enum(["en", "fr"]).default("en"),
   page: z.string().max(160).optional(),
   // Anti-spam
-  website: z.string().max(0).optional(), // honeypot: must stay empty
+  website: z.string().max(500).optional(), // honeypot: must stay empty (checked in the handler)
   ts: z.coerce.number().optional(), // render time, for a minimum fill time
   "cf-turnstile-response": z.string().max(4096).optional(),
 });

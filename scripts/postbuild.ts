@@ -7,7 +7,8 @@
  *  5. CLIENT_TODO report — every placeholder still waiting for client data.
  *     Set STRICT_CONTENT=1 to fail the build while any remain (use for launch).
  */
-import { copyFileSync, existsSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
+import "dotenv/config";
+import { copyFileSync, existsSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { join, relative } from "node:path";
 import { DIVISION_LIST, SITE } from "../app/content/site";
 import { LANGS, PAGES, PAGE_KEYS } from "../app/lib/i18n";
@@ -18,6 +19,12 @@ const today = new Date().toISOString().slice(0, 10);
 // 1. 404
 const nf = join(OUT, "404/index.html");
 if (existsSync(nf)) copyFileSync(nf, join(OUT, "404.html"));
+
+// 1b. Images served from R2 → don't ship (or bill) a second copy on Vercel.
+if (/^https?:\/\//.test(process.env.VITE_MEDIA_BASE ?? "")) {
+  rmSync(join(OUT, "media"), { recursive: true, force: true });
+  console.log(`✓ media served from ${process.env.VITE_MEDIA_BASE} — removed build/client/media`);
+}
 
 // 2. Sitemap
 const urls = PAGE_KEYS.filter((k) => !PAGES[k].noindex).flatMap((k) =>
