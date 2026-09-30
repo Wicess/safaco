@@ -18,12 +18,12 @@ export const handle: RouteHandle = { headerTone: "dark" };
 export const meta = pageMeta({
   key: "home",
   title: {
-    en: "SAFA & Co — Construction hire, apartments & tailoring in Yaoundé",
-    fr: "SAFA & Co — Location de matériel, appartements & couture à Yaoundé",
+    en: "SAFA & Co, Yaoundé — Equipment Hire, Apartments, Tailoring",
+    fr: "SAFA & Co, Yaoundé — Location de matériel, meublés, couture",
   },
   description: {
-    en: "A Yaoundé group of three houses: automatic plastering machine and mast-lift hire, furnished apartments in Meyo, and made-to-measure menswear with a MINEFOP-approved sewing school.",
-    fr: "Un groupe yaoundéen, trois maisons : location de machines à crépir automatiques et de monte-charges, appartements meublés à Meyo, couture homme sur mesure et centre de formation agréé MINEFOP.",
+    en: "Yaoundé group: automatic plastering machine and mast-lift hire, furnished apartments in Meyo, made-to-measure menswear and a MINEFOP-approved sewing school.",
+    fr: "Groupe à Yaoundé : location de machines à crépir et de monte-charges, appartements meublés à Meyo, couture homme sur mesure, formation agréée MINEFOP.",
   },
   image: "/og/home.jpg",
   jsonLd: (lang) => [faqPage(lang, GROUP_FAQ)],

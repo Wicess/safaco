@@ -38,8 +38,8 @@ const STEPS: { title: T; body: T }[] = [
 export const meta = pageMeta({
   key: "training",
   title: {
-    en: "Tailoring training & apprenticeship in Yaoundé — MINEFOP-approved | SAFA Designs",
-    fr: "Formation couture & apprentissage à Yaoundé — centre agréé MINEFOP | SAFA Designs",
+    en: "Tailoring Training in Yaoundé, MINEFOP-Approved | SAFA",
+    fr: "Formation couture à Yaoundé, centre agréé MINEFOP | SAFA",
   },
   description: {
     en: "Learn men's tailoring at SAFA Designs, a MINEFOP-approved training centre at Carrefour MEEC, Yaoundé. Hands-on training on specialised machines.",

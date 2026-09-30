@@ -22,12 +22,12 @@ const TRAIL = [
 export const meta = pageMeta({
   key: "scaffold",
   title: {
-    en: "Mast lift & scaffold platform hire in Yaoundé | SAFA Construction",
-    fr: "Location monte-charge & échafaudage à Yaoundé | SAFA Construction",
+    en: "Mast Lift & Scaffold Platform Hire, Yaoundé | SAFA",
+    fr: "Location monte-charge & échafaudage, Yaoundé | SAFA",
   },
   description: {
     en: "Hire dual-mast site lifts, scaffold platforms and mast sections in Yaoundé. Assembled on site to the height you need and collected at the end of the job.",
-    fr: "Location de monte-charges bi-mâts, de plateformes d'échafaudage et d'éléments de mât à Yaoundé. Montés sur site à la hauteur voulue et repris en fin de chantier.",
+    fr: "Monte-charges bi-mâts, plateformes d'échafaudage et éléments de mât à louer à Yaoundé. Montés à la bonne hauteur, repris en fin de chantier.",
   },
   image: "/og/scaffold.jpg",
   jsonLd: (lang) => [

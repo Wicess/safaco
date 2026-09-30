@@ -11,7 +11,7 @@ const TRAIL = [{ key: "contact" as const, name: { en: "Contact", fr: "Contact" }
 
 export const meta = pageMeta({
   key: "contact",
-  title: { en: "Contact SAFA & Co — Yaoundé | WhatsApp, phone & enquiry form", fr: "Contacter SAFA & Co — Yaoundé | WhatsApp, téléphone & formulaire" },
+  title: { en: "Contact SAFA & Co, Yaoundé — WhatsApp, Phone, Enquiry", fr: "Contacter SAFA & Co, Yaoundé — WhatsApp, téléphone" },
   description: {
     en: "Reach SAFA Construction, SAFA Apartments or SAFA Designs in Yaoundé by WhatsApp, phone or the enquiry form. Addresses and opening hours for each division.",
     fr: "Joignez SAFA Construction, SAFA Apartments ou SAFA Designs à Yaoundé par WhatsApp, téléphone ou formulaire. Adresses et horaires de chaque division.",

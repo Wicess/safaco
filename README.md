@@ -36,6 +36,8 @@ pnpm dev:api              # contact API on :3001 (Vite proxies /api)
 | `pnpm preview` | Serves the build like Vercel (language redirect on `/`, 404, `/api`) on :4173 |
 | `pnpm typecheck` | Route typegen + `tsc` |
 | `pnpm media` | Converts `media-src/*.jpg` into AVIF/WebP/JPEG at 360–1600 w in `public/media`, plus the manifest and photo credits |
+| `pnpm media:upload` | Syncs `public/media` to the R2 bucket (serve with `VITE_MEDIA_BASE`) |
+| `pnpm indexnow` | After a production deploy: notifies Bing/IndexNow of every sitemap URL |
 | `pnpm db:migrate` | `prisma migrate deploy` against `DATABASE_URL_UNPOOLED` |
 
 ### Troubleshooting

@@ -14,6 +14,7 @@
     "typecheck": "react-router typegen && tsc --noEmit",
     "media": "tsx scripts/media.ts",
     "media:upload": "tsx scripts/r2-upload.ts",
+    "indexnow": "tsx scripts/indexnow.ts",
     "db:migrate": "prisma migrate deploy",
     "db:dev": "prisma migrate dev",
     "postinstall": "prisma generate"

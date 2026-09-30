@@ -24,12 +24,12 @@ const TRAIL = [
 export const meta = pageMeta({
   key: "plastering",
   title: {
-    en: "Automatic plastering machine hire in Yaoundé | SAFA Construction",
-    fr: "Location machine à crépir automatique à Yaoundé | SAFA Construction",
+    en: "Automatic Plastering Machine Hire in Yaoundé | SAFA",
+    fr: "Location machine à crépir automatique, Yaoundé | SAFA",
   },
   description: {
-    en: "Hire an automatic wall-plastering machine in Yaoundé. Faster rendering, constant thickness, smaller crew. Delivered and set up by SAFA's team — among the first in Cameroon.",
-    fr: "Louez une machine à crépir automatique à Yaoundé : crépissage plus rapide, épaisseur constante, équipe réduite. Livrée et montée par l'équipe SAFA — parmi les premiers au Cameroun.",
+    en: "Hire an automatic plastering machine in Yaoundé: faster rendering, even thickness, smaller crew. Set up by SAFA — among the first in Cameroon.",
+    fr: "Machine à crépir automatique à louer à Yaoundé : crépi plus rapide et régulier, équipe réduite. Montée par SAFA, parmi les premiers au Cameroun.",
   },
   image: "/og/plastering.jpg",
   jsonLd: (lang) => [

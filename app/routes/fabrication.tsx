@@ -38,12 +38,12 @@ const PRODUCTS: { name: T; body: T }[] = [
 export const meta = pageMeta({
   key: "fabrication",
   title: {
-    en: "Machine-made construction materials in Yaoundé | SAFA Construction",
-    fr: "Fabrication mécanisée de matériaux de construction à Yaoundé | SAFA Construction",
+    en: "Machine-Made Construction Materials, Yaoundé | SAFA",
+    fr: "Fabrication mécanisée de matériaux, Yaoundé | SAFA",
   },
   description: {
     en: "SAFA Construction produces construction materials by machine in Yaoundé for consistent dimensions. Tell us the product, quantity and site — quote on request.",
-    fr: "SAFA Construction fabrique des matériaux de construction à la machine à Yaoundé, pour des dimensions régulières. Indiquez produit, quantité et chantier — devis sur demande.",
+    fr: "Matériaux de construction fabriqués à la machine à Yaoundé, aux dimensions régulières. Indiquez produit, quantité et chantier : devis sur demande.",
   },
   image: "/og/fabrication.jpg",
   jsonLd: (lang) => [

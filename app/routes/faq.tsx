@@ -16,7 +16,7 @@ import {
 } from "~/content/faqs";
 import { useLang } from "~/lib/hooks";
 import { href, type PageKey, type T } from "~/lib/i18n";
-import { breadcrumb, faqPage, pageMeta } from "~/lib/seo";
+import { breadcrumb, pageMeta } from "~/lib/seo";
 
 const TRAIL = [{ key: "faq" as const, name: { en: "Questions", fr: "Questions" } }];
 
@@ -42,10 +42,12 @@ export const meta = pageMeta({
   key: "faq",
   title: { en: "Questions & answers — SAFA & Co, Yaoundé", fr: "Questions & réponses — SAFA & Co, Yaoundé" },
   description: {
-    en: "Answers about hiring automatic plastering machines and mast lifts, booking furnished apartments in Meyo, and made-to-measure tailoring and training at SAFA Designs.",
-    fr: "Réponses sur la location de machines à crépir et de monte-charges, la réservation d'appartements meublés à Meyo, la couture sur mesure et la formation chez SAFA Designs.",
+    en: "Answers on hiring plastering machines and mast lifts, furnished apartments in Meyo, and made-to-measure tailoring and training at SAFA Designs.",
+    fr: "Location de machines à crépir et monte-charges, appartements meublés à Meyo, couture sur mesure et formation chez SAFA Designs : nos réponses.",
   },
-  jsonLd: (lang) => [breadcrumb(lang, TRAIL), faqPage(lang, GROUPS.flatMap((g) => g.items))],
+  // FAQPage markup lives on each division page (one instance per question, per
+  // Google's guidance); this hub repeats the answers for people, not markup.
+  jsonLd: (lang) => [breadcrumb(lang, TRAIL)],
 });
 
 export default function FaqPage() {

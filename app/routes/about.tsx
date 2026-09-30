@@ -13,10 +13,10 @@ const TRAIL = [{ key: "about" as const, name: { en: "About", fr: "À propos" } }
 
 export const meta = pageMeta({
   key: "about",
-  title: { en: "About SAFA & Co SARL — a Yaoundé group of three houses", fr: "À propos de SAFA & Co SARL — un groupe yaoundéen, trois maisons" },
+  title: { en: "About SAFA & Co SARL — Three Houses in Yaoundé", fr: "À propos de SAFA & Co SARL — trois maisons, Yaoundé" },
   description: {
-    en: "SAFA & Co SARL is a Cameroonian group in Yaoundé: SAFA Construction, SAFA Apartments and SAFA Designs. One standard of precision across building, hosting and tailoring.",
-    fr: "SAFA & Co SARL est un groupe camerounais basé à Yaoundé : SAFA Construction, SAFA Apartments et SAFA Designs. Une même exigence de précision pour bâtir, accueillir et habiller.",
+    en: "SAFA & Co SARL is a Cameroonian group in Yaoundé — SAFA Construction, SAFA Apartments and SAFA Designs — with one standard of precision.",
+    fr: "SAFA & Co SARL, groupe camerounais basé à Yaoundé : SAFA Construction, SAFA Apartments et SAFA Designs, avec une même exigence de précision.",
   },
   jsonLd: (lang) => [breadcrumb(lang, TRAIL)],
 });

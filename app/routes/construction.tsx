@@ -19,12 +19,12 @@ const TRAIL = [{ key: "construction" as const, name: { en: "SAFA Construction", 
 export const meta = pageMeta({
   key: "construction",
   title: {
-    en: "SAFA Construction — Plastering machine & mast lift hire, Yaoundé",
-    fr: "SAFA Construction — Location machine à crépir & monte-charge, Yaoundé",
+    en: "Plastering Machine & Mast Lift Hire, Yaoundé | SAFA",
+    fr: "Machine à crépir & monte-charge à louer, Yaoundé | SAFA",
   },
   description: {
     en: "Hire automatic wall-plastering machines, mast lifts and scaffold platforms in Yaoundé. Delivered, set up and collected by SAFA's own crew. Quote on request.",
-    fr: "Location de machines à crépir automatiques, de monte-charges et de plateformes d'échafaudage à Yaoundé. Livraison, montage et reprise par l'équipe SAFA. Devis sur demande.",
+    fr: "Machines à crépir automatiques, monte-charges et échafaudages à louer à Yaoundé. Livrés, montés et repris par l'équipe SAFA. Devis sur demande.",
   },
   image: "/og/construction.jpg",
   jsonLd: (lang) => [breadcrumb(lang, TRAIL), faqPage(lang, CONSTRUCTION_FAQ)],
