@@ -13,7 +13,7 @@ export function TraceLine({ className, scroll = true, style }: { className?: str
 export function Eyebrow({ children, className, index }: { children: ReactNode; className?: string; index?: string }) {
   return (
     <p className={cn("eyebrow flex items-center gap-3 text-gold-600", className)}>
-      {index && <span className="tabular text-ink/55">{index}</span>}
+      {index && <span className="tabular text-muted">{index}</span>}
       {index && <span aria-hidden className="h-px w-6 bg-current opacity-40" />}
       <span>{children}</span>
     </p>
@@ -48,7 +48,7 @@ export function SectionHead({
 
 export function Breadcrumbs({ lang, trail }: { lang: Lang; trail: { key: PageKey; name: T }[] }) {
   return (
-    <nav aria-label="Breadcrumb" className="text-xs text-current/60">
+    <nav aria-label="Breadcrumb" className="text-xs text-muted">
       <ol className="flex flex-wrap items-center gap-1.5">
         <li>
           <Link to={href("home", lang)} className="hover:underline">

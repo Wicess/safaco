@@ -109,7 +109,7 @@ export default function Training() {
           <ul className="divide-y divide-ink/12 border-y border-ink/12">
             {LEARN.map((l, i) => (
               <li key={l.en} className="flex items-baseline gap-5 py-5" data-reveal>
-                <span className="tabular w-6 text-xs text-ink/55">{String(i + 1).padStart(2, "0")}</span>
+                <span className="tabular w-6 text-xs text-muted">{String(i + 1).padStart(2, "0")}</span>
                 <span className="text-[1.0625rem]">{l[lang]}</span>
               </li>
             ))}

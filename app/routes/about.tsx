@@ -110,7 +110,7 @@ export default function About() {
             {DIVISION_LIST.map((d, i) => (
               <li key={d.key} style={{ ["--accent" as string]: d.accentVar }}>
                 <Link to={href(d.page, lang)} className="group grid gap-3 py-8 md:grid-cols-[4rem_1fr_1.4fr_auto] md:items-baseline md:gap-8">
-                  <span className="tabular text-xs text-ink/55">0{i + 1}</span>
+                  <span className="tabular text-xs text-muted">0{i + 1}</span>
                   <span className="font-display text-[2.25rem] leading-none" style={{ color: "var(--accent)" }}>
                     {d.name}
                   </span>

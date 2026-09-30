@@ -202,7 +202,7 @@ function Houses({ lang }: { lang: Lang }) {
               </Link>
               <div className={`md:col-span-5 ${flip ? "md:order-1 md:col-start-1 md:row-start-1" : ""}`} data-reveal>
                 <p className="eyebrow flex items-center gap-3" style={{ color: "var(--accent)" }}>
-                  <span className="tabular text-ink/55">0{i + 2}</span>
+                  <span className="tabular text-muted">0{i + 2}</span>
                   <span aria-hidden className="h-px w-6 bg-current" />
                   {d.name}
                 </p>

@@ -25,7 +25,7 @@
 
 /* ───────────────────────── Tokens ───────────────────────── */
 /* Brand from the SAFA & Co logo: deep navy + antique gold, on warm ivory.
-   Contrast (WCAG): ink/ivory 14.7 · muted/ivory 5.3 · gold-600/ivory 4.6 ·
+   Contrast (WCAG): ink/ivory 14.7 · muted/ivory 5.3 · gold-600/ivory 5.5 (5.0 on ivory-2) ·
    gold/navy 5.2 · gold-300/navy 8.8. Plain `gold` on ivory (2.8) is for lines
    and ornaments only — never text. */
 @theme {
@@ -46,7 +46,7 @@
 
   --color-gold: #b08a50;
   --color-gold-300: #d4b98a;
-  --color-gold-600: #8a6631;
+  --color-gold-600: #7c5b2c;
 
   /* Division accents — used for the chalk line and small labels only. */
   --color-construction: #9c4a26; /* laterite */
