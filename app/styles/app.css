@@ -159,7 +159,8 @@
    3. Otherwise → a tiny IntersectionObserver adds .is-in (see useReveal). */
 
 .trace-line {
-  display: block;
+  /* display comes from the component's `block` class so utilities like
+     `hidden sm:block` can override it (unlayered CSS would beat them). */
   height: 1px;
   background: var(--accent);
   transform-origin: left center;

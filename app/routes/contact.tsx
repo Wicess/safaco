@@ -41,9 +41,10 @@ export default function Contact() {
       </section>
 
       <section className="py-14 md:py-20">
-        <div className="container-x grid gap-px bg-ink/10 md:grid-cols-3">
+        <div className="container-x">
+          <div className="grid gap-px bg-ink/10 md:grid-cols-3">
           {DIVISION_LIST.map((d) => (
-            <article key={d.key} className="bg-ivory py-8 md:p-8" style={{ ["--accent" as string]: d.accentVar }}>
+            <article key={d.key} className="bg-ivory py-8 md:px-8" style={{ ["--accent" as string]: d.accentVar }}>
               <p className="eyebrow" style={{ color: "var(--accent)" }}>
                 {d.name}
               </p>
@@ -75,6 +76,7 @@ export default function Contact() {
               </a>
             </article>
           ))}
+          </div>
         </div>
       </section>
 

@@ -7,7 +7,7 @@ import { cn } from "~/lib/utils";
 
 /** The chalk line — a 1px rule in the current division accent. */
 export function TraceLine({ className, scroll = true, style }: { className?: string; scroll?: boolean; style?: CSSProperties }) {
-  return <span aria-hidden className={cn("trace-line", className)} data-trace data-scroll={scroll ? "" : undefined} style={style} />;
+  return <span aria-hidden className={cn("trace-line block", className)} data-trace data-scroll={scroll ? "" : undefined} style={style} />;
 }
 
 export function Eyebrow({ children, className, index }: { children: ReactNode; className?: string; index?: string }) {
