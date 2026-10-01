@@ -78,8 +78,27 @@ production launch.
 5. In the Vercel Firewall, add a rate-limit rule on `/api/contact`, for example 5 requests per minute per IP.
 6. Submit `https://<domain>/sitemap.xml` in Google Search Console and Bing Webmaster Tools.
 
-### Neon settings
+### Database cost (Neon)
 
-- Keep one branch.
-- Leave scale-to-zero on.
-- Cap autoscaling at **0.25–0.5 CU**.
+Neon bills for the time the database is **awake**; it suspends after 5 minutes with zero
+queries. This site is built so it is asleep almost always:
+
+- **Page views never query it.** Every page is static HTML; there is no admin dashboard, no
+  polling, no cron, no analytics writes, and `/api/health` does not touch Postgres.
+- **Only a real enquiry wakes it, with exactly one query** (a single `INSERT`; the email is
+  sent first so no follow-up `UPDATE` is needed).
+- **Spam never reaches it.** Validation, the honeypot, the minimum fill time, Turnstile, a
+  per-IP limit (5 per 10 min), duplicate detection and a link-spam check all run before the
+  database is opened.
+- `LEAD_STORE=fallback` writes only when the email fails, so the database stays asleep in
+  normal operation. `LEAD_STORE=off` never writes.
+
+Cost per enquiry in the default mode: one wake of about 5 minutes at 0.25 CU is roughly
+0.02 CU-hours, a fraction of a US cent.
+
+**Neon console (only the account owner can do these):**
+
+1. Branches → primary → compute → **Edit**: autoscaling **min 0.25 / max 0.25 CU**, and
+   **Scale to zero after 5 minutes** ON.
+2. Keep one branch; delete any others.
+3. Billing → set a spend alert.

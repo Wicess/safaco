@@ -11,6 +11,39 @@ const PAGES = {
 
 const MIN_FILL_MS = 3000;
 
+// ── Cheap in-memory guards (per warm function instance). They are not a
+// security boundary — the Vercel WAF rule and Turnstile are — but they stop a
+// burst from one visitor, or a double-tap on Send, from waking the database.
+const WINDOW_MS = 10 * 60 * 1000;
+const MAX_PER_IP = 5;
+const hits = new Map<string, number[]>();
+const recent = new Map<string, number>();
+
+function limited(ip: string | undefined): boolean {
+  if (!ip) return false;
+  const now = Date.now();
+  const list = (hits.get(ip) ?? []).filter((t) => now - t < WINDOW_MS);
+  list.push(now);
+  hits.set(ip, list);
+  if (hits.size > 5000) hits.clear();
+  return list.length > MAX_PER_IP;
+}
+
+/** Same phone + same message within 10 minutes = a resend, not a new enquiry. */
+function isDuplicate(phone: string, message: string): boolean {
+  const key = `${phone.replace(/\D/g, "")}|${message.trim().toLowerCase().slice(0, 200)}`;
+  const now = Date.now();
+  const seen = recent.get(key);
+  recent.set(key, now);
+  if (recent.size > 5000) recent.clear();
+  return seen !== undefined && now - seen < WINDOW_MS;
+}
+
+/** Link-stuffed messages are advertising, not enquiries. */
+function looksLikeSpam(message: string): boolean {
+  return (message.match(/https?:\/\/|www\./gi) ?? []).length > 2;
+}
+
 export const app = express();
 app.disable("x-powered-by");
 app.set("trust proxy", true);
@@ -48,7 +81,20 @@ app.post("/api/contact", async (req: Request, res: Response) => {
     city: req.get("x-vercel-ip-city") ? decodeURIComponent(req.get("x-vercel-ip-city")!) : undefined,
   };
 
-  const prisma = db();
+  // ── Database cost discipline (Neon bills by time AWAKE; it sleeps after
+  // 5 min with zero queries). Everything above this line runs without touching
+  // Postgres, so bots, invalid posts and rate-limited IPs never wake it.
+  // A real enquiry costs exactly ONE query: mail first, then a single INSERT
+  // that already carries the `emailed` flag (no follow-up UPDATE).
+  if (limited(ip) || isDuplicate(lead.phone, lead.message) || looksLikeSpam(lead.message)) return done(true);
+
+  const emailed = await sendLeadEmails(lead, geo);
+
+  // LEAD_STORE: "always" (default) keeps every enquiry in Postgres as the
+  // durable record. "fallback" writes only when the email could NOT be sent, so
+  // the database stays asleep in normal operation. "off" never writes.
+  const mode = (process.env.LEAD_STORE ?? "always").toLowerCase();
+  const prisma = mode === "off" || (mode === "fallback" && emailed) ? null : db();
   let id: string | undefined;
   if (prisma) {
     try {
@@ -65,6 +111,7 @@ app.post("/api/contact", async (req: Request, res: Response) => {
           country: geo.country?.slice(0, 2) ?? null,
           region: geo.region ?? null,
           city: geo.city ?? null,
+          emailed,
         },
         select: { id: true },
       });
@@ -72,11 +119,6 @@ app.post("/api/contact", async (req: Request, res: Response) => {
     } catch (err) {
       console.error("[contact] db insert failed", err);
     }
-  }
-
-  const emailed = await sendLeadEmails(lead, geo);
-  if (prisma && id && emailed) {
-    await prisma.lead.update({ where: { id }, data: { emailed: true } }).catch(() => {});
   }
 
   // Success if the lead reached SOMEONE (DB or inbox). Otherwise the visitor
