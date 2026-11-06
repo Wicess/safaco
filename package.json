@@ -8,7 +8,7 @@
   "packageManager": "pnpm@10.33.4",
   "scripts": {
     "dev": "react-router dev",
-    "dev:api": "tsx watch server/dev.ts",
+    "dev:api": "NODE_OPTIONS=--experimental-websocket tsx watch server/dev.ts",
     "build": "tsx scripts/content-pull.ts && prisma generate && react-router build && tsx scripts/postbuild.ts",
     "preview": "tsx scripts/preview.ts",
     "typecheck": "react-router typegen && tsc --noEmit",
@@ -19,7 +19,7 @@
     "db:dev": "prisma migrate dev",
     "postinstall": "node -e \"const f='app/content/overrides.generated.json',fs=require('fs');fs.existsSync(f)||fs.writeFileSync(f,'{}\\n')\" && prisma generate",
     "content:pull": "tsx scripts/content-pull.ts",
-    "admin:user": "tsx scripts/admin-user.ts"
+    "admin:user": "NODE_OPTIONS=--experimental-websocket tsx scripts/admin-user.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1143.0",

@@ -190,7 +190,7 @@ admin.get("/api/admin/stats", async (req, res) => {
 
   const [tot, prev, daily, pages, countries, cities, refs, devices, langs, leads] = await Promise.all([
     q`SELECT count(*) AS visits, coalesce(sum(views),0) AS views, count(DISTINCT visitor) AS visitors,
-             count(*) FILTER (WHERE returning) AS returning, count(*) FILTER (WHERE views = 1) AS bounces
+             count(*) FILTER (WHERE "returning") AS "returning", count(*) FILTER (WHERE views = 1) AS bounces
         FROM "Visit" WHERE "createdAt" >= ${since}`,
     q`SELECT count(*) AS visits, coalesce(sum(views),0) AS views, count(DISTINCT visitor) AS visitors
         FROM "Visit" WHERE "createdAt" >= ${prevSince} AND "createdAt" < ${since}`,
