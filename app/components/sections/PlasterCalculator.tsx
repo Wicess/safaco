@@ -55,7 +55,7 @@ export function PlasterCalculator({ lang }: { lang: Lang }) {
         step={50}
         value={Math.min(5000, m2)}
         onChange={(ev) => setM2(Number(ev.target.value))}
-        className="mt-6 w-full accent-[var(--color-gold-600)]"
+        className="mt-4 h-11 w-full cursor-pointer accent-[var(--color-gold-600)]"
       />
 
       <div className="mt-10 space-y-6" aria-live="polite">

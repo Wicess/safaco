@@ -61,7 +61,7 @@ export function Btn({ variant = "outline", loading, size = "md", className, chil
 }
 
 const inputCls =
-  "w-full rounded-md border border-ink/15 bg-white px-3 py-2 text-[0.9375rem] text-ink placeholder:text-ink/40 transition-[border-color,box-shadow] duration-150 hover:border-ink/30 focus:border-navy-700 focus:outline-none focus:ring-2 focus:ring-navy-700/15";
+  "w-full rounded-md border border-ink/15 bg-white px-3 py-2 text-base text-ink sm:text-[0.9375rem] placeholder:text-ink/40 transition-[border-color,box-shadow] duration-150 hover:border-ink/30 focus:border-navy-700 focus:outline-none focus:ring-2 focus:ring-navy-700/15";
 
 export function Field({ label, hint, children, htmlFor }: { label: string; hint?: ReactNode; children: ReactNode; htmlFor?: string }) {
   return (

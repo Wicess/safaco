@@ -78,11 +78,11 @@ function Login({ onIn }: { onIn: (u: User) => void }) {
         <form onSubmit={submit} className="mt-8 space-y-4 rounded-lg bg-ivory p-6 text-ink">
           <label className="block text-[0.8125rem] font-medium">
             Email
-            <input type="email" required autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1.5 block w-full rounded-md border border-ink/15 bg-white px-3 py-2.5 text-[0.9375rem] focus:border-navy-700 focus:outline-none focus:ring-2 focus:ring-navy-700/15" />
+            <input type="email" required autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1.5 block w-full rounded-md border border-ink/15 bg-white px-3 py-2.5 text-base focus:border-navy-700 focus:outline-none focus:ring-2 focus:ring-navy-700/15" />
           </label>
           <label className="block text-[0.8125rem] font-medium">
             Password
-            <input type="password" required autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} className="mt-1.5 block w-full rounded-md border border-ink/15 bg-white px-3 py-2.5 text-[0.9375rem] focus:border-navy-700 focus:outline-none focus:ring-2 focus:ring-navy-700/15" />
+            <input type="password" required autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} className="mt-1.5 block w-full rounded-md border border-ink/15 bg-white px-3 py-2.5 text-base focus:border-navy-700 focus:outline-none focus:ring-2 focus:ring-navy-700/15" />
           </label>
           {err && (
             <p role="alert" className="text-sm text-red-800">
@@ -139,8 +139,8 @@ function Shell({ user, onLogout }: { user: User; onLogout: () => void }) {
       </header>
       {drawer && (
         <div className="fixed inset-0 z-40 lg:hidden">
-          <button type="button" aria-label="Close menu" className="absolute inset-0 bg-navy-950/60" onClick={() => setDrawer(false)} />
-          <aside className="on-dark absolute inset-y-0 left-0 flex w-72 flex-col bg-navy-950 text-ivory">
+          <button type="button" aria-label="Close menu" className="admin-scrim absolute inset-0 bg-navy-950/60" onClick={() => setDrawer(false)} />
+          <aside className="admin-drawer on-dark absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col bg-navy-950 text-ivory">
             <button type="button" onClick={() => setDrawer(false)} aria-label="Close menu" className="absolute right-3 top-3 grid size-10 place-items-center rounded-md hover:bg-ivory/10">
               <X className="size-5" aria-hidden />
             </button>

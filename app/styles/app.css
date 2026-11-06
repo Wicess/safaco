@@ -342,3 +342,11 @@ html { -webkit-tap-highlight-color: transparent; }
   .mobile-menu ul:first-of-type > li:nth-child(3) { animation-delay: 0.18s; }
 }
 @keyframes menu-in { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+
+/* Admin drawer (phones): slides in over a fading scrim. */
+@media (prefers-reduced-motion: no-preference) {
+  .admin-drawer { animation: drawer-in 0.28s var(--ease-out-quart) both; }
+  .admin-scrim { animation: fade-in 0.28s ease both; }
+}
+@keyframes drawer-in { from { transform: translateX(-100%); } to { transform: none; } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }

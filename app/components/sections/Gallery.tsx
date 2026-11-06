@@ -186,7 +186,7 @@ function NavButton({ label, onClick, className, children }: { label: string; onC
       aria-label={label}
       onClick={onClick}
       className={cn(
-        "absolute top-1/2 grid size-12 -translate-y-1/2 place-items-center rounded-full border border-ivory/20 bg-navy-950/60 text-ivory transition-[background-color,border-color,transform] duration-300 hover:border-ivory/60 hover:bg-navy-900 active:scale-95",
+        "absolute bottom-2 grid size-12 place-items-center rounded-full border border-ivory/20 bg-navy-950/70 text-ivory md:bottom-auto md:top-1/2 md:-translate-y-1/2 transition-[background-color,border-color,transform] duration-300 hover:border-ivory/60 hover:bg-navy-900 active:scale-95",
         className,
       )}
     >

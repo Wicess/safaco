@@ -355,22 +355,28 @@ export function GalleryEditor() {
           const idx = items.indexOf(g);
           const missing = !g.alt.en.trim() || !g.alt.fr.trim();
           return (
-            <li key={g.id} className={cn("flex gap-4 rounded-lg border bg-white p-4", g.hidden ? "border-dashed border-ink/20 opacity-70" : "border-ink/10")}>
-              <div className="relative w-28 shrink-0 self-start overflow-hidden rounded-md bg-stone">
+            <li
+              key={g.id}
+              className={cn(
+                "grid grid-cols-[5.5rem_1fr] gap-x-3 gap-y-3 rounded-lg border bg-white p-3 sm:grid-cols-[7rem_1fr] sm:gap-x-4 sm:p-4",
+                g.hidden ? "border-dashed border-ink/20 opacity-70" : "border-ink/10",
+              )}
+            >
+              <div className="relative self-start overflow-hidden rounded-md bg-stone sm:row-span-2">
                 <Picture name={g.image} alt="" sizes="112px" ratio="3/4" />
                 {g.video && (
-                  <span className="absolute left-1.5 top-1.5 inline-flex items-center gap-1 rounded-full bg-navy-950/80 px-2 py-0.5 text-[0.625rem] font-semibold text-ivory">
+                  <span className="absolute left-1.5 top-1.5 inline-flex items-center gap-1 rounded-full bg-navy-950/80 px-2 py-0.5 text-[0.6875rem] font-semibold text-ivory">
                     <Play className="size-2.5 fill-current" aria-hidden /> Video
                   </span>
                 )}
               </div>
-              <div className="min-w-0 flex-1 space-y-2">
+              <div className="min-w-0 space-y-2">
                 <div className="flex flex-wrap items-center gap-2">
                   <select
                     aria-label="Business"
                     value={g.division}
                     onChange={(e) => patch(g.id, { division: e.target.value as DivisionKeyO })}
-                    className="min-h-8 rounded-md border border-ink/15 bg-white px-2 text-[0.8125rem]"
+                    className="min-h-9 rounded-md border border-ink/15 bg-white px-2 text-base sm:min-h-8 sm:text-[0.8125rem]"
                   >
                     {DIVS.map((d) => (
                       <option key={d} value={d}>
@@ -381,19 +387,6 @@ export function GalleryEditor() {
                   {g.hidden && <Badge>Hidden</Badge>}
                   {missing && <Badge tone="warn">Caption needed</Badge>}
                 </div>
-                {(["en", "fr"] as const).map((l) => (
-                  <label key={l} className="block">
-                    <span className="sr-only">Caption ({l})</span>
-                    <textarea
-                      lang={l}
-                      rows={2}
-                      value={g.alt[l]}
-                      placeholder={l === "en" ? "Caption in English" : "Légende en français"}
-                      onChange={(e) => patch(g.id, { alt: { ...g.alt, [l]: e.target.value } })}
-                      className="w-full resize-y rounded-md border border-ink/15 px-2.5 py-1.5 text-[0.8125rem] leading-snug placeholder:text-ink/40 focus:border-navy-700 focus:outline-none focus:ring-2 focus:ring-navy-700/15"
-                    />
-                  </label>
-                ))}
                 <div className="flex flex-wrap gap-1">
                   <Btn size="sm" variant="ghost" type="button" aria-label="Move earlier" disabled={idx === 0} onClick={() => move(g.id, -1)}>
                     <ArrowUp aria-hidden />
@@ -416,6 +409,22 @@ export function GalleryEditor() {
                     <Trash2 aria-hidden /> Delete
                   </Btn>
                 </div>
+              </div>
+              <div className="col-span-2 space-y-2 sm:col-span-1 sm:col-start-2">
+                {(["en", "fr"] as const).map((l) => (
+                  <label key={l} className="relative block">
+                    <span className="pointer-events-none absolute right-2 top-1.5 rounded bg-ink/6 px-1.5 py-0.5 text-[0.625rem] font-semibold uppercase tracking-wider text-ink/55">{l}</span>
+                    <span className="sr-only">Caption ({l})</span>
+                    <textarea
+                      lang={l}
+                      rows={2}
+                      value={g.alt[l]}
+                      placeholder={l === "en" ? "Caption in English" : "Légende en français"}
+                      onChange={(e) => patch(g.id, { alt: { ...g.alt, [l]: e.target.value } })}
+                      className="w-full resize-y rounded-md border border-ink/15 py-1.5 pl-2.5 pr-10 text-base leading-snug placeholder:text-ink/40 focus:border-navy-700 focus:outline-none focus:ring-2 focus:ring-navy-700/15 sm:text-[0.8125rem]"
+                    />
+                  </label>
+                ))}
               </div>
             </li>
           );
