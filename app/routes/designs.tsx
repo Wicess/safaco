@@ -59,8 +59,8 @@ export const meta = pageMeta({
     fr: "Couture homme sur mesure à Yaoundé | SAFA Designs",
   },
   description: {
-    en: "Suits, ceremony and African menswear made to measure at Carrefour MEEC, Yaoundé. Specialised machines and a MINEFOP-approved sewing school. By appointment.",
-    fr: "Costumes, tenues de cérémonie et tenues africaines pour homme, sur mesure au Carrefour MEEC, Yaoundé. Formation agréée MINEFOP. Sur rendez-vous.",
+    en: "Made-to-measure suits, ceremony and African menswear at Carrefour MEEC, Yaoundé. Delivered to Douala, across Cameroon and abroad. By appointment.",
+    fr: "Costumes, tenues de cérémonie et tenues africaines sur mesure au Carrefour MEEC, Yaoundé. Livraison à Douala, au Cameroun et à l'étranger.",
   },
   image: "/og/designs.jpg",
   jsonLd: (lang) => [breadcrumb(lang, TRAIL), faqPage(lang, DESIGNS_FAQ)],

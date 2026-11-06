@@ -49,8 +49,8 @@ export const PAGE_HEROES: Record<PageHeroKey, { label: string; title: T; lede: T
     label: "Apartments",
     title: { en: "A home in Yaoundé, ready to live in.", fr: "Un chez-soi à Yaoundé, prêt à vivre." },
     lede: {
-      en: "Furnished, fully equipped apartments in our guest residence in Meyo, Yaoundé IV, for a few nights or several months. You arrive; everything is ready.",
-      fr: "Des appartements meublés et équipés dans notre résidence de Meyo, Yaoundé IV, pour quelques nuits ou plusieurs mois. Vous arrivez, tout est prêt.",
+      en: "Furnished, fully equipped apartments in our guest residence in Meyo, Yaoundé IV, for a few nights or several months. Coming from Douala or from abroad? You arrive; everything is ready.",
+      fr: "Des appartements meublés et équipés dans notre résidence de Meyo, Yaoundé IV, pour quelques nuits ou plusieurs mois. Vous venez de Douala ou de l'étranger ? Vous arrivez, tout est prêt.",
     },
     image: IMG.building,
   },
@@ -58,8 +58,8 @@ export const PAGE_HEROES: Record<PageHeroKey, { label: string; title: T; lede: T
     label: "Designs",
     title: { en: "Cut for you. Sewn to last.", fr: "Coupé pour vous. Cousu pour durer." },
     lede: {
-      en: "Made-to-measure menswear, from suits to African garments, finished on our specialised machines at Carrefour MEEC. By appointment, with delivery worldwide.",
-      fr: "Tenues homme sur mesure, des costumes aux tenues africaines, réalisées sur nos machines spécialisées au Carrefour MEEC. Sur rendez-vous, avec livraison dans le monde entier.",
+      en: "Made-to-measure menswear, from suits to African garments, finished on our specialised machines at Carrefour MEEC, Yaoundé. By appointment, with delivery to Douala, across Cameroon and abroad.",
+      fr: "Tenues homme sur mesure, des costumes aux tenues africaines, réalisées sur nos machines spécialisées au Carrefour MEEC, Yaoundé. Sur rendez-vous, avec livraison à Douala, partout au Cameroun et à l'étranger.",
     },
   },
   gallery: {

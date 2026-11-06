@@ -15,8 +15,8 @@ const TRAIL = [{ key: "gallery" as const, name: { en: "Gallery", fr: "Galerie" }
 export const meta = pageMeta({
   key: "gallery",
   title: {
-    en: "Gallery: machines, apartments & tailoring | SAFA & Co",
-    fr: "Galerie : machines, appartements & couture | SAFA & Co",
+    en: "Gallery: machines, apartments, tailoring, Yaoundé | SAFA",
+    fr: "Galerie : machines, meublés, couture à Yaoundé | SAFA",
   },
   description: {
     en: "SAFA's own photos and videos: automatic plastering machines at work, the furnished apartments in Meyo and garments made at the Carrefour MEEC atelier.",

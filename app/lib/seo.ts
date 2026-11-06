@@ -3,6 +3,8 @@ import { DIVISIONS, DIVISION_LIST, MINEFOP, SITE, isTodo, type DivisionKey } fro
 import { LANGS, PAGES, type Lang, type PageKey, type T, langFromPath } from "./i18n";
 
 export const OG_LOCALE: Record<Lang, string> = { en: "en_GB", fr: "fr_FR" };
+/** hreflang values: language + Cameroon. */
+export const HREFLANG: Record<Lang, string> = { en: "en-CM", fr: "fr-CM" };
 
 type PageSeo = {
   key: PageKey;
@@ -30,7 +32,9 @@ export function pageMeta(seo: PageSeo) {
       { title },
       { name: "description", content: seo.description[lang] },
       { tagName: "link", rel: "canonical", href: abs(self) },
-      ...LANGS.map((l) => ({ tagName: "link", rel: "alternate", hrefLang: l, href: abs(page.path[l]) })),
+      // The audience is Cameroon: both language versions are tagged for CM;
+      // x-default (the language picker at /) serves everyone else.
+      ...LANGS.map((l) => ({ tagName: "link", rel: "alternate", hrefLang: HREFLANG[l], href: abs(page.path[l]) })),
       { tagName: "link", rel: "alternate", hrefLang: "x-default", href: abs(seo.key === "home" ? "/" : page.path.en) },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: SITE.name },
@@ -43,6 +47,8 @@ export function pageMeta(seo: PageSeo) {
       { property: "og:locale", content: OG_LOCALE[lang] },
       { property: "og:locale:alternate", content: OG_LOCALE[lang === "en" ? "fr" : "en"] },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "geo.region", content: "CM-CE" },
+      { name: "geo.placename", content: "Yaoundé" },
     ];
     if (page.noindex) tags.push({ name: "robots", content: "noindex, follow" });
     const graph = [...baseGraph(lang), ...(seo.jsonLd?.(lang) ?? [])];
@@ -79,6 +85,26 @@ const DIVISION_TYPE: Record<DivisionKey, string | string[]> = {
   designs: ["ClothingStore", "EducationalOrganization"],
 };
 
+/* Places as unambiguous entities, so search engines and AI answers resolve
+   "Yaoundé" to the capital of Cameroon (verified Wikidata IDs). */
+const CAMEROON = { "@type": "Country", name: "Cameroon", alternateName: "Cameroun", sameAs: ["https://www.wikidata.org/wiki/Q1009", "https://en.wikipedia.org/wiki/Cameroon"] };
+const YAOUNDE = {
+  "@type": "City",
+  name: "Yaoundé",
+  sameAs: ["https://www.wikidata.org/wiki/Q3808", "https://en.wikipedia.org/wiki/Yaound%C3%A9"],
+  containedInPlace: { "@type": "AdministrativeArea", name: "Centre Region", sameAs: "https://www.wikidata.org/wiki/Q739951", containedInPlace: CAMEROON },
+};
+const DOUALA = { "@type": "City", name: "Douala", sameAs: ["https://www.wikidata.org/wiki/Q132830", "https://en.wikipedia.org/wiki/Douala"], containedInPlace: CAMEROON };
+
+/** Where each division really works (owner, 2026-11-06): everything is based
+ *  in Yaoundé; apartments and machine hire are Yaoundé only; the atelier sews
+ *  for clients across Cameroon (Douala included) and abroad. */
+const AREA_SERVED: Record<DivisionKey, unknown> = {
+  construction: YAOUNDE,
+  apartments: YAOUNDE,
+  designs: [YAOUNDE, DOUALA, CAMEROON],
+};
+
 function division(k: DivisionKey, lang: Lang): Record<string, unknown> {
   const d = DIVISIONS[k];
   const node: Record<string, unknown> = {
@@ -89,7 +115,9 @@ function division(k: DivisionKey, lang: Lang): Record<string, unknown> {
     url: abs(PAGES[d.page].path[lang]),
     parentOrganization: { "@id": ORG_ID() },
     address: postalAddress(k, lang),
-    areaServed: { "@type": "City", name: "Yaoundé" },
+    areaServed: AREA_SERVED[k],
+    location: YAOUNDE,
+    knowsLanguage: ["fr", "en"],
   };
   if (!isTodo(d.phone)) node.telephone = d.phone;
   if (!isTodo(d.email)) node.email = d.email;
@@ -113,14 +141,17 @@ export function baseGraph(lang: Lang): Record<string, unknown>[] {
     legalName: SITE.legalName,
     url: SITE.url,
     logo: abs("/brand/safa-monogram.png"),
-    address: { "@type": "PostalAddress", addressLocality: "Yaoundé", addressCountry: "CM" },
+    address: { "@type": "PostalAddress", addressLocality: "Yaoundé", addressRegion: "Centre", addressCountry: "CM" },
+    location: YAOUNDE,
+    areaServed: CAMEROON,
+    knowsLanguage: ["fr", "en"],
     subOrganization: DIVISION_LIST.map((d) => ({ "@id": divId(d.key) })),
   };
   const same = sameAs();
   if (same.length) org.sameAs = same;
   return [
     org,
-    { "@type": "WebSite", "@id": `${SITE.url}/#website`, url: SITE.url, name: SITE.name, inLanguage: lang, publisher: { "@id": ORG_ID() } },
+    { "@type": "WebSite", "@id": `${SITE.url}/#website`, url: SITE.url, name: SITE.name, inLanguage: HREFLANG[lang], publisher: { "@id": ORG_ID() } },
     ...DIVISION_LIST.map((d) => division(d.key, lang)),
   ];
 }
@@ -148,7 +179,7 @@ export function service(
     description: opts.description[lang],
     url: abs(PAGES[opts.key].path[lang]),
     provider: { "@id": divId(opts.division) },
-    areaServed: { "@type": "City", name: "Yaoundé" },
+    areaServed: AREA_SERVED[opts.division],
     offers: {
       "@type": "Offer",
       businessFunction: `http://purl.org/goodrelations/v1#${opts.fn}`,

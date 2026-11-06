@@ -44,8 +44,8 @@ export const meta = pageMeta({
     fr: "Appartements meublés à Yaoundé (Meyo) | SAFA Apartments",
   },
   description: {
-    en: "Furnished, serviced apartments in Meyo, Yaoundé IV, for short and extended stays. Check availability on WhatsApp — rates on request.",
-    fr: "Appartements meublés et équipés à Meyo, Yaoundé IV, pour courts et longs séjours. Vérifiez les disponibilités sur WhatsApp — tarifs sur demande.",
+    en: "Furnished apartments in Meyo, Yaoundé IV, for short and long stays, for visitors from Douala or abroad. Check availability on WhatsApp.",
+    fr: "Appartements meublés à Meyo, Yaoundé IV, pour courts et longs séjours, pour vos visites depuis Douala ou l'étranger. Disponibilités sur WhatsApp.",
   },
   image: "/og/apartments.jpg",
   jsonLd: (lang) => [breadcrumb(lang, TRAIL), faqPage(lang, APARTMENTS_FAQ)],

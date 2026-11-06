@@ -1,5 +1,6 @@
 import { SITE } from "~/content/site";
 import { LANGS, PAGES } from "~/lib/i18n";
+import { HREFLANG } from "~/lib/seo";
 
 /**
  * "/" — the x-default. On Vercel, vercel.json redirects visitors before this
@@ -15,7 +16,7 @@ export const meta = () => [
       "SAFA & Co SARL, Yaoundé: construction equipment hire, furnished apartments and made-to-measure menswear. · Location de matériel de construction, appartements meublés et couture homme sur mesure.",
   },
   { tagName: "link", rel: "canonical", href: `${SITE.url}/` },
-  ...LANGS.map((l) => ({ tagName: "link", rel: "alternate", hrefLang: l, href: `${SITE.url}${PAGES.home.path[l]}` })),
+  ...LANGS.map((l) => ({ tagName: "link", rel: "alternate", hrefLang: HREFLANG[l], href: `${SITE.url}${PAGES.home.path[l]}` })),
   { tagName: "link", rel: "alternate", hrefLang: "x-default", href: `${SITE.url}/` },
 ];
 

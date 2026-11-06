@@ -28,8 +28,8 @@ export const GROUP_FAQ: Faq[] = [
   {
     q: { en: "Where are you located?", fr: "Où êtes-vous situés ?" },
     a: {
-      en: "All three divisions are in Yaoundé: SAFA Apartments in Meyo (Yaoundé IV) and SAFA Designs at Carrefour MEEC (Yaoundé VI). SAFA Construction delivers machines to sites across Yaoundé and its surroundings.",
-      fr: "Nos trois divisions sont à Yaoundé : SAFA Apartments à Meyo (Yaoundé IV) et SAFA Designs au Carrefour MEEC (Yaoundé VI). SAFA Construction livre ses machines sur les chantiers de Yaoundé et de ses environs.",
+      en: "SAFA & Co is based in Yaoundé, Cameroon. SAFA Apartments is in Meyo (Yaoundé IV), SAFA Designs is at Carrefour MEEC (Yaoundé VI), and SAFA Construction hires out machines for building sites in Yaoundé. The atelier also makes garments for clients in Douala, across Cameroon and abroad.",
+      fr: "SAFA & Co est basé à Yaoundé, au Cameroun. SAFA Apartments se trouve à Meyo (Yaoundé IV), SAFA Designs au Carrefour MEEC (Yaoundé VI), et SAFA Construction loue ses machines pour les chantiers de Yaoundé. L'atelier confectionne aussi des tenues pour des clients à Douala, partout au Cameroun et à l'étranger.",
     },
   },
 ];
@@ -45,8 +45,8 @@ export const CONSTRUCTION_FAQ: Faq[] = [
   {
     q: { en: "Do you deliver outside Yaoundé?", fr: "Livrez-vous en dehors de Yaoundé ?" },
     a: {
-      en: "We serve construction sites in Yaoundé and its surroundings. For sites further away, send us the location and we'll confirm what's possible.",
-      fr: "Nous intervenons sur les chantiers de Yaoundé et de ses environs. Pour un chantier plus éloigné, envoyez-nous la localisation et nous confirmerons ce qui est possible.",
+      en: "Not at the moment. SAFA Construction currently hires out its machines for building sites in Yaoundé only. If your site is elsewhere, in Douala for example, send us the location and we'll let you know.",
+      fr: "Pas pour le moment. SAFA Construction loue actuellement ses machines uniquement pour les chantiers de Yaoundé. Si votre chantier est ailleurs, à Douala par exemple, envoyez-nous la localisation et nous vous tiendrons informé.",
     },
   },
   {
@@ -161,6 +161,13 @@ export const APARTMENTS_FAQ: Faq[] = [
     },
   },
   {
+    q: { en: "I'm travelling from Douala or from abroad. Can I book before I arrive?", fr: "Je viens de Douala ou de l'étranger. Puis-je réserver avant d'arriver ?" },
+    a: {
+      en: "Yes. Send your arrival and departure dates and the number of guests on WhatsApp. We confirm availability and the rate for your stay, then send the exact location in Meyo, Yaoundé IV, and agree your arrival time.",
+      fr: "Oui. Envoyez vos dates d'arrivée et de départ et le nombre de personnes sur WhatsApp. Nous confirmons la disponibilité et le tarif du séjour, puis nous envoyons la localisation exacte à Meyo, Yaoundé IV, et convenons de l'heure d'arrivée.",
+    },
+  },
+  {
     q: { en: "Can I stay for several weeks or months?", fr: "Puis-je séjourner plusieurs semaines ou mois ?" },
     a: {
       en: "Yes — the apartments suit short stays as well as extended stays for work, a family visit or a project in Yaoundé. Ask us about longer stays.",
@@ -183,6 +190,13 @@ export const DESIGNS_FAQ: Faq[] = [
     a: {
       en: "At Carrefour MEEC, Yaoundé VI. Visits and fittings are by appointment — message us on WhatsApp to book a time.",
       fr: "Au Carrefour MEEC, Yaoundé VI. Les visites et essayages se font sur rendez-vous — écrivez-nous sur WhatsApp pour réserver un créneau.",
+    },
+  },
+  {
+    q: { en: "Do you make garments for clients outside Yaoundé, in Douala or abroad?", fr: "Confectionnez-vous pour des clients hors de Yaoundé, à Douala ou à l'étranger ?" },
+    a: {
+      en: "Yes. The SAFA Designs atelier in Yaoundé sews for clients across Cameroon, including Douala, and abroad, and delivers the finished garment. Message us on WhatsApp to arrange your measurements and delivery.",
+      fr: "Oui. L'atelier SAFA Designs de Yaoundé coud pour des clients partout au Cameroun, dont Douala, et à l'étranger, et livre la tenue terminée. Écrivez-nous sur WhatsApp pour organiser la prise de mesures et la livraison.",
     },
   },
   {
