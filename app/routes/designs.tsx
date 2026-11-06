@@ -10,6 +10,7 @@ import { Button } from "~/components/ui/button";
 import { Picture } from "~/components/ui/Picture";
 import { IMG } from "~/content/media-map";
 import { useLang } from "~/lib/hooks";
+import { pageHero } from "~/content/defaults";
 import { href, type Lang, type T } from "~/lib/i18n";
 import { breadcrumb, faqPage, pageMeta } from "~/lib/seo";
 import { DESIGNS_FAQ } from "~/content/faqs";
@@ -67,14 +68,14 @@ export const meta = pageMeta({
 
 export default function Designs() {
   const lang = useLang();
+  const hero = pageHero("designs", lang);
   return (
     <>
       <PageHero
         lang={lang}
         trail={TRAIL}
         eyebrow="SAFA Designs · Carrefour MEEC"
-        title={
-          lang === "fr" ? (
+        title={hero.title ?? (lang === "fr" ? (
             <>
               Coupé pour vous. <em className="italic text-designs">Cousu</em> pour durer.
             </>
@@ -82,22 +83,19 @@ export default function Designs() {
             <>
               Cut for you. <em className="italic text-designs">Sewn</em> to last.
             </>
-          )
-        }
-        lede={
-          lang === "fr"
-            ? "Tenues homme sur mesure, des costumes aux tenues africaines, réalisées sur nos machines spécialisées au Carrefour MEEC. Sur rendez-vous, avec livraison dans le monde entier."
-            : "Made-to-measure menswear, from suits to African garments, finished on our specialised machines at Carrefour MEEC. By appointment, with delivery worldwide."
-        }
+          ))}
+        lede={hero.lede}
         layout="split"
-        media={
+        image={hero.image}
+        imageAlt={hero.imageAlt}
+        media={hero.image ? undefined : (
           <AmbientVideo
             lang={lang}
             video="atelier"
             label={lang === "fr" ? "Visite du showroom SAFA Designs : chemises, tuniques et pantalons sur les portants" : "A walk through the SAFA Designs showroom: shirts, tunics and trousers on the rails"}
             className="grain aspect-[4/5]"
           />
-        }
+        )}
       >
         <Button asChild variant="primary">
           <Link to={`${href("contact", lang)}?d=designs`}>

@@ -23,6 +23,8 @@ site.get("/", (req, res) => {
 });
 
 site.use((req, res, next) => (req.path.startsWith("/api/") ? api(req, res, next) : next()));
+// Admin panel: a client-only app served from the SPA shell (as vercel.json does).
+site.get(["/admin", "/admin/*splat"], (_req, res) => res.sendFile(join(ROOT, "__spa-fallback.html")));
 site.use(express.static(ROOT, { extensions: ["html"], redirect: false }));
 site.use((req, res, next) => {
   const file = join(ROOT, req.path, "index.html");

@@ -11,6 +11,7 @@ import { AmbientVideo } from "~/components/ui/Video";
 import { FLEET, HIRE_STEPS } from "~/content/construction";
 import { IMG } from "~/content/media-map";
 import { useLang } from "~/lib/hooks";
+import { pageHero } from "~/content/defaults";
 import { href, type T } from "~/lib/i18n";
 import { breadcrumb, faqPage, pageMeta, service } from "~/lib/seo";
 import { PLASTERING_FAQ } from "~/content/faqs";
@@ -77,20 +78,17 @@ const COMPARE: { label: T; hand: T; machine: T }[] = [
 
 export default function Plastering() {
   const lang = useLang();
+  const hero = pageHero("plastering", lang);
   return (
     <>
       <PageHero
         lang={lang}
         trail={TRAIL}
         eyebrow={lang === "fr" ? "Crépissage automatique" : "Automatic plastering"}
-        title={lang === "fr" ? "Location de machine à crépir automatique à Yaoundé." : "Automatic plastering machine hire in Yaoundé."}
-        lede={
-          lang === "fr"
-            ? "SAFA Construction fait partie des premières entreprises au Cameroun à louer des machines à crépir automatiques. La machine applique l'enduit en une passe régulière : un mur plus vite fini, une épaisseur constante, moins de main-d'œuvre."
-            : "SAFA Construction is among the first companies in Cameroon to hire out automatic plastering machines. The machine lays render in one steady pass: walls finished faster, a constant thickness, fewer hands needed."
-        }
-        image={IMG.fleetYard}
-        imageAlt={lang === "fr" ? "Deux machines à crépir automatiques SAFA, verte et bleue, au dépôt" : "Two SAFA automatic plastering machines, green and blue, at the yard"}
+        title={hero.title ?? (lang === "fr" ? "Location de machine à crépir automatique à Yaoundé." : "Automatic plastering machine hire in Yaoundé.")}
+        lede={hero.lede}
+        image={hero.image}
+        imageAlt={hero.imageAlt ?? (lang === "fr" ? "Deux machines à crépir automatiques SAFA, verte et bleue, au dépôt" : "Two SAFA automatic plastering machines, green and blue, at the yard")}
       >
         <Button asChild variant="primary">
           <a href="#estimate">

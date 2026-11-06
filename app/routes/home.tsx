@@ -8,6 +8,8 @@ import { Button } from "~/components/ui/button";
 import { Picture } from "~/components/ui/Picture";
 import { AmbientVideo } from "~/components/ui/Video";
 import { GALLERY } from "~/content/gallery";
+import { HOME_HERO, houseImage } from "~/content/defaults";
+import { O, pick } from "~/content/overrides";
 import { IMG } from "~/content/media-map";
 import { DIVISION_LIST, DIVISIONS } from "~/content/site";
 import { useLang } from "~/lib/hooks";
@@ -39,7 +41,7 @@ type HouseKey = "construction" | "apartments" | "designs";
 const HOUSES: { key: HouseKey; img: string; alt: T; inset: string; insetAlt: T; offers: { label: T; page?: PageKey }[] }[] = [
   {
     key: "construction",
-    img: IMG.greenMast,
+    img: houseImage("construction"),
     alt: { en: "A SAFA automatic plastering machine with its mast raised against a wall", fr: "Une machine à crépir automatique SAFA, mât déployé contre un mur" },
     inset: IMG.controlPanel,
     insetAlt: { en: "The machine's touch-screen control panel", fr: "Le pupitre à écran tactile de la machine" },
@@ -51,7 +53,7 @@ const HOUSES: { key: HouseKey; img: string; alt: T; inset: string; insetAlt: T; 
   },
   {
     key: "apartments",
-    img: IMG.building,
+    img: houseImage("apartments"),
     alt: { en: "The SAFA Apartments building in Meyo, with arched balconies on three floors", fr: "L'immeuble SAFA Apartments à Meyo, balcons à arcades sur trois niveaux" },
     inset: IMG.bedroomTeal,
     insetAlt: { en: "A bedroom with fresh linen", fr: "Une chambre au linge frais" },
@@ -63,7 +65,7 @@ const HOUSES: { key: HouseKey; img: string; alt: T; inset: string; insetAlt: T; 
   },
   {
     key: "designs",
-    img: IMG.maroonJacket,
+    img: houseImage("designs"),
     alt: { en: "A maroon four-pocket jacket made at the SAFA Designs atelier", fr: "Une veste bordeaux à quatre poches réalisée à l'atelier SAFA Designs" },
     inset: IMG.printShirt,
     insetAlt: { en: "A print-panel shirt in the showroom", fr: "Une chemise à empiècement imprimé au showroom" },
@@ -122,23 +124,14 @@ function Hero({ lang }: { lang: Lang }) {
       <div className="container-x grid min-h-[calc(100svh-var(--bar-h))] gap-12 pb-10 pt-[calc(var(--header-h)+2.5rem)] md:pb-16 md:pt-[calc(var(--header-h)+4rem)] lg:min-h-[100svh] lg:grid-cols-12 lg:gap-16">
         <div className="flex flex-col lg:col-span-7">
           <p className="eyebrow hero-in text-gold-300" style={{ ["--d" as string]: "0.05s" }}>
-            SAFA &amp; Co SARL · Yaoundé, {lang === "fr" ? "Cameroun" : "Cameroon"}
+            {pick(O.home?.heroEyebrow, lang, HOME_HERO.eyebrow[lang])}
           </p>
           <h1 className="hero-in mt-6 max-w-[13ch] text-display-xl text-ivory" style={{ ["--d" as string]: "0.1s" }}>
-            {lang === "fr" ? (
-              <>
-                Tout commence par <em className="font-display italic text-gold-300">un&nbsp;trait.</em>
-              </>
-            ) : (
-              <>
-                Everything starts with <em className="font-display italic text-gold-300">a&nbsp;line.</em>
-              </>
-            )}
+            {pick(O.home?.heroTitle, lang, HOME_HERO.title[lang])}{" "}
+            <em className="font-display italic text-gold-300">{pick(O.home?.heroEmphasis, lang, HOME_HERO.emphasis[lang]).replace(/ (?=\S+$)/, "\u00a0")}</em>
           </h1>
           <p className="hero-in mt-6 max-w-md text-lede text-ivory/70" style={{ ["--d" as string]: "0.2s" }}>
-            {lang === "fr"
-              ? "Le maçon trace sa ligne avant de crépir, le tailleur avant de couper. Trois maisons, une même exigence de précision."
-              : "The builder snaps a chalk line before plastering; the tailor, before cutting. Three houses, one standard of precision."}
+            {pick(O.home?.heroLede, lang, HOME_HERO.lede[lang])}
           </p>
 
           {/* The line that splits into three */}
@@ -379,7 +372,9 @@ function Principles({ lang }: { lang: Lang }) {
 const SEEN = ["building", "mast-blue", "maroon-jacket", "lounge-light", "fleet-yard", "print-shirt", "bedroom-teal", "spray-pumps", "navy-tunic", "kitchen-bar"];
 
 function SeenOnSite({ lang }: { lang: Lang }) {
-  const items = SEEN.map((id) => GALLERY.find((g) => g.id === id)!).filter(Boolean);
+  // Preferred picks first, then anything else in the (admin-edited) gallery.
+  const picked = SEEN.map((id) => GALLERY.find((g) => g.id === id)).filter((g): g is (typeof GALLERY)[number] => Boolean(g));
+  const items = [...picked, ...GALLERY.filter((g) => !picked.includes(g))].slice(0, 10);
   const lb = useLightbox(items);
   return (
     <section aria-labelledby="seen-title" className="bg-ivory-2 py-20 md:py-28">

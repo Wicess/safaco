@@ -11,6 +11,7 @@ import { Picture } from "~/components/ui/Picture";
 import { IMG } from "~/content/media-map";
 import { DIVISIONS, waLink } from "~/content/site";
 import { useLang } from "~/lib/hooks";
+import { pageHero } from "~/content/defaults";
 import type { Lang, T } from "~/lib/i18n";
 import { breadcrumb, faqPage, pageMeta } from "~/lib/seo";
 import { APARTMENTS_FAQ } from "~/content/faqs";
@@ -63,21 +64,18 @@ const STEPS: { title: T; body: T }[] = [
 
 export default function Apartments() {
   const lang = useLang();
+  const hero = pageHero("apartments", lang);
   return (
     <>
       <PageHero
         lang={lang}
         trail={TRAIL}
         eyebrow="SAFA Apartments · Meyo"
-        title={lang === "fr" ? "Un chez-soi à Yaoundé, prêt à vivre." : "A home in Yaoundé, ready to live in."}
-        lede={
-          lang === "fr"
-            ? "Des appartements meublés et équipés dans notre résidence de Meyo, Yaoundé IV, pour quelques nuits ou plusieurs mois. Vous arrivez, tout est prêt."
-            : "Furnished, fully equipped apartments in our guest residence in Meyo, Yaoundé IV, for a few nights or several months. You arrive; everything is ready."
-        }
+        title={hero.title ?? (lang === "fr" ? "Un chez-soi à Yaoundé, prêt à vivre." : "A home in Yaoundé, ready to live in.")}
+        lede={hero.lede}
         layout="split"
-        image={IMG.building}
-        imageAlt={lang === "fr" ? "La résidence SAFA Apartments à Meyo, balcons à arcades sur trois niveaux" : "The SAFA Apartments residence in Meyo, with arched balconies on three floors"}
+        image={hero.image}
+        imageAlt={hero.imageAlt ?? (lang === "fr" ? "La résidence SAFA Apartments à Meyo, balcons à arcades sur trois niveaux" : "The SAFA Apartments residence in Meyo, with arched balconies on three floors")}
       >
         <AvailabilityButton lang={lang} />
       </PageHero>

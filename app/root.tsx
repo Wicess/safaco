@@ -10,6 +10,7 @@ import { DIVISIONS } from "./content/site";
 import { UI } from "./content/ui";
 import { langFromPath, pageFromPath } from "./lib/i18n";
 import { useRevealAll } from "./lib/hooks";
+import { useVisitBeacon } from "./lib/beacon";
 import "./styles/app.css";
 
 const MEDIA_ORIGIN = (() => {
@@ -68,8 +69,10 @@ export default function App() {
   const { pathname } = useLocation();
   const matches = useMatches();
   useRevealAll();
+  useVisitBeacon();
 
-  if (pathname === "/") return <Outlet />;
+  // "/" picks a language; /admin is its own app (no public header/footer).
+  if (pathname === "/" || pathname === "/admin" || pathname.startsWith("/admin/")) return <Outlet />;
 
   const lang = langFromPath(pathname);
   const page = pageFromPath(pathname);

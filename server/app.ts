@@ -1,5 +1,7 @@
 import express, { type NextFunction, type Request, type Response } from "express";
 import { ContactSchema } from "../app/lib/contact-schema";
+import { admin } from "./admin";
+import { track } from "./track";
 import { db } from "./lib/db";
 import { sendLeadEmails } from "./lib/mail";
 import { verifyTurnstile } from "./lib/turnstile";
@@ -47,6 +49,11 @@ function looksLikeSpam(message: string): boolean {
 export const app = express();
 app.disable("x-powered-by");
 app.set("trust proxy", true);
+
+// Admin + visit beacon come first: they set their own body parsers/limits.
+app.use(track);
+app.use(admin);
+
 app.use(express.json({ limit: "20kb" }));
 app.use(express.urlencoded({ extended: false, limit: "20kb" }));
 

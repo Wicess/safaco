@@ -66,6 +66,23 @@ dev servers are holding the inotify limit. Build with polling instead:
 - Never "the first in Cameroon". Always "**among** the first".
 - Stock photos are placeholders. Their people must never be presented as SAFA staff, tenants or students.
 
+## Admin panel (`/admin`)
+
+The owner edits the site without code: dashboard (visits, pages, countries/cities, sources, devices),
+enquiries, home-page hero, page headers, contact details (phones, WhatsApp, emails, addresses, hours,
+map links, RCCM/NIU/MINEFOP, socials), and the gallery (upload, caption, reorder, hide, delete).
+
+How it stays cheap: pages remain **static**. Edits are a JSON draft on R2 (`site/draft.json`).
+**Publish** copies it to `site/content.json` and calls the Vercel deploy hook; the build pulls it
+(`scripts/content-pull.ts` → `app/content/overrides.generated.json`) and prerenders. Live in ~2 min.
+Uploaded photos are resized in the browser, converted to AVIF/WebP/JPEG by the API and stored on R2.
+Visits: one beacon per visit (`app/lib/beacon.ts` → `/api/hit`), one DB write per visit, with
+`x-vercel-ip-*` location. The dashboard loads on open/Refresh only, with no timers.
+
+Setup: `pnpm db:migrate`, then `pnpm admin:user you@example.com "Your Name"` (prints a temporary
+password). On Vercel set `SESSION_SECRET`, `R2_PUBLIC_URL`, `VERCEL_DEPLOY_HOOK_URL` (create the hook in
+Settings → Git → Deploy Hooks). `scripts/should-build.sh` lets hook builds through the Ignored Build Step.
+
 ## Before launch: the `CLIENT_TODO` list
 
 `pnpm build` prints every placeholder still waiting for the client's data: domain, phones,

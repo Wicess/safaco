@@ -1,6 +1,7 @@
 import type { T } from "~/lib/i18n";
 import type { DivisionKey } from "./site";
 import { IMG, type VideoKey } from "./media-map";
+import { O } from "./overrides";
 
 /**
  * The gallery: SAFA's own photos and videos only (no stock). Each item names
@@ -17,7 +18,8 @@ export type GalleryItem = {
   alt: T;
 };
 
-export const GALLERY: GalleryItem[] = [
+/** The built-in gallery (code defaults). The admin starts from this list. */
+export const DEFAULT_GALLERY: GalleryItem[] = [
   // ── Apartments, Meyo ──
   { id: "building", division: "apartments", image: IMG.building, alt: { en: "The SAFA Apartments building in Meyo: three floors of arched balconies above a paved forecourt", fr: "L'immeuble SAFA Apartments à Meyo : trois niveaux de balcons à arcades au-dessus d'une cour pavée" } },
   { id: "lounge-light", division: "apartments", image: IMG.loungeLight, alt: { en: "Living room with grey corner sofas, a yellow cushion and a sculpted ceiling light", fr: "Salon aux canapés d'angle gris, coussin jaune et plafonnier sculpté" } },
@@ -51,6 +53,10 @@ export const GALLERY: GalleryItem[] = [
   { id: "white-tunic", division: "designs", image: IMG.whiteTunic, alt: { en: "White tunic with a striped pocket detail", fr: "Tunique blanche avec poche rayée" } },
   { id: "striped-shirt", division: "designs", image: IMG.stripedShirt, alt: { en: "White shirt with blue-striped sleeves and pocket details", fr: "Chemise blanche à manches et poches rayées bleu" } },
 ];
+
+/** What the site shows: the admin's published list if there is one (hidden
+ *  items removed), otherwise the built-in list. */
+export const GALLERY: GalleryItem[] = O.gallery?.length ? O.gallery.filter((g) => !g.hidden) : DEFAULT_GALLERY;
 
 export function galleryFor(division: DivisionKey): GalleryItem[] {
   return GALLERY.filter((g) => g.division === division);

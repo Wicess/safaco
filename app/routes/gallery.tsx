@@ -5,6 +5,7 @@ import { Breadcrumbs, TraceLine } from "~/components/sections/primitives";
 import { GALLERY } from "~/content/gallery";
 import { DIVISION_LIST, type DivisionKey } from "~/content/site";
 import { useLang } from "~/lib/hooks";
+import { pageHero } from "~/content/defaults";
 import type { Lang } from "~/lib/i18n";
 import { breadcrumb, pageMeta } from "~/lib/seo";
 import { cn } from "~/lib/utils";
@@ -49,6 +50,7 @@ function isFilter(v: string | null): v is Filter {
 
 export default function Gallery() {
   const lang = useLang();
+  const hero = pageHero("gallery", lang);
   const [filter, setFilter] = useState<Filter>("all");
 
   // Prerendered HTML shows everything (crawlers see every photo); the
@@ -84,7 +86,8 @@ export default function Gallery() {
           </div>
           <div className="mt-10 grid gap-8 md:mt-16 lg:grid-cols-[1.5fr_1fr] lg:items-end">
             <h1 className="vt-title text-display-lg">
-              {lang === "fr" ? (
+              {hero.title ??
+                (lang === "fr" ? (
                 <>
                   Notre travail, <em className="italic text-gold-600">tel qu'il est.</em>
                 </>
@@ -92,13 +95,9 @@ export default function Gallery() {
                 <>
                   Our work, <em className="italic text-gold-600">as it is.</em>
                 </>
-              )}
+              ))}
             </h1>
-            <p className="text-lede text-muted lg:pb-3">
-              {lang === "fr"
-                ? "Pas de banque d'images ici : nos machines, nos appartements et nos tenues, photographiés à Yaoundé."
-                : "No stock photos here: our own machines, apartments and garments, photographed in Yaoundé."}
-            </p>
+            <p className="text-lede text-muted lg:pb-3">{hero.lede}</p>
           </div>
           <TraceLine className="mt-12 md:mt-16" scroll={false} />
         </div>

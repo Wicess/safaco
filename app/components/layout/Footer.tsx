@@ -42,6 +42,11 @@ export function Footer({ lang }: { lang: Lang }) {
                   <a className="block text-ivory/70 underline-offset-4 hover:underline" href={waLink(d.whatsapp, greeting(d.key, lang))} rel="noopener">
                     WhatsApp
                   </a>
+                  {d.address.mapsUrl && (
+                    <a className="block text-ivory/70 underline-offset-4 hover:underline" href={d.address.mapsUrl} rel="noopener" target="_blank">
+                      {UI.directions[lang]}
+                    </a>
+                  )}
                 </address>
                 <Link to={href(d.page, lang)} className="mt-4 inline-block text-xs uppercase tracking-[0.16em] text-ivory/65 hover:text-ivory">
                   {UI.discover[lang]} →

@@ -55,8 +55,8 @@ export default function Legal() {
         </p>
         <p>
           {fr
-            ? "Ce site n'utilise pas de cookies publicitaires. Un seul cookie technique mémorise la langue que vous avez choisie. La mesure d'audience (Cloudflare Web Analytics) ne dépose aucun cookie."
-            : "This site uses no advertising cookies. A single technical cookie remembers the language you chose. Audience measurement (Cloudflare Web Analytics) sets no cookies."}
+            ? "Ce site n'utilise pas de cookies publicitaires. Un seul cookie technique mémorise la langue que vous avez choisie. Pour compter les visites, votre navigateur garde un identifiant aléatoire (sans nom ni contact) ; nous enregistrons les pages vues, la ville et le pays approximatifs et le type d'appareil, uniquement pour nos statistiques, jamais revendus ni partagés."
+            : "This site uses no advertising cookies. A single technical cookie remembers the language you chose. To count visits, your browser keeps a random ID (no name or contact details); we record the pages viewed, approximate city and country, and device type, for our own statistics only, never sold or shared."}
         </p>
 
         <h2 className={h2}>{fr ? "Photographies" : "Photography"}</h2>

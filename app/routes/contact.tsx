@@ -55,6 +55,11 @@ export default function Contact() {
                   <span>
                     {d.address.line[lang]}
                     <span className="block text-sm text-muted">{d.hours[lang]}</span>
+                    {d.address.mapsUrl && (
+                      <a href={d.address.mapsUrl} rel="noopener" target="_blank" className="mt-1 block text-sm font-medium underline underline-offset-4">
+                        {UI.directions[lang]}
+                      </a>
+                    )}
                   </span>
                 </li>
                 <li className="flex gap-3">

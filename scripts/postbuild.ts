@@ -47,11 +47,13 @@ writeFileSync(
     "User-agent: *",
     "Allow: /",
     "Disallow: /api/",
+    "Disallow: /admin",
     "",
     ...["OAI-SearchBot", "ChatGPT-User", "PerplexityBot", "Claude-SearchBot", "Claude-User", "Bingbot", "Googlebot"].flatMap((b) => [
       `User-agent: ${b}`,
       "Allow: /",
       "Disallow: /api/",
+      "Disallow: /admin",
       "",
     ]),
     `Sitemap: ${SITE.url}/sitemap.xml`,

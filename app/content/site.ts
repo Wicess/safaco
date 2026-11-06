@@ -1,4 +1,5 @@
 import type { Lang, PageKey, T } from "~/lib/i18n";
+import { O, pickT, val } from "./overrides";
 
 /**
  * Company facts. Anything marked CLIENT_TODO is a placeholder that must be
@@ -21,7 +22,7 @@ function env(key: string): string | undefined {
 }
 
 /** Public contact address (owner, 2026-09-30). Mail is sent over SMTP from this mailbox. */
-const EMAIL = env("VITE_CONTACT_EMAIL") ?? "sales@safaandcosarl.com";
+const EMAIL = val(O.company?.email) ?? env("VITE_CONTACT_EMAIL") ?? "sales@safaandcosarl.com";
 
 export const SITE = {
   name: "SAFA & Co",
@@ -133,6 +134,30 @@ export const DIVISIONS: Record<DivisionKey, Division> = {
   },
 };
 
+/* ── Admin overrides (published from /admin, see overrides.ts) ──
+   Applied once at module load, so every page, the footer, the action bar and
+   the structured data all show the same published details. */
+{
+  const c = O.company;
+  if (c) {
+    SITE.rccm = val(c.rccm) ?? SITE.rccm;
+    SITE.niu = val(c.niu) ?? SITE.niu;
+    for (const k of ["facebook", "instagram", "tiktok", "linkedin"] as const) SITE.social[k] = val(c.social?.[k]) ?? SITE.social[k];
+  }
+  for (const d of Object.values(DIVISIONS)) {
+    const o = O.divisions?.[d.key];
+    if (!o) continue;
+    d.phone = val(o.phone) ?? d.phone;
+    d.whatsapp = val(o.whatsapp)?.replace(/\D/g, "") ?? d.whatsapp;
+    d.email = val(o.email) ?? d.email;
+    d.address.line = pickT(o.addressLine, d.address.line as { en: string; fr: string });
+    d.address.district = val(o.district) ?? d.address.district;
+    d.address.mapsUrl = val(o.mapsUrl) ?? d.address.mapsUrl;
+    d.hours = pickT(o.hours, d.hours as { en: string; fr: string });
+    d.tagline = pickT(o.tagline, d.tagline as { en: string; fr: string });
+  }
+}
+
 export const DIVISION_LIST = [DIVISIONS.construction, DIVISIONS.apartments, DIVISIONS.designs];
 
 /** MINEFOP approval for the SAFA Designs training centre (owner confirmed it exists). */
@@ -142,6 +167,7 @@ export const MINEFOP = {
   /** Only set true once the client confirms students sit the DQP/CQP exams. */
   preparesDqpCqp: false,
 };
+MINEFOP.agrement = val(O.company?.minefop) ?? MINEFOP.agrement;
 
 /** Group-level contact (used on the home page and generic CTAs). */
 export const GROUP_CONTACT = {

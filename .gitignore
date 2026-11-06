@@ -9,3 +9,6 @@ node_modules
 *.log
 .DS_Store
 /media-src/*.tmp
+
+# Published admin content, pulled from R2 at build (scripts/content-pull.ts)
+/app/content/overrides.generated.json

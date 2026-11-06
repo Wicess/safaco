@@ -12,6 +12,7 @@ import { Picture } from "~/components/ui/Picture";
 import { FLEET, HIRE_STEPS } from "~/content/construction";
 import { IMG, isStock } from "~/content/media-map";
 import { useLang } from "~/lib/hooks";
+import { pageHero } from "~/content/defaults";
 import { href, type PageKey, type T } from "~/lib/i18n";
 import { breadcrumb, faqPage, pageMeta } from "~/lib/seo";
 import { CONSTRUCTION_FAQ } from "~/content/faqs";
@@ -68,26 +69,25 @@ const SERVICES: { page: PageKey; title: T; body: T; img: string }[] = [
 
 export default function Construction() {
   const lang = useLang();
+  const hero = pageHero("construction", lang);
   return (
     <>
       <PageHero
         lang={lang}
         trail={TRAIL}
         eyebrow="SAFA Construction"
-        title={lang === "fr" ? "Le matériel qui fait avancer le chantier." : "Equipment that moves the site forward."}
-        lede={
-          lang === "fr"
-            ? "Machines à crépir automatiques, monte-charges et plateformes d'échafaudage, en location à Yaoundé. Nous livrons, montons et reprenons le matériel avec nos propres équipes."
-            : "Automatic plastering machines, mast lifts and scaffold platforms for hire in Yaoundé. We deliver, assemble and collect every unit with our own crew."
-        }
-        media={
+        title={hero.title ?? (lang === "fr" ? "Le matériel qui fait avancer le chantier." : "Equipment that moves the site forward.")}
+        lede={hero.lede}
+        image={hero.image}
+        imageAlt={hero.imageAlt}
+        media={hero.image ? undefined : (
           <AmbientVideo
             lang={lang}
             video="fleet"
             label={lang === "fr" ? "Les machines à crépir SAFA alignées au dépôt" : "SAFA's plastering machines lined up at the yard"}
             className="grain aspect-[4/3] md:aspect-[21/9]"
           />
-        }
+        )}
       >
         <Button asChild variant="primary">
           <Link to={`${href("contact", lang)}?d=construction`}>

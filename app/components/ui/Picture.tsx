@@ -1,8 +1,21 @@
 import manifest from "~/content/media.generated.json";
+import { O } from "~/content/overrides";
 import { cn } from "~/lib/utils";
 
-type Entry = { w: number; h: number; widths: number[]; blur: string; formats: string[] };
-const MEDIA = manifest as Record<string, Entry>;
+type Entry = { w: number; h: number; widths: number[]; blur: string; formats: string[]; base?: string };
+/** Built-in photos (scripts/media.ts) + photos uploaded in the admin (R2).
+ *  `extra` lets the admin preview uploads before they are published. */
+const MEDIA: Record<string, Entry> = { ...(manifest as Record<string, Entry>), ...(O.media ?? {}) };
+const extra: Record<string, Entry> = {};
+export function registerMedia(name: string, entry: Entry) {
+  extra[name] = entry;
+}
+export function mediaEntry(name: string): Entry | undefined {
+  return extra[name] ?? MEDIA[name];
+}
+export function allMediaNames(): string[] {
+  return [...new Set([...Object.keys(MEDIA), ...Object.keys(extra)])];
+}
 
 /** Where optimized images are served from. Set VITE_MEDIA_BASE to the R2 public
  *  URL (e.g. https://media.<domain>/media) to serve them from Cloudflare R2 —
@@ -36,7 +49,7 @@ export function Picture({
   /** Force an aspect ratio box, e.g. "4/5". Image is cropped with object-cover. */
   ratio?: string;
 }) {
-  const m = MEDIA[name];
+  const m = mediaEntry(name);
   if (!m) {
     return (
       <div
@@ -47,14 +60,15 @@ export function Picture({
       />
     );
   }
-  const set = (fmt: string) => m.widths.map((w) => `${BASE}/${name}-${w}.${fmt} ${w}w`).join(", ");
+  const base = (m.base ?? BASE).replace(/\/$/, "");
+  const set = (fmt: string) => m.widths.map((w) => `${base}/${name}-${w}.${fmt} ${w}w`).join(", ");
   const fallbackW = m.widths.find((w) => w >= 1080) ?? m.widths.at(-1)!;
   return (
     <picture className={cn("block overflow-hidden", className)} style={ratio ? { aspectRatio: ratio } : undefined}>
       {m.formats.includes("avif") && <source type="image/avif" srcSet={set("avif")} sizes={sizes} />}
       <source type="image/webp" srcSet={set("webp")} sizes={sizes} />
       <img
-        src={`${BASE}/${name}-${fallbackW}.jpg`}
+        src={`${base}/${name}-${fallbackW}.jpg`}
         srcSet={set("jpg")}
         sizes={sizes}
         alt={alt}
@@ -71,5 +85,5 @@ export function Picture({
 }
 
 export function hasMedia(name: string) {
-  return Boolean(MEDIA[name]);
+  return Boolean(mediaEntry(name));
 }

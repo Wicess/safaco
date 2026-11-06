@@ -37,3 +37,41 @@ model Lead {
   @@index([createdAt])
   @@index([division, createdAt])
 }
+
+/// Admin panel accounts. Read only at login (sessions are signed cookies),
+/// so being logged in never keeps the database awake.
+model AdminUser {
+  id           String   @id @default(cuid())
+  createdAt    DateTime @default(now())
+  email        String   @unique
+  name         String
+  /// scrypt: "scrypt$<salt b64>$<hash b64>"
+  passwordHash String
+  lastLoginAt  DateTime?
+}
+
+/// One row per browsing session (not per page view): the site sends a single
+/// beacon when the visitor leaves or hides the tab, carrying every page they
+/// saw. One write per visit keeps Neon asleep between visitors while keeping
+/// the full picture: pages, landing, referrer, device and location
+/// (x-vercel-ip-* edge headers).
+model Visit {
+  id         String   @id @db.VarChar(32)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  /// Random per-browser id (localStorage) — counts unique visitors, no cookie.
+  visitor    String   @db.VarChar(32)
+  returning  Boolean  @default(false)
+  landing    String
+  pages      String[]
+  views      Int      @default(1)
+  lang       String?  @db.VarChar(2)
+  referrer   String?
+  device     String?  @db.VarChar(10)
+  country    String?  @db.VarChar(2)
+  region     String?
+  city       String?
+
+  @@index([createdAt])
+  @@index([visitor])
+}
