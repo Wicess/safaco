@@ -17,6 +17,7 @@ export type PageKey =
   | "apartments"
   | "designs"
   | "training"
+  | "gallery"
   | "about"
   | "contact"
   | "thanks"
@@ -48,6 +49,7 @@ export const PAGES: Record<PageKey, PageDef> = {
   apartments: { file: "routes/apartments.tsx", path: { en: "/en/apartments", fr: "/fr/appartements" } },
   designs: { file: "routes/designs.tsx", path: { en: "/en/designs", fr: "/fr/designs" } },
   training: { file: "routes/training.tsx", path: { en: "/en/designs/training", fr: "/fr/designs/formation" } },
+  gallery: { file: "routes/gallery.tsx", path: { en: "/en/gallery", fr: "/fr/galerie" } },
   about: { file: "routes/about.tsx", path: { en: "/en/about", fr: "/fr/a-propos" } },
   contact: { file: "routes/contact.tsx", path: { en: "/en/contact", fr: "/fr/contact" } },
   thanks: { file: "routes/thanks.tsx", path: { en: "/en/contact/thank-you", fr: "/fr/contact/merci" }, noindex: true },

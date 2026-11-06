@@ -60,6 +60,7 @@ export function Header({ lang, tone = "light" }: { lang: Lang; tone?: "light" | 
     { key: "construction", label: NAV.construction.label[lang] },
     { key: "apartments", label: NAV.apartments.label[lang] },
     { key: "designs", label: NAV.designs.label[lang] },
+    { key: "gallery", label: UI.gallery[lang] },
     { key: "about", label: UI.about[lang] },
   ];
 
@@ -76,7 +77,7 @@ export function Header({ lang, tone = "light" }: { lang: Lang; tone?: "light" | 
         </Link>
 
         {/* Desktop navigation */}
-        <nav aria-label={UI.divisions[lang]} className="hidden items-center gap-9 lg:flex">
+        <nav aria-label={UI.divisions[lang]} className="hidden items-center gap-7 lg:flex xl:gap-9">
           {main.map((item) => (
             <NavLink
               key={item.key}
@@ -161,10 +162,10 @@ function MobileMenu({ lang }: { lang: Lang }) {
           ))}
         </ul>
         <ul className="mt-8 grid grid-cols-2 gap-x-6 gap-y-1 text-[0.9375rem]">
-          {(["about", "faq", "contact", "legal"] as const).map((k) => (
+          {(["gallery", "about", "faq", "contact"] as const).map((k) => (
             <li key={k}>
               <Link to={href(k, lang)} className="flex min-h-11 items-center gap-1 text-ivory/80">
-                {k === "about" ? UI.about[lang] : k === "faq" ? UI.faq[lang] : k === "contact" ? UI.contact[lang] : UI.legal[lang]}
+                {UI[k][lang]}
                 <ArrowUpRight className="size-3.5 opacity-40" aria-hidden />
               </Link>
             </li>

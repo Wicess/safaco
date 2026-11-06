@@ -10,11 +10,13 @@ export function TraceLine({ className, scroll = true, style }: { className?: str
   return <span aria-hidden className={cn("trace-line block", className)} data-trace data-scroll={scroll ? "" : undefined} style={style} />;
 }
 
-export function Eyebrow({ children, className, index }: { children: ReactNode; className?: string; index?: string }) {
+/** Section kicker: a short chalk dash and a label. `index` is accepted for
+ *  call-site compatibility but deliberately not shown: numbering every
+ *  section is scaffolding; real sequences (Steps) carry their own numbers. */
+export function Eyebrow({ children, className }: { children: ReactNode; className?: string; index?: string }) {
   return (
     <p className={cn("eyebrow flex items-center gap-3 text-gold-600", className)}>
-      {index && <span className="tabular text-muted">{index}</span>}
-      {index && <span aria-hidden className="h-px w-6 bg-current opacity-40" />}
+      <span aria-hidden className="h-px w-6 bg-current opacity-60" />
       <span>{children}</span>
     </p>
   );

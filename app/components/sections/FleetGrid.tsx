@@ -2,7 +2,7 @@ import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router";
 import type { Unit } from "~/content/construction";
 import { href, type Lang } from "~/lib/i18n";
-import { PLACEHOLDER_MEDIA } from "~/content/media-map";
+import { isStock } from "~/content/media-map";
 import { Picture } from "../ui/Picture";
 
 /** Fleet cards. On phones: a horizontal swipe strip with snap (native scroll,
@@ -13,7 +13,7 @@ export function FleetGrid({ lang, units, link = true }: { lang: Lang; units: Uni
       {units.map((u) => {
         const inner = (
           <>
-            {PLACEHOLDER_MEDIA ? (
+            {!u.img || isStock(u.img) ? (
               // No stock photo here: a card captioned "unit N°" must show SAFA's real
               // machine or nothing. Typographic panel until the client's shoot.
               <div className="grain relative flex aspect-[4/3] flex-col justify-between overflow-hidden bg-navy-900 p-5 text-ivory">
@@ -26,8 +26,8 @@ export function FleetGrid({ lang, units, link = true }: { lang: Lang; units: Uni
                 </div>
               </div>
             ) : (
-              <div className="relative">
-                <Picture name={u.img} alt="" sizes="(min-width: 64rem) 30vw, (min-width: 48rem) 45vw, 80vw" className="grain aspect-[4/3]" />
+              <div className="relative overflow-hidden">
+                <Picture name={u.img} alt={u.name[lang]} sizes="(min-width: 64rem) 30vw, (min-width: 48rem) 45vw, 80vw" className="grain aspect-[4/3]" imgClassName="transition-transform duration-[1.4s] ease-(--ease-out-quart) group-hover:scale-[1.04]" />
                 <span className="tabular absolute left-3 top-3 bg-navy-950/85 px-2 py-1 text-[0.625rem] font-semibold tracking-[0.18em] text-gold-300">
                   N° {u.code}
                 </span>

@@ -59,6 +59,7 @@ export function Footer({ lang }: { lang: Lang }) {
               ["apartments", NAV.apartments.label[lang]],
               ["designs", NAV.designs.label[lang]],
               ["training", NAV.designs.children[0].label[lang]],
+              ["gallery", UI.gallery[lang]],
               ["about", UI.about[lang]],
               ["faq", UI.faq[lang]],
               ["contact", UI.contact[lang]],

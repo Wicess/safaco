@@ -7,6 +7,7 @@ import { PlasterCalculator, PlasterTable } from "~/components/sections/PlasterCa
 import { FaqList, SectionHead, Steps } from "~/components/sections/primitives";
 import { Button } from "~/components/ui/button";
 import { Picture } from "~/components/ui/Picture";
+import { AmbientVideo } from "~/components/ui/Video";
 import { FLEET, HIRE_STEPS } from "~/content/construction";
 import { IMG } from "~/content/media-map";
 import { useLang } from "~/lib/hooks";
@@ -88,8 +89,8 @@ export default function Plastering() {
             ? "SAFA Construction fait partie des premières entreprises au Cameroun à louer des machines à crépir automatiques. La machine applique l'enduit en une passe régulière : un mur plus vite fini, une épaisseur constante, moins de main-d'œuvre."
             : "SAFA Construction is among the first companies in Cameroon to hire out automatic plastering machines. The machine lays render in one steady pass: walls finished faster, a constant thickness, fewer hands needed."
         }
-        image={IMG.plasteringAction}
-        imageAlt={lang === "fr" ? "Crépissage d'un mur sur un chantier" : "Rendering a wall on a building site"}
+        image={IMG.fleetYard}
+        imageAlt={lang === "fr" ? "Deux machines à crépir automatiques SAFA, verte et bleue, au dépôt" : "Two SAFA automatic plastering machines, green and blue, at the yard"}
       >
         <Button asChild variant="primary">
           <a href="#estimate">
@@ -127,6 +128,20 @@ export default function Plastering() {
           <SectionHead index="02" eyebrow={lang === "fr" ? "Comment ça marche" : "How it works"} title={lang === "fr" ? "Quatre gestes, répétés avec précision." : "Four moves, repeated precisely."} />
           <div className="mt-12">
             <Steps lang={lang} items={HOW} />
+          </div>
+          <div className="mt-14 grid gap-8 md:grid-cols-12 md:items-center">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4 md:col-span-7">
+              <AmbientVideo lang={lang} video="mastBlue" label={lang === "fr" ? "Le mât de la machine se déploie" : "The machine's mast going up"} className="grain aspect-[9/16]" />
+              <AmbientVideo lang={lang} video="mastGreen" label={lang === "fr" ? "La machine pilotée depuis son pupitre" : "The machine operated from its control panel"} className="grain aspect-[9/16]" />
+            </div>
+            <div className="md:col-span-5" data-reveal>
+              <Picture name={IMG.controlPanel} alt={lang === "fr" ? "Le pupitre à écran tactile de la machine" : "The machine's touch-screen control panel"} sizes="(min-width: 48rem) 40vw, 100vw" className="grain aspect-[4/3]" />
+              <p className="mt-4 text-[0.9375rem] leading-relaxed text-muted">
+                {lang === "fr"
+                  ? "Tout se commande depuis le pupitre : montée, descente et mise à niveau. Au montage, notre équipe le prend en main avec la vôtre."
+                  : "Everything runs from the control panel: up, down and levelling. On set-up day, our crew walks yours through it."}
+              </p>
+            </div>
           </div>
         </div>
       </section>

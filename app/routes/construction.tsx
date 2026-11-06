@@ -1,13 +1,16 @@
 import { ArrowRight, Check } from "lucide-react";
 import { Link } from "react-router";
 import { CtaBand } from "~/components/sections/CtaBand";
+import { GalleryStrip } from "~/components/sections/Gallery";
+import { AmbientVideo } from "~/components/ui/Video";
+import { galleryFor } from "~/content/gallery";
 import { FleetGrid } from "~/components/sections/FleetGrid";
 import { PageHero } from "~/components/sections/PageHero";
 import { FaqList, SectionHead, Steps } from "~/components/sections/primitives";
 import { Button } from "~/components/ui/button";
 import { Picture } from "~/components/ui/Picture";
 import { FLEET, HIRE_STEPS } from "~/content/construction";
-import { IMG } from "~/content/media-map";
+import { IMG, isStock } from "~/content/media-map";
 import { useLang } from "~/lib/hooks";
 import { href, type PageKey, type T } from "~/lib/i18n";
 import { breadcrumb, faqPage, pageMeta } from "~/lib/seo";
@@ -30,6 +33,9 @@ export const meta = pageMeta({
   jsonLd: (lang) => [breadcrumb(lang, TRAIL), faqPage(lang, CONSTRUCTION_FAQ)],
 });
 
+/** Photos first (the videos are already shown above in "At work"). */
+const STRIP = galleryFor("construction").filter((g) => !g.video);
+
 const SERVICES: { page: PageKey; title: T; body: T; img: string }[] = [
   {
     page: "plastering",
@@ -38,7 +44,7 @@ const SERVICES: { page: PageKey; title: T; body: T; img: string }[] = [
       en: "Render walls faster, with an even thickness, using fewer hands.",
       fr: "Crépissez plus vite, avec une épaisseur régulière, et moins de main-d'œuvre.",
     },
-    img: IMG.plasteringAction,
+    img: IMG.greenMast,
   },
   {
     page: "scaffold",
@@ -47,7 +53,7 @@ const SERVICES: { page: PageKey; title: T; body: T; img: string }[] = [
       en: "Safe access to the façade for crews and materials, at the height you need.",
       fr: "Un accès sûr à la façade pour les équipes et les matériaux, à la hauteur voulue.",
     },
-    img: IMG.scaffold,
+    img: IMG.mastPlatform,
   },
   {
     page: "fabrication",
@@ -74,8 +80,14 @@ export default function Construction() {
             ? "Machines à crépir automatiques, monte-charges et plateformes d'échafaudage, en location à Yaoundé. Nous livrons, montons et reprenons le matériel avec nos propres équipes."
             : "Automatic plastering machines, mast lifts and scaffold platforms for hire in Yaoundé. We deliver, assemble and collect every unit with our own crew."
         }
-        image={IMG.construction}
-        imageAlt={lang === "fr" ? "Plateforme sur mât installée contre une façade en construction" : "A mast platform set up against a building under construction"}
+        media={
+          <AmbientVideo
+            lang={lang}
+            video="fleet"
+            label={lang === "fr" ? "Les machines à crépir SAFA alignées au dépôt" : "SAFA's plastering machines lined up at the yard"}
+            className="grain aspect-[4/3] md:aspect-[21/9]"
+          />
+        }
       >
         <Button asChild variant="primary">
           <Link to={`${href("contact", lang)}?d=construction`}>
@@ -94,7 +106,12 @@ export default function Construction() {
           <div className="mt-14 grid gap-12 md:grid-cols-3 md:gap-8">
             {SERVICES.map((s) => (
               <Link key={s.page} to={href(s.page, lang)} viewTransition className="group block" data-reveal>
-                <Picture name={s.img} alt="" sizes="(min-width: 48rem) 30vw, 100vw" className="grain aspect-[4/5]" imgClassName="transition-transform duration-[1.4s] ease-(--ease-out-quart) group-hover:scale-[1.04]" />
+                <div className="relative">
+                  <Picture name={s.img} alt="" sizes="(min-width: 48rem) 30vw, 100vw" className="grain aspect-[4/5]" imgClassName="transition-transform duration-[1.4s] ease-(--ease-out-quart) group-hover:scale-[1.04]" />
+                  {isStock(s.img) && (
+                    <span className="absolute bottom-2 left-2 bg-ivory/85 px-1.5 py-0.5 text-[0.625rem] text-ink/70">{lang === "fr" ? "Photo d'illustration" : "Illustrative photo"}</span>
+                  )}
+                </div>
                 <h3 className="mt-6 text-[1.75rem] leading-tight">{s.title[lang]}</h3>
                 <p className="mt-2 text-muted">{s.body[lang]}</p>
                 <span className="mt-5 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em]">
@@ -103,6 +120,32 @@ export default function Construction() {
                 </span>
               </Link>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="on-dark bg-navy-900 py-20 text-ivory md:py-28">
+        <div className="container-x grid gap-12 lg:grid-cols-12 lg:items-center">
+          <div className="lg:col-span-5">
+            <SectionHead
+              tone="dark"
+              eyebrow={lang === "fr" ? "En action" : "At work"}
+              title={lang === "fr" ? "Nos machines, filmées chez nous." : "Our machines, filmed at our yard."}
+              lede={
+                lang === "fr"
+                  ? "Le mât se déploie, la machine monte et applique l'enduit en une passe. Ce sont les unités que nous livrons et montons sur votre chantier."
+                  : "The mast goes up, the machine climbs it and lays the render in one pass. These are the units we deliver and set up on your site."
+              }
+            />
+            <Button asChild variant="gold" className="mt-10">
+              <Link to={href("plastering", lang)} viewTransition>
+                {lang === "fr" ? "Comment ça marche" : "How it works"} <ArrowRight aria-hidden />
+              </Link>
+            </Button>
+          </div>
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:col-span-7">
+            <AmbientVideo lang={lang} video="mastBlue" label={lang === "fr" ? "Un opérateur déploie le mât de la machine bleue" : "An operator raising the mast of the blue unit"} className="grain aspect-[9/16]" />
+            <AmbientVideo lang={lang} video="mastGreen" label={lang === "fr" ? "La machine verte pilotée depuis son pupitre" : "The green unit operated from its control panel"} className="grain aspect-[9/16] translate-y-8 md:translate-y-14" />
           </div>
         </div>
       </section>
@@ -122,6 +165,15 @@ export default function Construction() {
       </section>
 
       <section className="py-20 md:py-28">
+        <div className="container-x">
+          <SectionHead eyebrow={lang === "fr" ? "Le dépôt" : "The yard"} title={lang === "fr" ? "Le matériel, tel qu'il part sur chantier." : "The equipment, as it leaves for site."} />
+          <div className="mt-12">
+            <GalleryStrip lang={lang} division="construction" items={STRIP} />
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-ivory-2 py-20 md:py-28">
         <div className="container-x">
           <SectionHead index="03" eyebrow={lang === "fr" ? "La location, étape par étape" : "Hire, step by step"} title={lang === "fr" ? "Vous construisez. Nous gérons le matériel." : "You build. We handle the equipment."} />
           <div className="mt-12">
@@ -143,7 +195,7 @@ export default function Construction() {
         </div>
       </section>
 
-      <section className="bg-ivory-2 py-20 md:py-28">
+      <section className="py-20 md:py-28">
         <div className="container-x grid gap-12 lg:grid-cols-[1fr_1.6fr]">
           <SectionHead index="04" eyebrow={lang === "fr" ? "Questions" : "Questions"} title={lang === "fr" ? "Avant de louer." : "Before you hire."} />
           <FaqList lang={lang} items={CONSTRUCTION_FAQ} />

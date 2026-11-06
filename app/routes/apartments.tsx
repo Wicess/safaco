@@ -1,6 +1,8 @@
 import { ArrowRight, Car, Droplets, Flame, KeyRound, ShieldCheck, Snowflake, Tv, UtensilsCrossed, Wifi, Zap } from "lucide-react";
 import type { ComponentType } from "react";
 import { CtaBand } from "~/components/sections/CtaBand";
+import { GalleryStrip } from "~/components/sections/Gallery";
+import { galleryFor } from "~/content/gallery";
 import { PageHero } from "~/components/sections/PageHero";
 import { FaqList, SectionHead, Steps, TraceLine } from "~/components/sections/primitives";
 import { Button } from "~/components/ui/button";
@@ -48,6 +50,10 @@ export const meta = pageMeta({
   jsonLd: (lang) => [breadcrumb(lang, TRAIL), faqPage(lang, APARTMENTS_FAQ)],
 });
 
+/** The strip leads with the photos not already shown in "The spaces". */
+const SHOWN = new Set<string>([IMG.building, IMG.livingDining, IMG.bedroomRose]);
+const STRIP = [...galleryFor("apartments")].sort((a, b) => Number(SHOWN.has(a.image)) - Number(SHOWN.has(b.image)));
+
 const STEPS: { title: T; body: T }[] = [
   { title: { en: "Send your dates", fr: "Envoyez vos dates" }, body: { en: "Arrival, departure and number of guests, on WhatsApp or by phone.", fr: "Arrivée, départ et nombre de personnes, sur WhatsApp ou par téléphone." } },
   { title: { en: "We confirm", fr: "Nous confirmons" }, body: { en: "Availability, the rate for your stay and how to pay.", fr: "La disponibilité, le tarif du séjour et le mode de paiement." } },
@@ -66,19 +72,19 @@ export default function Apartments() {
         title={lang === "fr" ? "Un chez-soi à Yaoundé, prêt à vivre." : "A home in Yaoundé, ready to live in."}
         lede={
           lang === "fr"
-            ? "Des appartements meublés et équipés à Meyo, Yaoundé IV, pour quelques nuits ou plusieurs mois. Vous arrivez, tout est prêt."
-            : "Furnished, fully equipped apartments in Meyo, Yaoundé IV, for a few nights or several months. You arrive; everything is ready."
+            ? "Des appartements meublés et équipés dans notre résidence de Meyo, Yaoundé IV, pour quelques nuits ou plusieurs mois. Vous arrivez, tout est prêt."
+            : "Furnished, fully equipped apartments in our guest residence in Meyo, Yaoundé IV, for a few nights or several months. You arrive; everything is ready."
         }
-        image={IMG.apartments}
-        imageAlt={lang === "fr" ? "Salon meublé baigné de lumière naturelle" : "A furnished living room in natural light"}
-        imageClass="light-sweep"
+        layout="split"
+        image={IMG.building}
+        imageAlt={lang === "fr" ? "La résidence SAFA Apartments à Meyo, balcons à arcades sur trois niveaux" : "The SAFA Apartments residence in Meyo, with arched balconies on three floors"}
       >
         <AvailabilityButton lang={lang} />
       </PageHero>
 
       <section className="py-20 md:py-28">
         <div className="container-x grid gap-4 md:grid-cols-12 md:gap-6">
-          <div className="md:col-span-5 md:pt-24" data-reveal>
+          <div className="md:col-span-4 md:self-center" data-reveal>
             <p className="eyebrow text-apartments">{lang === "fr" ? "Les espaces" : "The spaces"}</p>
             <p className="mt-6 font-display text-[1.875rem] leading-snug md:text-[2.5rem]">
               {lang === "fr"
@@ -87,19 +93,13 @@ export default function Apartments() {
             </p>
             <TraceLine className="mt-10 w-20" />
           </div>
-          <div className="light-sweep md:col-span-7" data-trace>
-            <Picture name={IMG.bedroom} alt={lang === "fr" ? "Chambre avec linge frais" : "Bedroom with fresh linen"} sizes="(min-width: 48rem) 58vw, 100vw" className="grain aspect-[4/5] md:aspect-[5/4]" />
+          <div className="light-sweep md:col-span-5" data-trace>
+            <Picture name={IMG.livingDining} alt={lang === "fr" ? "Comptoir repas et salon sous un lustre à anneaux" : "Dining counter and lounge under a ring chandelier"} sizes="(min-width: 48rem) 40vw, 100vw" className="grain aspect-[3/4]" />
           </div>
-          <div className="light-sweep md:col-span-4 md:col-start-2" data-trace>
-            <Picture name={IMG.kitchen} alt={lang === "fr" ? "Cuisine équipée" : "Equipped kitchen"} sizes="(min-width: 48rem) 33vw, 100vw" className="grain aspect-square" />
-          </div>
-          <div className="light-sweep md:col-span-6" data-trace>
-            <Picture name={IMG.balcony} alt={lang === "fr" ? "Vue depuis un balcon" : "View from a balcony"} sizes="(min-width: 48rem) 50vw, 100vw" className="grain aspect-[4/3]" />
+          <div className="light-sweep md:col-span-3 md:mt-40" data-trace>
+            <Picture name={IMG.bedroomRose} alt={lang === "fr" ? "Chambre au mur rose et linge frais" : "Bedroom with a rose wall and fresh linen"} sizes="(min-width: 48rem) 24vw, 100vw" className="grain aspect-[3/4]" />
           </div>
         </div>
-        <p className="container-x mt-6 text-xs text-muted">
-          {lang === "fr" ? "Photos d'illustration — photos des appartements bientôt disponibles." : "Illustrative photos — photos of the apartments coming soon."}
-        </p>
       </section>
 
       <section className="bg-ivory-2 py-20 md:py-28">
@@ -118,6 +118,18 @@ export default function Apartments() {
 
       <section className="py-20 md:py-28">
         <div className="container-x">
+          <SectionHead
+            eyebrow={lang === "fr" ? "En images" : "In pictures"}
+            title={lang === "fr" ? "Visitez avant d'arriver." : "Look around before you arrive."}
+          />
+          <div className="mt-12">
+            <GalleryStrip lang={lang} division="apartments" items={STRIP} />
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-ivory-2 py-20 md:py-28">
+        <div className="container-x">
           <SectionHead index="02" eyebrow={lang === "fr" ? "Réserver" : "Booking"} title={lang === "fr" ? "Quatre messages, et vous êtes chez vous." : "Four messages and you're home."} />
           <div className="mt-12">
             <Steps lang={lang} items={STEPS} />
@@ -125,7 +137,7 @@ export default function Apartments() {
         </div>
       </section>
 
-      <section className="bg-ivory-2 py-20 md:py-28">
+      <section className="py-20 md:py-28">
         <div className="container-x grid gap-12 lg:grid-cols-[1fr_1.6fr]">
           <SectionHead index="03" eyebrow="FAQ" title={lang === "fr" ? "Avant votre séjour." : "Before your stay."} />
           <FaqList lang={lang} items={APARTMENTS_FAQ} />

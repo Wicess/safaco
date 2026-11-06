@@ -1,36 +1,47 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router";
 import { CtaBand } from "~/components/sections/CtaBand";
+import { GalleryTile, Lightbox, useLightbox } from "~/components/sections/Gallery";
+import { AmbientVideo } from "~/components/ui/Video";
+import { galleryFor } from "~/content/gallery";
 import { PageHero } from "~/components/sections/PageHero";
 import { FaqList, SectionHead, Steps } from "~/components/sections/primitives";
 import { Button } from "~/components/ui/button";
 import { Picture } from "~/components/ui/Picture";
 import { IMG } from "~/content/media-map";
 import { useLang } from "~/lib/hooks";
-import { href, type T } from "~/lib/i18n";
+import { href, type Lang, type T } from "~/lib/i18n";
 import { breadcrumb, faqPage, pageMeta } from "~/lib/seo";
 import { DESIGNS_FAQ } from "~/content/faqs";
 
 const TRAIL = [{ key: "designs" as const, name: { en: "SAFA Designs", fr: "SAFA Designs" } }];
 
-/** CLIENT_TODO: confirm the garment list with the atelier. */
-const GARMENTS: { name: T; body: T; img: string }[] = [
+/** CLIENT_TODO: confirm the garment categories with the atelier. */
+const GARMENTS: { name: T; body: T }[] = [
   {
     name: { en: "Suits & ceremony wear", fr: "Costumes & tenues de cérémonie" },
     body: { en: "Cut to your measurements for weddings, work and official occasions.", fr: "Coupés à vos mesures pour les mariages, le travail et les cérémonies officielles." },
-    img: IMG.menswear,
   },
   {
     name: { en: "Traditional & modern African wear", fr: "Tenues africaines, traditionnelles & modernes" },
-    body: { en: "Boubous, agbadas, tunics and shirts in the fabric you choose.", fr: "Boubous, agbadas, tuniques et chemises dans le tissu de votre choix." },
-    img: IMG.fabric,
+    body: { en: "Tunics, boubous and shirts in the fabric you choose.", fr: "Tuniques, boubous et chemises dans le tissu de votre choix." },
   },
   {
     name: { en: "Shirts & everyday pieces", fr: "Chemises & pièces du quotidien" },
     body: { en: "Well-fitting shirts and trousers that last, made to measure.", fr: "Des chemises et pantalons bien ajustés, faits pour durer, sur mesure." },
-    img: IMG.tape,
   },
 ];
+
+/** Short lookbook names, keyed by gallery id (photos: the atelier's own work). */
+const LOOK_NAME: Record<string, T> = {
+  "maroon-jacket": { en: "Four-pocket jacket", fr: "Veste quatre poches" },
+  "print-shirt": { en: "Print-panel shirt", fr: "Chemise à empiècement" },
+  "navy-tunic": { en: "Navy tunic, gold stitch", fr: "Tunique marine, surpiqûre or" },
+  "chambray-tunic": { en: "Chambray tunic", fr: "Tunique chambray" },
+  "white-tunic": { en: "White tunic", fr: "Tunique blanche" },
+  "striped-shirt": { en: "Striped-sleeve shirt", fr: "Chemise manches rayées" },
+};
+const LOOKS = galleryFor("designs").filter((g) => !g.video);
 
 const PROCESS: { title: T; body: T }[] = [
   { title: { en: "Measure", fr: "Mesurer" }, body: { en: "We take your measurements at the atelier, by appointment.", fr: "Nous prenons vos mesures à l'atelier, sur rendez-vous." } },
@@ -75,11 +86,18 @@ export default function Designs() {
         }
         lede={
           lang === "fr"
-            ? "Tenues homme sur mesure — costumes, tenues de cérémonie et tenues africaines — réalisées sur nos machines spécialisées, au Carrefour MEEC. Sur rendez-vous."
-            : "Made-to-measure menswear — suits, ceremony wear and African garments — finished on our specialised machines at Carrefour MEEC. By appointment."
+            ? "Tenues homme sur mesure, des costumes aux tenues africaines, réalisées sur nos machines spécialisées au Carrefour MEEC. Sur rendez-vous, avec livraison dans le monde entier."
+            : "Made-to-measure menswear, from suits to African garments, finished on our specialised machines at Carrefour MEEC. By appointment, with delivery worldwide."
         }
-        image={IMG.designs}
-        imageAlt={lang === "fr" ? "Un tailleur au travail dans un atelier" : "A tailor at work in an atelier"}
+        layout="split"
+        media={
+          <AmbientVideo
+            lang={lang}
+            video="atelier"
+            label={lang === "fr" ? "Visite du showroom SAFA Designs : chemises, tuniques et pantalons sur les portants" : "A walk through the SAFA Designs showroom: shirts, tunics and trousers on the rails"}
+            className="grain aspect-[4/5]"
+          />
+        }
       >
         <Button asChild variant="primary">
           <Link to={`${href("contact", lang)}?d=designs`}>
@@ -102,15 +120,15 @@ export default function Designs() {
             eyebrow={lang === "fr" ? "L'atelier" : "The atelier"}
             title={lang === "fr" ? "Ce que nous confectionnons." : "What we make."}
           />
-          <div className="mt-14 grid gap-12 md:grid-cols-3 md:gap-8">
+          <ul className="mt-12 grid gap-px border-y border-ink/12 bg-ink/12 md:grid-cols-3">
             {GARMENTS.map((g, i) => (
-              <article key={g.name.en} data-reveal style={{ transitionDelay: `${i * 80}ms` }}>
-                <Picture name={g.img} alt="" sizes="(min-width: 48rem) 30vw, 100vw" className="grain aspect-[3/4]" />
-                <h3 className="mt-6 text-[1.75rem] leading-tight">{g.name[lang]}</h3>
-                <p className="mt-2 text-muted">{g.body[lang]}</p>
-              </article>
+              <li key={g.name.en} className="bg-ivory py-7 md:px-8 md:first:pl-0" data-reveal style={{ transitionDelay: `${i * 80}ms` }}>
+                <h3 className="text-[1.625rem] leading-tight">{g.name[lang]}</h3>
+                <p className="mt-2 text-[0.9375rem] text-muted">{g.body[lang]}</p>
+              </li>
             ))}
-          </div>
+          </ul>
+          <Lookbook lang={lang} />
         </div>
       </section>
 
@@ -157,7 +175,10 @@ export default function Designs() {
               </Link>
             </Button>
           </div>
-          <Picture name={IMG.classroom} alt="" sizes="(min-width: 48rem) 50vw, 100vw" className="grain aspect-[4/3] md:col-span-6" />
+          <div className="md:col-span-6">
+            <Picture name={IMG.classroom} alt="" sizes="(min-width: 48rem) 50vw, 100vw" className="grain aspect-[4/3]" />
+            <p className="mt-2 text-[0.6875rem] text-muted">{lang === "fr" ? "Photo d'illustration" : "Illustrative photo"}</p>
+          </div>
         </div>
       </section>
 
@@ -175,5 +196,29 @@ export default function Designs() {
         body={{ en: "Book a measuring appointment at the atelier — tell us the date you need it by.", fr: "Réservez une prise de mesures à l'atelier — indiquez-nous la date souhaitée." }}
       />
     </>
+  );
+}
+
+function Lookbook({ lang }: { lang: Lang }) {
+  const lb = useLightbox(LOOKS);
+  return (
+    <div className="mt-16 md:mt-20">
+      <div className="flex flex-wrap items-baseline justify-between gap-4">
+        <h3 className="text-display-sm">{lang === "fr" ? "Sorti de l'atelier" : "Out of the atelier"}</h3>
+        <Link to={`${href("gallery", lang)}?c=designs`} className="group inline-flex min-h-11 items-center gap-2 text-sm font-semibold uppercase tracking-[0.14em]">
+          {lang === "fr" ? "Voir la galerie" : "View the gallery"}
+          <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden />
+        </Link>
+      </div>
+      <ul className="-mx-(--gutter) mt-8 flex snap-x snap-mandatory scroll-px-(--gutter) gap-4 overflow-x-auto px-(--gutter) pb-2 [scrollbar-width:none] md:mx-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0 lg:grid-cols-6 lg:gap-4">
+        {LOOKS.map((it, i) => (
+          <li key={it.id} className="w-[58%] shrink-0 snap-start sm:w-[38%] md:w-auto" data-reveal style={{ transitionDelay: `${i * 60}ms` }}>
+            <GalleryTile item={it} lang={lang} onOpen={() => lb.open(i)} pictureClass="aspect-[3/4]" sizes="(min-width: 64rem) 15vw, (min-width: 48rem) 30vw, 58vw" />
+            <p className="mt-3 text-[0.9375rem] leading-snug">{LOOK_NAME[it.id]?.[lang]}</p>
+          </li>
+        ))}
+      </ul>
+      <Lightbox lang={lang} items={LOOKS} index={lb.index} setIndex={lb.setIndex} close={lb.close} />
+    </div>
   );
 }

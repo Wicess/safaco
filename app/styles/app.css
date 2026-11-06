@@ -302,3 +302,18 @@
 }
 @keyframes stem { from { transform: scaleY(0); } to { transform: scaleY(1); } }
 @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+/* ───────────── Gallery lightbox ─────────────
+   <dialog> fades in from transparent (@starting-style, progressive); each
+   new photo settles in with a short fade + 1% scale. */
+.lightbox { opacity: 0; transition: opacity 0.35s var(--ease-out-quart), overlay 0.35s allow-discrete, display 0.35s allow-discrete; }
+.lightbox[open] { opacity: 1; }
+@starting-style { .lightbox[open] { opacity: 0; } }
+.lightbox::backdrop { background: transparent; }
+@media (prefers-reduced-motion: no-preference) {
+  .lightbox-frame { animation: frame-in 0.45s var(--ease-out-quart) both; }
+}
+@keyframes frame-in { from { opacity: 0; transform: scale(0.985); } to { opacity: 1; transform: none; } }
+
+/* Filtering the gallery morphs tiles to their new places (View Transitions). */
+::view-transition-group(*) { animation-duration: 0.45s; animation-timing-function: var(--ease-out-quart); }

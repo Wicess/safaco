@@ -62,8 +62,8 @@ export default function Legal() {
         <h2 className={h2}>{fr ? "Photographies" : "Photography"}</h2>
         <p>
           {fr
-            ? "Certaines photos sont des images d'illustration issues de banques d'images libres de droits (Unsplash, Pexels, Wikimedia Commons) ; les personnes qui y figurent ne sont ni des employés ni des clients de SAFA & Co."
-            : "Some photos are illustrative images from royalty-free libraries (Unsplash, Pexels, Wikimedia Commons); the people shown are not SAFA & Co staff or clients."}
+            ? "Les photos et vidéos des machines, des appartements et des tenues (dont toute la galerie) appartiennent à SAFA & Co. Les autres photos, signalées « Photo d'illustration », proviennent de banques d'images libres (Wikimedia Commons, WordPress Photo Directory) ; les personnes qui y figurent ne sont ni des employés ni des clients de SAFA & Co."
+            : "The photos and videos of the machines, apartments and garments (including the whole gallery) belong to SAFA & Co. Other photos, marked “Illustrative photo”, come from free image libraries (Wikimedia Commons, WordPress Photo Directory); the people shown are not SAFA & Co staff or clients."}
         </p>
         {credits.length > 0 && (
           <ul className="mt-6 space-y-2 text-sm text-muted">

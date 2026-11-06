@@ -52,6 +52,12 @@ dev servers are holding the inotify limit. Build with polling instead:
 - **Company facts** (phones, WhatsApp, addresses, RCCM/NIU, MINEFOP): `app/content/site.ts`.
 - **FAQs:** `app/content/faqs.ts`. They are shown on each page and on `/faq`, and emitted as FAQPage JSON-LD.
 - **Images:** `media-src/` holds the originals and `CREDITS.md`. `app/content/media-map.ts` maps each slot to a file.
+  Files named `safa-*` are SAFA's own photos. Everything else is stock and gets an "Illustrative photo" note (`isStock()`).
+- **Videos:** `public/media/*.mp4` (silent H.264, 540–960 px, faststart), registered in `VIDEO` in `media-map.ts`;
+  their poster stills are `media-src/safa-video-*.jpg`. `<AmbientVideo>` loads nothing until on screen, and pauses off screen or in a hidden tab.
+- **Gallery:** `app/content/gallery.ts` (own media only) feeds `/en/gallery`, the division strips and the home mosaic.
+- **After adding media:** run `pnpm media`, then `pnpm media:upload`. Production serves `/media` from R2 (`VITE_MEDIA_BASE`),
+  so new files must be uploaded **before** deploying, or they 404.
 - **SEO:** `app/lib/seo.ts` handles canonical, hreflang, Open Graph and the Organization graph (three sub-organizations).
 
 ### House rules (owner-confirmed)

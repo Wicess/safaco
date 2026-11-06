@@ -1,89 +1,4 @@
 {
-  "apartments-bedroom-linen-01": {
-    "w": 1600,
-    "h": 2397,
-    "widths": [
-      360,
-      540,
-      720,
-      1080,
-      1600
-    ],
-    "blur": "data:image/webp;base64,UklGRsIAAABXRUJQVlA4ILYAAABwBQCdASoUAB4APu1kqU2ppaQiMAgBMB2JZwDGRAgBQsyUJe8Fao9Gr0vRNIuI8wNPywCAAP7xEWpV7/AprsC+/JqVZYEsNnZFE759l5GN9xhjNszZJ43fj0zOsmNmHZ5c75a6Ln4xtv2w1E9un0BRdSvlICece6PKMvKAzjJO8BDJ4LDQppsOY7t1MSdAvnoPPbYzufDRjzNfXdQ9XHnm1a8et6xXyZpUo7twP7cBaVHaxKgAAA==",
-    "formats": [
-      "avif",
-      "webp",
-      "jpg"
-    ]
-  },
-  "apartments-detail-coffee-01": {
-    "w": 1600,
-    "h": 1067,
-    "widths": [
-      360,
-      540,
-      720,
-      1080,
-      1600
-    ],
-    "blur": "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAAAwAwCdASoUAA0APu1iqk2ppaQiMAgBMB2JaQAAW+i9g5uAAP7x1DFZiU4QAECk4cgVdvofCnkKOisKAAA=",
-    "formats": [
-      "avif",
-      "webp",
-      "jpg"
-    ]
-  },
-  "apartments-kitchen-01": {
-    "w": 1600,
-    "h": 1068,
-    "widths": [
-      360,
-      540,
-      720,
-      1080,
-      1600
-    ],
-    "blur": "data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAAAQBACdASoUAA0APu1iqU2ppaOiMAgBMB2JYgCw7B7H2z1mNUhWzDkqgAD+3PkPZrTpfX6o7HndCv+pJ9/IlTylox3oHGQmlyY0CGi5CnsUuzsDg/W06lz41u2wdf4tww0dUu2ui7PW1Vj62uf/OZ6zXz6mW53V09g/cAAA",
-    "formats": [
-      "avif",
-      "webp",
-      "jpg"
-    ]
-  },
-  "apartments-living-room-01": {
-    "w": 1600,
-    "h": 1068,
-    "widths": [
-      360,
-      540,
-      720,
-      1080,
-      1600
-    ],
-    "blur": "data:image/webp;base64,UklGRqAAAABXRUJQVlA4IJQAAAAwBACdASoUAA0APu1iqU2ppaQiMAgBMB2JQBOgA4WQkuLRSfLQcnH/lYAA/iNQlqlF75MdFH3lqPl12r/D5llYHcADRb9FHCfh+FX8tvz9LKiYbmus1jGz9opgRuO+0CLyLiNBhQyCd+Zprw+Qbb+pt8Bj+l45Q6KKgO3lM8fnuBLn57BzKall9BOVmsfnBRU4U4AA",
-    "formats": [
-      "avif",
-      "webp",
-      "jpg"
-    ]
-  },
-  "apartments-living-room-view-01": {
-    "w": 1600,
-    "h": 1068,
-    "widths": [
-      360,
-      540,
-      720,
-      1080,
-      1600
-    ],
-    "blur": "data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAACQAwCdASoUAA0APu1iqU2ppaOiMAgBMB2JZQDCgCHH+0i8QyXQAP7luYUhGN2i5deILW6vmygBD4zqNOxULVIb2l+dCi8NE6KFj1bbzIXgLpXAKIyhuiGaolPs8lIKbrWXRWp7pKBkekNvuw36nuOXbzR1IIVkrSEJtAAA",
-    "formats": [
-      "avif",
-      "webp",
-      "jpg"
-    ]
-  },
   "construction-block-making-machine-01": {
     "w": 1600,
     "h": 1200,
@@ -152,23 +67,6 @@
       "jpg"
     ]
   },
-  "construction-plastering-wall-01": {
-    "w": 1600,
-    "h": 1067,
-    "widths": [
-      360,
-      540,
-      720,
-      1080,
-      1600
-    ],
-    "blur": "data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAADQAwCdASoUAA0APu1kqU2ppaOiMAgBMB2JYwC7ABZrd3j8/GZuIaAA/s/j3JEZs7ZRqge+wQBjUZ4P5MP6/228I147ZdU9TvMt97Vp0XZ7BgjnLCPsaTT77jYq6KG1tQ+lkqWLKwMW+u2+JzAAAA==",
-    "formats": [
-      "avif",
-      "webp",
-      "jpg"
-    ]
-  },
   "construction-rendered-wall-texture-01": {
     "w": 1600,
     "h": 1200,
@@ -203,57 +101,6 @@
       "jpg"
     ]
   },
-  "construction-site-yaounde-01": {
-    "w": 1600,
-    "h": 1200,
-    "widths": [
-      360,
-      540,
-      720,
-      1080,
-      1600
-    ],
-    "blur": "data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAADwAwCdASoUAA8APu1iqU2ppaOiMAgBMB2JZQCAAAfftlCsJdjE5cvAAP352EGzBuUrcFN9TTGGjkts9KUPAoz6ow1ShxbRV3ofcXtx+AMAV7YbHabpOEWzFaLO+NxpAohB9YZRvlFJHfY0uSQoAA==",
-    "formats": [
-      "avif",
-      "webp",
-      "jpg"
-    ]
-  },
-  "construction-trowel-01": {
-    "w": 1600,
-    "h": 1228,
-    "widths": [
-      360,
-      540,
-      720,
-      1080,
-      1600
-    ],
-    "blur": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAACQAwCdASoUAA8APu1kqU2ppaQiMAgBMB2JaQAANfEAj4Xb6cQAAP3OrQTlC7t01AR0rVVfQVrXUWRUTTBp9BY0d7qoeAwbFdMAAA==",
-    "formats": [
-      "avif",
-      "webp",
-      "jpg"
-    ]
-  },
-  "designs-bespoke-mannequin-01": {
-    "w": 1600,
-    "h": 1067,
-    "widths": [
-      360,
-      540,
-      720,
-      1080,
-      1600
-    ],
-    "blur": "data:image/webp;base64,UklGRqgAAABXRUJQVlA4IJwAAACwBACdASoUAA0APu1iqU2ppaQiMAgBMB2JaACdMoR8jf/gNZxk60tXSf/iyfaAAP5EoD0BM9jdCK5+CrjrcXSljwRoqgYvXZsbIO975Qa4Zc8kiuN+I2shOrHyiHMZ2737rk7Su0Dg57LuBX0VpwVhjl3N1Cexynp2d/j5pIdLRbx0ecdUTmPdxXFPRx5GOL6aNv7uNeadVGhY0AA=",
-    "formats": [
-      "avif",
-      "webp",
-      "jpg"
-    ]
-  },
   "designs-cutting-chalk-fabric-01": {
     "w": 1600,
     "h": 1067,
@@ -265,40 +112,6 @@
       1600
     ],
     "blur": "data:image/webp;base64,UklGRnIAAABXRUJQVlA4IGYAAADwAwCdASoUAA0APu1iqk2ppaQiMAgBMB2JYgCdACFoVm6epNjdT74AAP7p1tXl5i2uquwv7RSSLFiSJQKdSHPsG2LUf4sKl8/f3q1s7srH8kASyM9IYxzQJ5jgF8YsXlkDiQ/2AAA=",
-    "formats": [
-      "avif",
-      "webp",
-      "jpg"
-    ]
-  },
-  "designs-fabric-bolts-01": {
-    "w": 1600,
-    "h": 1099,
-    "widths": [
-      360,
-      540,
-      720,
-      1080,
-      1600
-    ],
-    "blur": "data:image/webp;base64,UklGRmYAAABXRUJQVlA4IFoAAADQAwCdASoUAA4APu1kq04ppaQiMAgBMB2JQBOgkv4J0z9vErtl5gAAyTfNHtduYjQMKHM2m8qKm40Hhm1L/YCK3P+LWjPRCSKP3tfYjKnvGKztU0rpP1P5QAA=",
-    "formats": [
-      "avif",
-      "webp",
-      "jpg"
-    ]
-  },
-  "designs-mens-tailored-jacket-01": {
-    "w": 1600,
-    "h": 1107,
-    "widths": [
-      360,
-      540,
-      720,
-      1080,
-      1600
-    ],
-    "blur": "data:image/webp;base64,UklGRn4AAABXRUJQVlA4IHIAAAAQBACdASoUAA4APu1iqU2ppaQiMAgBMB2JQBWABENKgTW7SyudlAjAAAD+78Ol/sCNHQr0alw3lE5w0Gj89BU+ZPfzfzQUwHo4p0mde/V4laxYpdAwj7Y5zTrP2hgx6HXZRMeKclSeOqJae8EEZRtiAAA=",
     "formats": [
       "avif",
       "webp",
@@ -339,108 +152,6 @@
       "jpg"
     ]
   },
-  "designs-tailor-at-work-01": {
-    "w": 1600,
-    "h": 1067,
-    "widths": [
-      360,
-      540,
-      720,
-      1080,
-      1600
-    ],
-    "blur": "data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAADwAwCdASoUAA0APu1iqU2ppaOiMAgBMB2JYwC06B+DZUHhGpcIUwAAAP7Tn9Ac8Y38Bri4VS6Zb84SicRIpw/5lXAoHZ8Vn9qlyuyn/kQ9RdzY9BcocHAbvjaQ1nbqnX6qMkddFcAYmEyfa1gAAA==",
-    "formats": [
-      "avif",
-      "webp",
-      "jpg"
-    ]
-  },
-  "designs-tailor-at-work-cameroon-01": {
-    "w": 1600,
-    "h": 1059,
-    "widths": [
-      360,
-      540,
-      720,
-      1080,
-      1600
-    ],
-    "blur": "data:image/webp;base64,UklGRpAAAABXRUJQVlA4IIQAAACwAwCdASoUAA0APu1iqk2ppaQiMAgBMB2JQBdgBCpmtUZXGUVJwAD+7VDjsygUAwBTfrI/Npb+IWiIAQBj+g09N/gfeA7s4vDkcf74+4zvoaXlRCwDnVi0UsiT6Y5N+fAIdZssn2BWV4OerZ3zcrwcoInnF5uMY9DomlceYnbGYqgIEAA=",
-    "formats": [
-      "avif",
-      "webp",
-      "jpg"
-    ]
-  },
-  "designs-tape-measure-fitting-01": {
-    "w": 1600,
-    "h": 1067,
-    "widths": [
-      360,
-      540,
-      720,
-      1080,
-      1600
-    ],
-    "blur": "data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAADwAwCdASoUAA0APu1iqU2ppaQiMAgBMB2JZwC+SB0lzuZoXH7ZhqRAAP7r+wy9n7obRQ+8wEdhJ7J1upSyWvjCUVfvHmPwYgQiuk6BCH0+rkPyM3WpRoMeq10nhPM/lmzeo80Ft23JfVCjr0kzsFQRroAAAA==",
-    "formats": [
-      "avif",
-      "webp",
-      "jpg"
-    ]
-  },
-  "designs-tape-measure-scissors-01": {
-    "w": 1600,
-    "h": 1067,
-    "widths": [
-      360,
-      540,
-      720,
-      1080,
-      1600
-    ],
-    "blur": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAADQAwCdASoUAA0APu1iqU2ppaOiMAgBMB2JZQCw7BuMZC59GoIs7oAA/vHdmLTATavWlGzCUQ9AtECm0XBRkaFcbz4zCukMzAjKhIrjDAit4Nq7YHU+FCUYWhCblAAA",
-    "formats": [
-      "avif",
-      "webp",
-      "jpg"
-    ]
-  },
-  "group-concrete-architecture-01": {
-    "w": 1600,
-    "h": 1067,
-    "widths": [
-      360,
-      540,
-      720,
-      1080,
-      1600
-    ],
-    "blur": "data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAADQAwCdASoUAA0APu1iqU2ppaOiMAgBMB2JQBYdhEEoBnaLfjLAuSgA/u1KEPTqgAA91LK3XyPubfEuQgXLYFBf5EbCL00vtgcUXeUWb+H3U4B9/4qwAA==",
-    "formats": [
-      "avif",
-      "webp",
-      "jpg"
-    ]
-  },
-  "group-ivory-plaster-texture-01": {
-    "w": 1600,
-    "h": 1600,
-    "widths": [
-      360,
-      540,
-      720,
-      1080,
-      1600
-    ],
-    "blur": "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAAAQAwCdASoUABQAPu1qrVCppaSiqAqpMB2JaQDIXBkzxMAA/sDJGzMk17Dr5T9gAAA=",
-    "formats": [
-      "avif",
-      "webp",
-      "jpg"
-    ]
-  },
   "group-yaounde-cityscape-01": {
     "w": 1600,
     "h": 1067,
@@ -458,17 +169,429 @@
       "jpg"
     ]
   },
-  "group-yaounde-cityscape-02": {
-    "w": 1600,
-    "h": 1200,
+  "safa-apartments-bedroom-rose": {
+    "w": 960,
+    "h": 1280,
+    "widths": [
+      360,
+      540,
+      720,
+      960
+    ],
+    "blur": "data:image/webp;base64,UklGRtwAAABXRUJQVlA4INAAAABwBQCdASoUABsAPu1kqE2ppaOiMAgBMB2JbACsM2SGrhj/8g/muqW1MCR3Qe5gH/dkROAAAPfR0OgzyGDFaeY6rU48IcfHH7j7IslmhUT2tkJ1onpj0QzbWyOEl/ckQ8oewhx2M1HDDkQr6H0Uv6Gon361I7uZz3pkfPK7ZdyTQ+7NEnnxlPCsh1mChGN09aXajMAad3wR/5ft2Q7F13Owh81uER/zzgbnpD9tlY415SXXG/LOCfqS01JqSlWE/bxBarDsQA7hrBsUFcE9YAAA",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "safa-apartments-bedroom-teal": {
+    "w": 960,
+    "h": 1280,
+    "widths": [
+      360,
+      540,
+      720,
+      960
+    ],
+    "blur": "data:image/webp;base64,UklGRuIAAABXRUJQVlA4INYAAAAQBQCdASoUABsAPu1kqU2ppaQiMAgBMB2JaADBzB9B0ijPCS7VYlO1DszW2g1EioJgAN9PPeDXVIBI1zLqKIFfYNZdV/GhKmKujBxq9ewkVntlJLy6w4E4gVKV2Ezig88Q6o1iO0DXwmxGpP6Mmh3DLdLTZ94KnUx4Yz8cAJRnn4L5osg+Bf0hG/Pevtw3RmibjEWVAVKxgGLTGO6M9ZyouR5zP6Z6q1N5NBO3JXChdVyWJo3TKT7CxWqtnY4shiT9k9On4FM7X5//JyR9D821qTCHgAAA",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "safa-apartments-building": {
+    "w": 960,
+    "h": 1280,
+    "widths": [
+      360,
+      540,
+      720,
+      960
+    ],
+    "blur": "data:image/webp;base64,UklGRuAAAABXRUJQVlA4INQAAAAQBgCdASoUABsAPu1qrVCppaQiqAqpMB2JZACxHxx01tsiBvfgMuiA9anXu696DKpgPNet4tZ3rIAA/raPcSLGNfsBlr48KfLTapeCwv33ouBMHSqHPPqhVGOomLojl+mZfhiMSPtRPvXZ8AGnV1iniHJCMtW3f1suwJWEguI/K7xo7W8bGaOXcgw/YhyD5yBuNN+J9hHlRvGFGa8/20VyQdNNgkBNUA8/Xurl5LJSBNLMAVdl5NrGEUiLZqtLpBt/9j7lzXptIGr2YcANSAIM8AAAAA==",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "safa-apartments-kitchen-bar": {
+    "w": 960,
+    "h": 1280,
+    "widths": [
+      360,
+      540,
+      720,
+      960
+    ],
+    "blur": "data:image/webp;base64,UklGRtAAAABXRUJQVlA4IMQAAAAwBQCdASoUABsAPu1srVCppaQiqAqpMB2JQBerMZeNcPbT0K6p72lGBJlsWduk3WB30AD9xZHvPlypyM3IT/KOejZ6FpYu5/XdLHh4FGxOwMMugOSlxcS6sBTkMJl6rlY4wKzqUERV1XWDqv7aPCjqI78pDN+QlJqoiPfb7jJHLpm7tOjgjAvwFHPItQe2DI1AB6p7b/4H3p6f5r/xpFjpNhgRkYWboZnY/DKCKUWiClDa9ysUa0lHjJBoz9wej7WBY14A",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "safa-apartments-living-dining": {
+    "w": 960,
+    "h": 1280,
+    "widths": [
+      360,
+      540,
+      720,
+      960
+    ],
+    "blur": "data:image/webp;base64,UklGRtAAAABXRUJQVlA4IMQAAACQBQCdASoUABsAPu1mrE+ppSQiMBgIATAdiWcAznmoAJcT5c1dS0ckj3VgsJzNemJ6fLkOAAD8xgzomZpTkPg6Hrf3fHdGm2PhCDQyK13ZvbuJBzycO3bVhR3koBIZIDW9R3pGtBPIyz7Smrqf2/iFM2xcrEi7yNkEbxaqsLRe3NdWqt7CuG+dzjux1vLpCuX7fn6aT0fAb/mQ7vzmJKZ7DBh1ARvqdSBmy3met7dIlDaFTeI0kn9wHsF5f7x3YWGcAAAA",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "safa-apartments-lounge-light": {
+    "w": 960,
+    "h": 1280,
+    "widths": [
+      360,
+      540,
+      720,
+      960
+    ],
+    "blur": "data:image/webp;base64,UklGRs4AAABXRUJQVlA4IMIAAABQBQCdASoUABsAPuVgo02pJaMiMAwBIByJYwDFCoADKR4K4yuHEfyCVnQ3OS+bcGa4yYAA/q8ZbL52EoPePmfKItSAkxqxfKcIpuEeRDwITJ0qR132XZPkvd3qg1e5MLEVC7PF722dBtHLSI2aicLqE99QOTmH1W/sySmEyRiG9wgULKWsx7YCtUvKqhSN1kfAWmKpQ2rqCWi7AEXgzzoAfp3e2B56HPhbar7dPFvXBSBz2WWLsFHfdKBPowsCRGAAAA==",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "safa-apartments-lounge-sofas": {
+    "w": 960,
+    "h": 1280,
+    "widths": [
+      360,
+      540,
+      720,
+      960
+    ],
+    "blur": "data:image/webp;base64,UklGRq4AAABXRUJQVlA4IKIAAAAwBQCdASoUABsAPu1iqU2ppaOiMAgBMB2JZwC4qCHHmASTZHuK8k7cLuLHsFplu79rPAD8wEVXWmnf3gxYRLfLvwzUo0fj8W97/bwtpi1ErW8tF9M2KdvE6ECchFzLwLVfaUoT9UAcmiejNxMODk6EFSo/1h20DwC0CGGxcWO64YVBQbcwGZTX+WHlzEDhvvzyccu32WFUEniaJBOTGaOa4AA=",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "safa-apartments-lounge-tv": {
+    "w": 960,
+    "h": 1280,
+    "widths": [
+      360,
+      540,
+      720,
+      960
+    ],
+    "blur": "data:image/webp;base64,UklGRqgAAABXRUJQVlA4IJwAAABQBQCdASoUABsAPu1mqk2ppaQiMAgBMB2JZwDE2CG+rCw65D0LpIikeeZNGGHFhUI9goAA/fMaGiwGIhFzoiLQfaZ4muqRcRr/1N2d3n+i3MJqpitorcOWGyMRo5TOpV20ZqRnAsI2vI2L3uR/PZLcYzb0VSRIVWzImQIL2CBto78q3+wE3wfMlk/5MvEDllL5GrQa9fAfhaAAAAA=",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "safa-construction-blue-unit": {
+    "w": 1280,
+    "h": 960,
     "widths": [
       360,
       540,
       720,
       1080,
-      1600
+      1280
     ],
-    "blur": "data:image/webp;base64,UklGRn4AAABXRUJQVlA4IHIAAAAQBACdASoUAA8APu1iqU2ppaQiMAgBMB2JQBdld+AagrbS9kTva9JhAAD+30R0amyzfZV/Om6AZNRNO937dJI348YY5X5aR5+oKsWxCeCa5lvIv6mWCmhWmpQ9ZVBjGKd/9Avpjt91NZgWBMuqMfIAAAA=",
+    "blur": "data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAAAwBACdASoUAA8APu1iqU2ppaOiMAgBMB2JZAC2yBjL8j/a+wcbagdJ0gAA/rAGkNJFG77p/HyPKFUvznCqqWo39PsKib0CjkqvMgGcPQYrtwV/c3mTfFolcts/l9cfyNL2WrEgb8NIYl4VF2MZeoGEyKoI45N7piuUTG9uVZOFLN0hjBRNE5oAAAA=",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "safa-construction-control-panel": {
+    "w": 1280,
+    "h": 960,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1280
+    ],
+    "blur": "data:image/webp;base64,UklGRqgAAABXRUJQVlA4IJwAAACwBACdASoUAA8APu1iqU2ppaOiMAgBMB2JbACdMoLUC7Uc/+AlyfXyf4kVGDCAAPYPTq3mXqXeSYSWw+FQm1jU3j06G4Aqs6nijFFUw4oeLmat+KwR273mrezQXx3Hu31LIw1EpwdT7TVM1N+yLqRIHom9DIMgcyot0g1+LKJqedzMzpcJ7xznMWGfj85dBY6XxlZw1tsrmDkAAAA=",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "safa-construction-fleet-yard": {
+    "w": 1280,
+    "h": 960,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1280
+    ],
+    "blur": "data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAADQAwCdASoUAA8APu1iqU2ppaOiMAgBMB2JQBdgAs2tW5blYIHIhsAA/q7qVzRJY61XVw8Ssl//ICgJXOJTi4mbt1ZZbdaxYxvtq3QAHVFuZfpVpKiJEPJ/9ItqX+nkN59iIW0jpUh0nHI9Z5gKtLubnC8N8jUumUvEwAAA",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "safa-construction-green-mast": {
+    "w": 960,
+    "h": 1280,
+    "widths": [
+      360,
+      540,
+      720,
+      960
+    ],
+    "blur": "data:image/webp;base64,UklGRtYAAABXRUJQVlA4IMoAAABQBQCdASoUABsAPu1mq0+ppSOiMBgIATAdiWgAwzWMxzwtexq7/F0AjvfOAAxY+4fuCwAA/rI4jFt46kAEW5yIuHrL6w6wJFb0BQq1RWODiZxBceKGsIubBd8uQaXfL3JFlExiNTBKHj3gkZTgJgpflRxmNjds2QXABskczVqLzV+EPDrmfNYrgdKGjvzbsTlhyxrhlG/srN1grYpCFFEniQ7KAdlLqLcKk93lJ0UWSht702oh/8eFLNQMY5EFNuD5zexKzKLvGAAA",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "safa-construction-green-unit": {
+    "w": 1280,
+    "h": 960,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1280
+    ],
+    "blur": "data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAADwAwCdASoUAA8APu1iqU2ppaOiMAgBMB2JZAC7ACEnwl3bFjoEfOvgAP6vAzv/Bkxyr+G6DpO4d2VOzyzHfuh4ex7wNquP9eE4NGfRaYmT+YDnWmT0VuIpRx8OoQ80A48C/LHPICFJblOq6iHToAAA",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "safa-construction-pump-controls": {
+    "w": 960,
+    "h": 1280,
+    "widths": [
+      360,
+      540,
+      720,
+      960
+    ],
+    "blur": "data:image/webp;base64,UklGRtgAAABXRUJQVlA4IMwAAACQBQCdASoUABsAPu1qrFEppaQiqAqpMB2JagCdMoR7KBIuEy3bsNU38j+RL726pQgxPbsMAAD32uthbxmdlUH3oc++sBbJQ9399QLMj9Hmq7UncvK2dMGP17X1lwbnqShXZqWDkOMX1CFy4L2D7K0yew/yyk+N6+0057sErboleQQnBUChAoum8BJV1UYAblganCLnuWA8nsNhkVLqUwVe99Ks/QrN3RGv301BPZu9YmZVOGfHh3mkuP8BAHL25MIne5u4An9ul3FAAAA=",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "safa-construction-pumps-depot": {
+    "w": 960,
+    "h": 1280,
+    "widths": [
+      360,
+      540,
+      720,
+      960
+    ],
+    "blur": "data:image/webp;base64,UklGRtIAAABXRUJQVlA4IMYAAADQBQCdASoUABsAPu1sq1EppaOiqAqpMB2JYgC7AywAyJi6Wk/SgTD6K8dGKbSPgwVt50Z/xK5AAP2/zcrbddztQ2RY6sMLtAy9gBTMOeEeyEJ0B5xFK6YpOnYahtW5OtKHxuNy96ewU3SZAr4ztLxG4xlVUwJAzsm7arecva2gRrogNN+US1FK+p/7p/Y4iV3IlWQ3gUPwBv7FJfRM9H0BtXNAKJMDTdBWGlcuFkDPf6ux4gWF+xYPa8nquB6Qo0dnQQARKAA=",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "safa-construction-pumps-pair": {
+    "w": 960,
+    "h": 1280,
+    "widths": [
+      360,
+      540,
+      720,
+      960
+    ],
+    "blur": "data:image/webp;base64,UklGRtoAAABXRUJQVlA4IM4AAADwBQCdASoUABsAPu1grFAppSQisBgIATAdiWwAnTlBUt4GgDnuOqQImZP9iZERcC2mjk9QdjJ+sADoLziAJ3bDGUCkijNQ0w+kNoDoIjx6OTdd//ShYwYl89P4oYwh4Jt/oMsd6TPVWfKbb86lkzJVOqd8COVj+edHRaVheMjEqBSOHhznDRaVd1nuSqnCPbbzEchJDd156HSVqMmZb29y5Fxl74tlIVq8d2vKDsyPmhUXu5hCKz+wBCYNJYffwMo8olRXWYR4pmA9D75QAA==",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "safa-construction-spray-pumps": {
+    "w": 1280,
+    "h": 960,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1280
+    ],
+    "blur": "data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAABwBACdASoUAA8APu1iqU2ppaOiMAgBMB2JbACdMoR3A8ABIkOY4guTF6LqsAD+2fHoBDFUMruSPVJLjdXDZcthuTEI50LiaHPJfa9PyV/swokEIdoGEFehwWKViiRT3PKb9h2BADvIhL1DzWTUwZOsQEN8Bw+riXY+Vf93UnkmieTyhklSWP90h/PwcUBZ7pa6hHpgAAA=",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "safa-designs-chambray-tunic": {
+    "w": 720,
+    "h": 1280,
+    "widths": [
+      360,
+      540,
+      720
+    ],
+    "blur": "data:image/webp;base64,UklGRgIBAABXRUJQVlA4IPYAAABwBgCdASoUACQAPu1ip02ppaOiKq35MB2JZgCxHv9J5Bo09sWTxc4EQxG8zLK7kA0dJNYFDXJmjqiuuAAA/vA2PCxGnuPyUlIyXaHvehhLwtAB2NjwgQalX7eDRGo73tzX5dQQrwZVK2JWlSwJtJmY+heBGT1GbbNLaW61fOleol2TVewn3e10Vp7AnXpuY+2MLRN73jMx/GwO/9JN8N3C+8btbzNf/TiJNXnLHCldGifMc20cjg54fOjqKxHI4V0uyjulLka+I1viubgQELKDj+0r3eun82P8dz0gNGVA8bf0GVW+mmw//EZoascWyoVI7GvuAAA=",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "safa-designs-maroon-jacket": {
+    "w": 720,
+    "h": 1280,
+    "widths": [
+      360,
+      540,
+      720
+    ],
+    "blur": "data:image/webp;base64,UklGRvgAAABXRUJQVlA4IOwAAAAQBgCdASoUACQAPu1cqE2ppKOiNVQMATAdiWoAp0dyQJ67ZUOihRQIjZc5SpnwHO6fNaKjeL8RhgAA/Sp6MpLvcBneJGYLEKLgOS1Mm3vqRqTYHwFXI/Q260iEGL1gGGdTP4AGA9HcSC4vBu98YpJ7pUN4znVJ/Kh+1PFudrEAhF1xZQTw6XfLenPzWZ5b2KonockR1F3B7mrVkiB0DNy2sLWVxbjxZZ4yGls+maCAFtz3CIEumKod2xXH5huNwu8NFfv6VoV3cCttCl98MWOFVViw8s1RnK96bz5op99bc8wM06tDiOLat4jgAA==",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "safa-designs-navy-tunic": {
+    "w": 720,
+    "h": 1280,
+    "widths": [
+      360,
+      540,
+      720
+    ],
+    "blur": "data:image/webp;base64,UklGRggBAABXRUJQVlA4IPwAAACwBgCdASoUACQAPu1grk+ppSQiKrgMATAdiWYAnTLHRqI1oLiMZALflhq0uiXbpb/eW+ARlSnVWCKWqJ8rwAD+8ommfkNSlk4vC6+PkWS8DsYJmL/H94Zyybn3zQILY+XQAmzhxpOS8EUQ58GtQ90vUKY7v5lejz3f3WbkBDZ4hlfCkuT6NQ0hkOHtUpazht22XcM0RImoLEP6un8D4tEFofh0pyfkcDDhRQFrmNUz2UQZWZD2rTKiX51vdvSJB3yAEL3jcAw3ybsL+n2VceVWY5mmALgqlacvaX7Bf8ZbswBdiwaby+IYFFZJyHBR/DMGm/pyNt0fU9++AAA=",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "safa-designs-print-panel-shirt": {
+    "w": 720,
+    "h": 1280,
+    "widths": [
+      360,
+      540,
+      720
+    ],
+    "blur": "data:image/webp;base64,UklGRvAAAABXRUJQVlA4IOQAAADQBQCdASoUACQAPu1oqE8ppiOiKqwBMB2JaAC+e0+B+CCZ3bZ1JoYA9byptR6Y31mdo4bt8tjAAP5H5R2TryTboKFScPaxGH7ROli0cYHA/mQgEBqc+76vFUZC7nMhG/Dz8e/0qmc9EmtuMTHQe8mmt/3S6fPwvspFxdXT32mzUqw1hz9025IWSK82yAD3rgpMIZ1wMmN0GROT3zvpEYUD0+7aB1GnL08XFA9t+XEUiEaoAg+EK/KYE9Vy/z/FZeWegQ0xdRAXcasfY5UuMA4jCrr9IOwWsspUIGJgDwnsOE74AAA=",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "safa-designs-striped-shirt": {
+    "w": 720,
+    "h": 1280,
+    "widths": [
+      360,
+      540,
+      720
+    ],
+    "blur": "data:image/webp;base64,UklGRioBAABXRUJQVlA4IB4BAACwBgCdASoUACQAPu1srVCppiQiqqgBMB2JbACdMxvH3BtV2nL28VJ6mQFfS/CDP02ovtj7ZfPIjwgk7vhiAAD+6NV+Df53j69jrIv/dZ11OPKCub8aV3nBOIvy3aT8HKtAv3tNwMYG9aLuYOFkG3S8Zk/ISUEuDcHIgYlPSus6iQnX1TEl+En9FxTaW32pBCZ3s//inbuxC2zxq0ngWMvulDU0YGAWn8c7dw3CQsKFP9Id9OC7cWQ5gAHiqvz/Kb371cQ+qL/tsalfRzIyHwS4TVQ5sNbm7YbCdlemygM56W+tsUGVQQD0Hedb6v1/EGBShzvj+e4/UweHUTElKPb8cP+yISK8+n8BbMwyHtkrE0zRsaatUdA2riBDNAAA",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "safa-designs-white-tunic": {
+    "w": 720,
+    "h": 1280,
+    "widths": [
+      360,
+      540,
+      720
+    ],
+    "blur": "data:image/webp;base64,UklGRggBAABXRUJQVlA4IPwAAADwBQCdASoUACQAPuVcqU2pJSQiMBqtUSAciWoAnTNVwiqdZ4fYwFHpjl9NoYaSGyaWdWsS2fuAAAD+7CdXaFtx97b0SKWQAmp4AfB3V9dmUgNHOq+s8HHvWP3E25ATO1Tx56kqyrrN9GfHU4+DMYNldw0q+zbo79okRzUzNLrtyLp2rsv6Wy8OLB1fFw3cebOvMTQpLC9cw/bpluOCMaCO5NgYariPIORTG3FflDMo5tfUUfz9ni66hPqxHpuHukE5qQzFyvkkpFfqDOMZxCZZ0P55RuKMejcrh58gha/zl5Bpa23U7de8oQr+iTbsigL8k33bYzJK7vAwAAA=",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "safa-video-designs-atelier": {
+    "w": 576,
+    "h": 856,
+    "widths": [
+      360,
+      540,
+      576
+    ],
+    "blur": "data:image/webp;base64,UklGRuoAAABXRUJQVlA4IN4AAACQBQCdASoUAB4APu1sqlEppaOiqAqpMB2JZQDKBazW1xocG5S7VYjl8zExtgzMlJLMFVq6AAD+06dANaEmYg7RoCt2YkumyQhcsU6RuqUxevjaZK2xY6i2g8AJQVKLcu83o3uYN56gsD+U+aYQvWIbLEHjWyQL7gMsSxFJ7svCo5YELRbf7ELeqvMRPcsopNiFklUbEyTeRjMZx5VKYVGXQeFnGrq6QBsOFsgTuaQq2E9hx0IaVgXV6xGgiFStfIKfbGSSLS7dkWs8APpdjBOaPc3EniD+2anAgd6tgAA=",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "safa-video-fleet": {
+    "w": 1280,
+    "h": 720,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1280
+    ],
+    "blur": "data:image/webp;base64,UklGRnYAAABXRUJQVlA4IGoAAADwAwCdASoUAAsAPu1iqU2ppaOiMAgBMB2JYgCdACF5zVpdbPrZjh4AAP6RKrYTFBWW4fSEFrtajozJ6NsIQSq6qMgrF6HqTdOeyhylCB/jQ17Zm3vkiRv+vGQFhc0XZ921/VRm3BVh8AAA",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "safa-video-mast-blue": {
+    "w": 720,
+    "h": 1280,
+    "widths": [
+      360,
+      540,
+      720
+    ],
+    "blur": "data:image/webp;base64,UklGRt4AAABXRUJQVlA4INIAAACQBgCdASoUACQAPuFaqE2opSQiNVgMARAcCWYAxrhFm/2iiz510XoBcOH2mxkbmlWptJ1PnomoMXIy14MAAP7Fz4S62A98xYk1fkGqmfwdpXABMrKZxNw+Lh6vYvk/WJY9gXiHKBz9qNhHKeMcejAs6kaB2vjjY8t9ihLmYuPPT95x8/ihuvvYzB4/OMwxaGI9s9ipHJqtq2A2IOUNosp3NfjFhZtcFoDM9SbjD6b9oKOa2FQkcEekyNklVCrvb0VyP5eqxM+7f7VY9PRw7s2LAAA=",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "safa-video-mast-green": {
+    "w": 720,
+    "h": 1280,
+    "widths": [
+      360,
+      540,
+      720
+    ],
+    "blur": "data:image/webp;base64,UklGRvgAAABXRUJQVlA4IOwAAABQBgCdASoUACQAPu1ur1IppiQiqrgIATAdiWMAxnwc6AtwVsAs2+ZajxJSe58Qcnc4sWbwcyPjj6I7QAD+yJdp98g+35LjeCZkmgY7krhhtP5oYms3RthQIq9reUVMqDtiLvPTTee2/yJaTKVml2rxJJQXS6I+m5mFfrKSlNNris5gculmbxqQqAKQTJcE6QikBDHQskHeQisp54pE9ZwFvWYTpVpwLzjrHeKMsK8KaYapjhkPQgdWTSuNsWDD9BygHdHq2WYZ0KkfVPd9im19SmToYYu7MIVeIb8okM127/chRB6TdxIKGKWgAA==",
     "formats": [
       "avif",
       "webp",

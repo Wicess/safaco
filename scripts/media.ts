@@ -29,7 +29,9 @@ for (const file of files) {
   const w0 = meta.width ?? 0;
   const h0 = meta.height ?? 0;
   const widths = WIDTHS.filter((w) => w <= w0);
-  if (!widths.length) widths.push(w0);
+  // Keep the source's own width too (e.g. 960/1280 px phone photos) so they
+  // stay sharp on high-density screens instead of capping at the step below.
+  if (!widths.length || (w0 > widths.at(-1)! && w0 < 1600)) widths.push(w0);
 
   for (const w of widths) {
     const base = input.clone().resize({ width: w, withoutEnlargement: true });

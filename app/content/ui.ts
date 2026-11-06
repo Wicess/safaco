@@ -8,6 +8,7 @@ export const UI = {
   home: { en: "Home", fr: "Accueil" },
   divisions: { en: "Our divisions", fr: "Nos divisions" },
   about: { en: "About", fr: "À propos" },
+  gallery: { en: "Gallery", fr: "Galerie" },
   faq: { en: "Questions", fr: "Questions" },
   contact: { en: "Contact", fr: "Contact" },
   whatsapp: { en: "WhatsApp", fr: "WhatsApp" },

@@ -119,8 +119,10 @@ export const DIVISIONS: Record<DivisionKey, Division> = {
       fr: "Tenues homme sur mesure, machines à coudre spécialisées et centre de formation agréé MINEFOP.",
     },
     short: { en: "Wear", fr: "S'habiller" },
-    whatsapp: "237600000003", // CLIENT_TODO
-    phone: "+237 6 00 00 00 03", // CLIENT_TODO
+    // From SAFA Designs' own flyer (2026-10-30): "670986643 / 695356742".
+    // CLIENT_TODO: confirm 670 98 66 43 is the WhatsApp line.
+    whatsapp: "237670986643",
+    phone: "+237 6 70 98 66 43",
     email: EMAIL,
     address: {
       line: { en: "Carrefour MEEC, Yaoundé VI (exact address to be confirmed)", fr: "Carrefour MEEC, Yaoundé VI (adresse exacte à confirmer)" }, // CLIENT_TODO

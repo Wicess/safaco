@@ -1,10 +1,14 @@
 import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { useState } from "react";
 import { Link } from "react-router";
+import { GalleryTile, Lightbox, useLightbox } from "~/components/sections/Gallery";
 import { CtaBand } from "~/components/sections/CtaBand";
 import { Eyebrow, FaqList, SectionHead, TraceLine } from "~/components/sections/primitives";
 import { Button } from "~/components/ui/button";
 import { Picture } from "~/components/ui/Picture";
-import { IMG, PLACEHOLDER_MEDIA } from "~/content/media-map";
+import { AmbientVideo } from "~/components/ui/Video";
+import { GALLERY } from "~/content/gallery";
+import { IMG } from "~/content/media-map";
 import { DIVISION_LIST, DIVISIONS } from "~/content/site";
 import { useLang } from "~/lib/hooks";
 import { href, type Lang, type PageKey, type T } from "~/lib/i18n";
@@ -29,11 +33,16 @@ export const meta = pageMeta({
   jsonLd: (lang) => [faqPage(lang, GROUP_FAQ)],
 });
 
-const HOUSES: { key: "construction" | "apartments" | "designs"; img: string; alt: T; offers: { label: T; page?: PageKey }[] }[] = [
+type HouseKey = "construction" | "apartments" | "designs";
+
+/** Real SAFA photos for each house: a lead image and a detail inset. */
+const HOUSES: { key: HouseKey; img: string; alt: T; inset: string; insetAlt: T; offers: { label: T; page?: PageKey }[] }[] = [
   {
     key: "construction",
-    img: IMG.construction,
-    alt: { en: "Mast platform against a building façade", fr: "Plateforme sur mât contre une façade" },
+    img: IMG.greenMast,
+    alt: { en: "A SAFA automatic plastering machine with its mast raised against a wall", fr: "Une machine à crépir automatique SAFA, mât déployé contre un mur" },
+    inset: IMG.controlPanel,
+    insetAlt: { en: "The machine's touch-screen control panel", fr: "Le pupitre à écran tactile de la machine" },
     offers: [
       { label: { en: "Automatic plastering machines", fr: "Machines à crépir automatiques" }, page: "plastering" },
       { label: { en: "Mast lifts & scaffold platforms", fr: "Monte-charges & plateformes" }, page: "scaffold" },
@@ -42,18 +51,22 @@ const HOUSES: { key: "construction" | "apartments" | "designs"; img: string; alt
   },
   {
     key: "apartments",
-    img: IMG.apartments,
-    alt: { en: "A bright, furnished living room", fr: "Un salon meublé et lumineux" },
+    img: IMG.building,
+    alt: { en: "The SAFA Apartments building in Meyo, with arched balconies on three floors", fr: "L'immeuble SAFA Apartments à Meyo, balcons à arcades sur trois niveaux" },
+    inset: IMG.bedroomTeal,
+    insetAlt: { en: "A bedroom with fresh linen", fr: "Une chambre au linge frais" },
     offers: [
-      { label: { en: "Furnished apartments", fr: "Appartements meublés" } },
+      { label: { en: "Furnished guest apartments", fr: "Appartements meublés" } },
       { label: { en: "Short & extended stays", fr: "Courts & longs séjours" } },
       { label: { en: "Meyo, Yaoundé IV", fr: "Meyo, Yaoundé IV" } },
     ],
   },
   {
     key: "designs",
-    img: IMG.designs,
-    alt: { en: "A tailor's hands at work on cloth", fr: "Les mains d'un tailleur au travail sur un tissu" },
+    img: IMG.maroonJacket,
+    alt: { en: "A maroon four-pocket jacket made at the SAFA Designs atelier", fr: "Une veste bordeaux à quatre poches réalisée à l'atelier SAFA Designs" },
+    inset: IMG.printShirt,
+    insetAlt: { en: "A print-panel shirt in the showroom", fr: "Une chemise à empiècement imprimé au showroom" },
     offers: [
       { label: { en: "Made-to-measure menswear", fr: "Tenues homme sur mesure" } },
       { label: { en: "Specialised machines", fr: "Machines spécialisées" } },
@@ -71,6 +84,7 @@ export default function Home() {
       <Houses lang={lang} />
       <PlasteringSpotlight lang={lang} />
       <Principles lang={lang} />
+      <SeenOnSite lang={lang} />
       <section className="py-20 md:py-28">
         <div className="container-x grid gap-12 lg:grid-cols-[1fr_1.6fr]">
           <SectionHead
@@ -99,58 +113,89 @@ export default function Home() {
 }
 
 function Hero({ lang }: { lang: Lang }) {
+  // Which house the visitor is pointing at (desktop): swaps the photo panel.
+  const [active, setActive] = useState(0);
   return (
     <section className="on-dark relative isolate overflow-hidden bg-navy-950 text-ivory">
-      <Picture
-        name={IMG.heroTexture}
-        alt=""
-        priority
-        sizes="50vw"
-        className="absolute inset-0 -z-10 opacity-[0.22] mix-blend-luminosity"
-      />
-      <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(120%_80%_at_80%_0%,transparent,var(--color-navy-950)_70%)]" />
+      <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(90%_70%_at_15%_0%,var(--color-navy-800),var(--color-navy-950)_70%)]" />
 
-      <div className="container-x flex min-h-[calc(100svh-var(--bar-h))] flex-col pb-10 lg:min-h-[100svh] pt-[calc(var(--header-h)+2.5rem)] md:pb-16 md:pt-[calc(var(--header-h)+4rem)]">
-        <p className="eyebrow hero-in text-gold-300" style={{ ["--d" as string]: "0.05s" }}>
-          SAFA &amp; Co SARL · Yaoundé, {lang === "fr" ? "Cameroun" : "Cameroon"}
-        </p>
-        <h1 className="hero-in mt-6 max-w-[14ch] text-display-xl text-ivory" style={{ ["--d" as string]: "0.1s" }}>
-          {lang === "fr" ? (
-            <>
-              Tout commence par <em className="font-display italic text-gold-300">un&nbsp;trait.</em>
-            </>
-          ) : (
-            <>
-              Everything starts with <em className="font-display italic text-gold-300">a&nbsp;line.</em>
-            </>
-          )}
-        </h1>
-        <p className="hero-in mt-6 max-w-md text-lede text-ivory/70" style={{ ["--d" as string]: "0.2s" }}>
-          {lang === "fr"
-            ? "Le maçon trace sa ligne avant de crépir, le tailleur avant de couper. Trois maisons, une même exigence de précision."
-            : "The builder snaps a chalk line before plastering; the tailor, before cutting. Three houses, one standard of precision."}
-        </p>
+      <div className="container-x grid min-h-[calc(100svh-var(--bar-h))] gap-12 pb-10 pt-[calc(var(--header-h)+2.5rem)] md:pb-16 md:pt-[calc(var(--header-h)+4rem)] lg:min-h-[100svh] lg:grid-cols-12 lg:gap-16">
+        <div className="flex flex-col lg:col-span-7">
+          <p className="eyebrow hero-in text-gold-300" style={{ ["--d" as string]: "0.05s" }}>
+            SAFA &amp; Co SARL · Yaoundé, {lang === "fr" ? "Cameroun" : "Cameroon"}
+          </p>
+          <h1 className="hero-in mt-6 max-w-[13ch] text-display-xl text-ivory" style={{ ["--d" as string]: "0.1s" }}>
+            {lang === "fr" ? (
+              <>
+                Tout commence par <em className="font-display italic text-gold-300">un&nbsp;trait.</em>
+              </>
+            ) : (
+              <>
+                Everything starts with <em className="font-display italic text-gold-300">a&nbsp;line.</em>
+              </>
+            )}
+          </h1>
+          <p className="hero-in mt-6 max-w-md text-lede text-ivory/70" style={{ ["--d" as string]: "0.2s" }}>
+            {lang === "fr"
+              ? "Le maçon trace sa ligne avant de crépir, le tailleur avant de couper. Trois maisons, une même exigence de précision."
+              : "The builder snaps a chalk line before plastering; the tailor, before cutting. Three houses, one standard of precision."}
+          </p>
 
-        {/* The line that splits into three */}
-        <nav aria-label={lang === "fr" ? "Nos trois maisons" : "Our three houses"} className="branch mt-auto pt-12">
-          <span aria-hidden className="branch-stem" />
-          <ul className="space-y-1">
-            {DIVISION_LIST.map((d, i) => (
-              <li key={d.key} className="branch-row" style={{ ["--i" as string]: i }}>
-                <Link to={href(d.page, lang)} viewTransition className="group flex min-h-[4.25rem] items-center justify-between gap-4 border-b border-ivory/10 md:min-h-24">
-                  <span className="flex items-baseline gap-4">
-                    <span className="tabular text-[0.6875rem] text-ivory/60">0{i + 1}</span>
-                    <span className="font-display text-[2.125rem] leading-none md:text-[3.25rem]">
-                      {d.name.replace("SAFA ", "")}
-                    </span>
-                    <span className="hidden font-display text-xl italic text-gold-300/80 sm:inline">{d.short[lang]}</span>
-                  </span>
-                  <ArrowUpRight className="size-5 text-gold-300 transition-transform duration-500 group-hover:-translate-y-1 group-hover:translate-x-1" aria-hidden />
-                </Link>
-              </li>
+          {/* The line that splits into three */}
+          <nav aria-label={lang === "fr" ? "Nos trois maisons" : "Our three houses"} className="branch mt-auto pt-12">
+            <span aria-hidden className="branch-stem" />
+            <ul className="space-y-1">
+              {HOUSES.map((h, i) => {
+                const d = DIVISIONS[h.key];
+                return (
+                  <li key={d.key} className="branch-row" style={{ ["--i" as string]: i }}>
+                    <Link
+                      to={href(d.page, lang)}
+                      viewTransition
+                      onMouseEnter={() => setActive(i)}
+                      onFocus={() => setActive(i)}
+                      className="group flex min-h-[4.75rem] items-center justify-between gap-4 border-b border-ivory/10 md:min-h-24"
+                    >
+                      <span className="flex items-baseline gap-4">
+                        <span className="tabular text-[0.6875rem] text-ivory/60">0{i + 1}</span>
+                        <span className={`font-display text-[2.125rem] leading-none transition-colors duration-500 md:text-[3.25rem] ${active === i ? "lg:text-ivory" : "lg:text-ivory/55"}`}>
+                          {d.name.replace("SAFA ", "")}
+                        </span>
+                        <span className="hidden font-display text-xl italic text-gold-300/80 sm:inline">{d.short[lang]}</span>
+                      </span>
+                      <span className="flex items-center gap-4">
+                        {/* Phones: the photo travels with the line */}
+                        <Picture name={h.img} alt="" sizes="56px" className="size-14 shrink-0 lg:hidden" ratio="1/1" />
+                        <ArrowUpRight className="size-5 shrink-0 text-gold-300 transition-transform duration-500 group-hover:-translate-y-1 group-hover:translate-x-1" aria-hidden />
+                      </span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+        </div>
+
+        {/* Desktop: one photo per house, cross-faded by the line above */}
+        <div aria-hidden className="hero-in relative hidden lg:col-span-5 lg:block" style={{ ["--d" as string]: "0.3s" }}>
+          <div className="relative h-full min-h-[34rem] overflow-hidden">
+            {HOUSES.map((h, i) => (
+              <Picture
+                key={h.key}
+                name={h.img}
+                alt=""
+                priority={i === 0}
+                sizes="40vw"
+                className={`grain absolute inset-0 h-full transition-[opacity,transform] duration-[1.1s] ease-(--ease-out-quart) ${active === i ? "opacity-100" : "scale-[1.03] opacity-0"}`}
+              />
             ))}
-          </ul>
-        </nav>
+            <span className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-navy-950/80 to-transparent" />
+            <p className="absolute bottom-5 left-5 right-5 flex items-center gap-3 text-xs text-ivory/80">
+              <span className="h-px w-6 bg-gold-300" />
+              {DIVISIONS[HOUSES[active]!.key].address.district}
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -190,19 +235,23 @@ function Houses({ lang }: { lang: Lang }) {
           const d = DIVISIONS[h.key];
           const flip = i % 2 === 1;
           return (
-            <article key={h.key} className="grid gap-8 md:grid-cols-12 md:items-end md:gap-12" style={{ ["--accent" as string]: d.accentVar }}>
+            <article key={h.key} className="grid gap-8 md:grid-cols-12 md:items-center md:gap-12" style={{ ["--accent" as string]: d.accentVar }}>
               <Link
                 to={href(d.page, lang)}
                 tabIndex={-1}
                 aria-hidden
-                className={`md:col-span-7 ${flip ? "md:order-2 md:col-start-6" : ""}`}
+                className={`group relative block md:col-span-6 ${flip ? "md:order-2 md:col-start-7" : "md:col-start-1"} ${flip ? "md:pl-10" : "md:pr-10"}`}
               >
-                <Picture name={h.img} alt={h.alt[lang]} sizes="(min-width: 48rem) 58vw, 100vw" className="grain aspect-[4/5] md:aspect-[5/4]" imgClassName="transition-transform duration-[1.6s] ease-(--ease-out-quart) hover:scale-[1.03]" />
-                {PLACEHOLDER_MEDIA && <span className="mt-2 block text-[0.6875rem] text-muted">{lang === "fr" ? "Photo d'illustration" : "Illustrative photo"}</span>}
+                <Picture name={h.img} alt={h.alt[lang]} sizes="(min-width: 48rem) 45vw, 100vw" className="grain aspect-[4/5]" imgClassName="transition-transform duration-[1.6s] ease-(--ease-out-quart) group-hover:scale-[1.03]" />
+                <Picture
+                  name={h.inset}
+                  alt={h.insetAlt[lang]}
+                  sizes="(min-width: 48rem) 16vw, 36vw"
+                  className={`absolute -bottom-6 aspect-[3/4] w-[36%] border-[6px] border-ivory shadow-[0_8px_8px_-4px_rgb(12_21_28/0.25)] md:-bottom-10 md:w-[38%] ${flip ? "-left-1 md:left-0" : "-right-1 md:right-0"}`}
+                />
               </Link>
-              <div className={`md:col-span-5 ${flip ? "md:order-1 md:col-start-1 md:row-start-1" : ""}`} data-reveal>
+              <div className={`mt-6 md:col-span-5 md:mt-0 ${flip ? "md:order-1 md:col-start-1 md:row-start-1" : "md:col-start-8"}`} data-reveal>
                 <p className="eyebrow flex items-center gap-3" style={{ color: "var(--accent)" }}>
-                  <span className="tabular text-muted">0{i + 2}</span>
                   <span aria-hidden className="h-px w-6 bg-current" />
                   {d.name}
                 </p>
@@ -240,19 +289,17 @@ function PlasteringSpotlight({ lang }: { lang: Lang }) {
   return (
     <section className="on-dark overflow-hidden bg-navy-900 text-ivory" style={{ ["--accent" as string]: "var(--color-gold)" }}>
       <div className="container-x grid gap-12 py-20 md:py-28 lg:grid-cols-2 lg:items-center">
-        <div
-          className="render-reveal grain aspect-[4/5] md:aspect-[4/3]"
-          data-trace
-          data-scroll
-        >
-          <Picture name={IMG.wallRaw} alt="" className="render-raw h-full" sizes="(min-width: 64rem) 45vw, 100vw" />
-          <Picture
-            name={IMG.wallSmooth}
-            alt={lang === "fr" ? "Un mur fraîchement crépi, lisse et régulier" : "A freshly rendered wall, smooth and even"}
-            className="render-smooth h-full"
-            sizes="(min-width: 64rem) 45vw, 100vw"
+        <div className="relative mx-auto w-full max-w-md lg:max-w-none">
+          <AmbientVideo
+            lang={lang}
+            video="mastBlue"
+            label={lang === "fr" ? "Un opérateur SAFA déploie le mât d'une machine à crépir automatique" : "A SAFA operator raising the mast of an automatic plastering machine"}
+            className="grain aspect-[4/5]"
           />
-          <span aria-hidden className="render-blade" />
+          <p className="mt-3 flex items-center gap-3 text-xs text-ivory/60">
+            <span aria-hidden className="h-px w-6 bg-gold-300" />
+            {lang === "fr" ? "Notre machine, filmée au dépôt" : "Our own machine, filmed at the yard"}
+          </p>
         </div>
         <div>
           <SectionHead
@@ -324,6 +371,51 @@ function Principles({ lang }: { lang: Lang }) {
           ))}
         </ul>
       </div>
+    </section>
+  );
+}
+
+/** A mixed mosaic of SAFA's own media, opening the shared lightbox. */
+const SEEN = ["building", "mast-blue", "maroon-jacket", "lounge-light", "fleet-yard", "print-shirt", "bedroom-teal", "spray-pumps", "navy-tunic", "kitchen-bar"];
+
+function SeenOnSite({ lang }: { lang: Lang }) {
+  const items = SEEN.map((id) => GALLERY.find((g) => g.id === id)!).filter(Boolean);
+  const lb = useLightbox(items);
+  return (
+    <section aria-labelledby="seen-title" className="bg-ivory-2 py-20 md:py-28">
+      <div className="container-x">
+        <div className="flex flex-wrap items-end justify-between gap-8">
+          <SectionHead
+            eyebrow={lang === "fr" ? "Galerie" : "Gallery"}
+            title={
+              <span id="seen-title">
+                {lang === "fr" ? "Nos machines, nos murs, nos coutures." : "Our machines, our walls, our seams."}
+              </span>
+            }
+            lede={lang === "fr" ? "Aucune image de banque ici : tout a été photographié chez SAFA." : "No stock imagery here: all of it photographed at SAFA."}
+          />
+          <Button asChild variant="outline">
+            <Link to={href("gallery", lang)} viewTransition>
+              {lang === "fr" ? "Toute la galerie" : "The full gallery"} <ArrowRight aria-hidden />
+            </Link>
+          </Button>
+        </div>
+        <ul className="mt-12 grid grid-flow-dense grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
+          {items.map((it, i) => (
+            <li key={it.id} className={i === 0 || i === 5 ? "row-span-2" : undefined} data-reveal style={{ transitionDelay: `${(i % 4) * 70}ms` }}>
+              <GalleryTile
+                item={it}
+                lang={lang}
+                onOpen={() => lb.open(i)}
+                className="h-full"
+                pictureClass={i === 0 || i === 5 ? "aspect-[3/4] h-full" : "aspect-square"}
+                sizes="(min-width: 48rem) 24vw, 48vw"
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
+      <Lightbox lang={lang} items={items} index={lb.index} setIndex={lb.setIndex} close={lb.close} />
     </section>
   );
 }
