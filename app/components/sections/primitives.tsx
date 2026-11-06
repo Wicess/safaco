@@ -53,7 +53,7 @@ export function Breadcrumbs({ lang, trail }: { lang: Lang; trail: { key: PageKey
     <nav aria-label="Breadcrumb" className="text-xs text-muted">
       <ol className="flex flex-wrap items-center gap-1.5">
         <li>
-          <Link to={href("home", lang)} className="hover:underline">
+          <Link to={href("home", lang)} className="inline-flex min-h-11 items-center hover:underline">
             {UI.breadcrumbHome[lang]}
           </Link>
         </li>
@@ -61,9 +61,9 @@ export function Breadcrumbs({ lang, trail }: { lang: Lang; trail: { key: PageKey
           <li key={c.key} className="flex items-center gap-1.5">
             <ChevronRight className="size-3 opacity-50" aria-hidden />
             {i === trail.length - 1 ? (
-              <span aria-current="page">{c.name[lang]}</span>
+              <span aria-current="page" className="inline-flex min-h-11 items-center">{c.name[lang]}</span>
             ) : (
-              <Link to={href(c.key, lang)} className="hover:underline">
+              <Link to={href(c.key, lang)} className="inline-flex min-h-11 items-center hover:underline">
                 {c.name[lang]}
               </Link>
             )}

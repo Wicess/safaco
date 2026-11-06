@@ -41,19 +41,47 @@ export function Header({ lang, tone = "light" }: { lang: Lang; tone?: "light" | 
   const { pathname } = useLocation();
   const menuRef = useRef<HTMLDetailsElement>(null);
   const [scrolled, setScrolled] = useState(false);
+  // backdrop-filter and transform make the header the containing block for
+  // fixed children, which would trap the full-screen menu inside the bar.
+  // While the menu is open the header drops both.
+  const [menuOpen, setMenuOpen] = useState(false);
 
   // Close the mobile menu after navigating.
   useEffect(() => {
     if (menuRef.current) menuRef.current.open = false;
+    setMenuOpen(false);
     document.documentElement.style.overflow = "";
   }, [pathname]);
 
+  // Hide on scroll down, reveal on scroll up: more room for content on
+  // phones, the menu is one small flick away. rAF-throttled, passive.
+  const [hidden, setHidden] = useState(false);
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    let last = window.scrollY;
+    let frame = 0;
+    const onScroll = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        const y = window.scrollY;
+        setScrolled(y > 24);
+        const menuOpen = menuRef.current?.open;
+        if (menuOpen || y < 160) setHidden(false);
+        else if (y > last + 6) setHidden(true);
+        else if (y < last - 6) setHidden(false);
+        last = y;
+      });
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(frame);
+    };
   }, []);
+  useEffect(() => {
+    document.documentElement.toggleAttribute("data-header-hidden", hidden);
+  }, [hidden]);
 
   const dark = tone === "dark" && !scrolled;
   const main: { key: PageKey; label: string }[] = [
@@ -67,13 +95,18 @@ export function Header({ lang, tone = "light" }: { lang: Lang; tone?: "light" | 
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-40 transition-[background-color,box-shadow,color] duration-500",
-        dark ? "on-dark bg-transparent text-ivory" : "bg-ivory/92 text-ink shadow-[0_1px_0_rgb(20_32_42/0.08)] backdrop-blur-md",
+        "fixed inset-x-0 top-0 z-40 transition-[background-color,box-shadow,color,translate] duration-500 ease-(--ease-out-quart)",
+        hidden && !menuOpen && "-translate-y-full",
+        menuOpen
+          ? "on-dark bg-navy-950 text-ivory"
+          : dark
+            ? "on-dark bg-transparent text-ivory"
+            : "bg-ivory/92 text-ink shadow-[0_1px_0_rgb(20_32_42/0.08)] backdrop-blur-md",
       )}
     >
       <div className="container-x flex h-(--header-h) items-center justify-between gap-6">
-        <Link to={href("home", lang)} aria-label={`SAFA & Co — ${UI.home[lang]}`} className="-ml-1 p-1">
-          <Logo tone={dark ? "light" : "dark"} />
+        <Link to={href("home", lang)} aria-label={`SAFA & Co — ${UI.home[lang]}`} className="relative z-50 -ml-1 p-1">
+          <Logo tone={dark || menuOpen ? "light" : "dark"} />
         </Link>
 
         {/* Desktop navigation */}
@@ -91,7 +124,7 @@ export function Header({ lang, tone = "light" }: { lang: Lang; tone?: "light" | 
         </nav>
 
         <div className="flex items-center gap-2">
-          <LangSwitch lang={lang} className={cn("hidden sm:inline-flex", dark ? "text-ivory" : "text-ink")} />
+          <LangSwitch lang={lang} className={cn("hidden sm:inline-flex", dark || menuOpen ? "text-ivory" : "text-ink")} />
           <Link
             to={href("contact", lang)}
             className={cn(
@@ -107,7 +140,9 @@ export function Header({ lang, tone = "light" }: { lang: Lang; tone?: "light" | 
             ref={menuRef}
             className="group lg:hidden"
             onToggle={(e) => {
-              document.documentElement.style.overflow = (e.currentTarget as HTMLDetailsElement).open ? "hidden" : "";
+              const open = (e.currentTarget as HTMLDetailsElement).open;
+              setMenuOpen(open);
+              document.documentElement.style.overflow = open ? "hidden" : "";
             }}
           >
             <summary
@@ -136,7 +171,7 @@ function MobileMenu({ lang }: { lang: Lang }) {
     { key: "designs", label: NAV.designs.label[lang], children: NAV.designs.children },
   ];
   return (
-    <div className="on-dark fixed inset-0 z-40 overflow-y-auto bg-navy-950 text-ivory">
+    <div className="mobile-menu on-dark fixed inset-0 z-40 overflow-y-auto bg-navy-950 text-ivory">
       <div className="container-x flex min-h-dvh flex-col pb-10 pt-[calc(var(--header-h)+2rem)]">
         <p className="eyebrow text-gold-300">{UI.divisions[lang]}</p>
         <ul className="mt-6 divide-y divide-ivory/10 border-y border-ivory/10">

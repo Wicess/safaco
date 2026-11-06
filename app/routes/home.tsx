@@ -149,16 +149,16 @@ function Hero({ lang }: { lang: Lang }) {
                       onFocus={() => setActive(i)}
                       className="group flex min-h-[4.75rem] items-center justify-between gap-4 border-b border-ivory/10 md:min-h-24"
                     >
-                      <span className="flex items-baseline gap-4">
+                      <span className="flex min-w-0 items-baseline gap-3 sm:gap-4">
                         <span className="tabular text-[0.6875rem] text-ivory/60">0{i + 1}</span>
-                        <span className={`font-display text-[2.125rem] leading-none transition-colors duration-500 md:text-[3.25rem] ${active === i ? "lg:text-ivory" : "lg:text-ivory/55"}`}>
+                        <span className={`font-display text-[clamp(1.75rem,8.4vw,2.125rem)] leading-none transition-colors duration-500 md:text-[3.25rem] ${active === i ? "lg:text-ivory" : "lg:text-ivory/55"}`}>
                           {d.name.replace("SAFA ", "")}
                         </span>
                         <span className="hidden font-display text-xl italic text-gold-300/80 sm:inline">{d.short[lang]}</span>
                       </span>
-                      <span className="flex items-center gap-4">
+                      <span className="flex shrink-0 items-center gap-3 sm:gap-4">
                         {/* Phones: the photo travels with the line */}
-                        <Picture name={h.img} alt="" sizes="56px" className="size-14 shrink-0 lg:hidden" ratio="1/1" />
+                        <Picture name={h.img} alt="" sizes="56px" className="size-12 shrink-0 sm:size-14 lg:hidden" ratio="1/1" />
                         <ArrowUpRight className="size-5 shrink-0 text-gold-300 transition-transform duration-500 group-hover:-translate-y-1 group-hover:translate-x-1" aria-hidden />
                       </span>
                     </Link>
@@ -354,9 +354,9 @@ function Principles({ lang }: { lang: Lang }) {
     <section className="py-20 md:py-32">
       <div className="container-x">
         <SectionHead index="—" eyebrow={lang === "fr" ? "Notre façon de travailler" : "How we work"} title={lang === "fr" ? "Sérieux, simple, sur place." : "Serious, simple, on site."} />
-        <ul className="mt-14 grid gap-px bg-ink/10 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="mt-10 grid gap-px bg-ink/10 sm:mt-14 sm:grid-cols-2 lg:grid-cols-4">
           {items.map((it, i) => (
-            <li key={it.t.en} className="bg-ivory py-8 pr-6 sm:p-8" data-reveal style={{ transitionDelay: `${i * 70}ms` }}>
+            <li key={it.t.en} className="bg-ivory py-6 pr-4 sm:p-8" data-reveal style={{ transitionDelay: `${i * 70}ms` }}>
               <span aria-hidden className="block h-px w-10 bg-gold" />
               <h3 className="mt-6 text-[1.625rem]">{it.t[lang]}</h3>
               <p className="mt-3 text-[0.9375rem] leading-relaxed text-muted">{it.b[lang]}</p>

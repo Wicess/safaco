@@ -93,7 +93,7 @@ export default function Designs() {
             lang={lang}
             video="atelier"
             label={lang === "fr" ? "Visite du showroom SAFA Designs : chemises, tuniques et pantalons sur les portants" : "A walk through the SAFA Designs showroom: shirts, tunics and trousers on the rails"}
-            className="grain aspect-[4/5]"
+            className="grain aspect-[4/3] sm:aspect-[5/4] lg:aspect-[4/5]"
           />
         )}
       >
@@ -208,7 +208,7 @@ function Lookbook({ lang }: { lang: Lang }) {
           <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden />
         </Link>
       </div>
-      <ul className="-mx-(--gutter) mt-8 flex snap-x snap-mandatory scroll-px-(--gutter) gap-4 overflow-x-auto px-(--gutter) pb-2 [scrollbar-width:none] md:mx-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0 lg:grid-cols-6 lg:gap-4">
+      <ul className="fade-x -mx-(--gutter) mt-8 flex snap-x snap-mandatory scroll-px-(--gutter) gap-4 overflow-x-auto px-(--gutter) pb-2 [scrollbar-width:none] md:mx-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0 lg:grid-cols-6 lg:gap-4">
         {LOOKS.map((it, i) => (
           <li key={it.id} className="w-[58%] shrink-0 snap-start sm:w-[38%] md:w-auto" data-reveal style={{ transitionDelay: `${i * 60}ms` }}>
             <GalleryTile item={it} lang={lang} onOpen={() => lb.open(i)} pictureClass="aspect-[3/4]" sizes="(min-width: 64rem) 15vw, (min-width: 48rem) 30vw, 58vw" />

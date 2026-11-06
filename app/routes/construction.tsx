@@ -103,9 +103,9 @@ export default function Construction() {
             eyebrow={lang === "fr" ? "Nos services" : "What we do"}
             title={lang === "fr" ? "Trois façons de vous équiper." : "Three ways to equip your site."}
           />
-          <div className="mt-14 grid gap-12 md:grid-cols-3 md:gap-8">
+          <div className="fade-x -mx-(--gutter) mt-10 flex snap-x snap-mandatory scroll-px-(--gutter) gap-4 overflow-x-auto px-(--gutter) pb-2 [scrollbar-width:none] md:mx-0 md:mt-14 md:grid md:grid-cols-3 md:gap-8 md:overflow-visible md:px-0">
             {SERVICES.map((s) => (
-              <Link key={s.page} to={href(s.page, lang)} viewTransition className="group block" data-reveal>
+              <Link key={s.page} to={href(s.page, lang)} viewTransition className="group block w-[78%] shrink-0 snap-start sm:w-[46%] md:w-auto" data-reveal>
                 <div className="relative">
                   <Picture name={s.img} alt="" sizes="(min-width: 48rem) 30vw, 100vw" className="grain aspect-[4/5]" imgClassName="transition-transform duration-[1.4s] ease-(--ease-out-quart) group-hover:scale-[1.04]" />
                   {isStock(s.img) && (

@@ -42,7 +42,9 @@ export function Lightbox({
   close: () => void;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
-  const touch = useRef<{ x: number; y: number } | null>(null);
+  const touch = useRef<{ x: number; y: number; axis?: "x" | "y" } | null>(null);
+  // Horizontal drag offset: the photo follows the finger, then snaps.
+  const [drag, setDrag] = useState(0);
   const isOpen = index !== null;
   const item = isOpen ? items[index] : undefined;
   const n = items.length;
@@ -86,13 +88,23 @@ export function Lightbox({
         const t = e.touches[0];
         if (t) touch.current = { x: t.clientX, y: t.clientY };
       }}
+      onTouchMove={(e) => {
+        const s0 = touch.current;
+        const t = e.touches[0];
+        if (!s0 || !t || n < 2) return;
+        const dx = t.clientX - s0.x;
+        const dy = t.clientY - s0.y;
+        s0.axis ??= Math.abs(dx) > 8 || Math.abs(dy) > 8 ? (Math.abs(dx) > Math.abs(dy) ? "x" : "y") : undefined;
+        if (s0.axis === "x") setDrag(dx);
+      }}
       onTouchEnd={(e) => {
-        const s = touch.current;
+        const s0 = touch.current;
         const t = e.changedTouches[0];
         touch.current = null;
-        if (!s || !t) return;
-        const dx = t.clientX - s.x;
-        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(t.clientY - s.y)) go(dx < 0 ? 1 : -1);
+        setDrag(0);
+        if (!s0 || !t || s0.axis !== "x") return;
+        const dx = t.clientX - s0.x;
+        if (Math.abs(dx) > 60) go(dx < 0 ? 1 : -1);
       }}
       className="lightbox on-dark m-0 h-dvh max-h-none w-screen max-w-none bg-navy-950 p-0 text-ivory"
     >
@@ -112,7 +124,11 @@ export function Lightbox({
           </div>
 
           <div className="relative min-h-0 px-2 md:px-20">
-            <figure key={item.id} className="lightbox-frame flex h-full min-h-0 flex-col items-center justify-center">
+            <figure
+              key={item.id}
+              className={cn("lightbox-frame flex h-full min-h-0 flex-col items-center justify-center", !drag && "transition-transform duration-300 ease-(--ease-out-quart)")}
+              style={drag ? { transform: `translateX(${drag}px)`, opacity: Math.max(0.4, 1 - Math.abs(drag) / 500) } : undefined}
+            >
               {item.video ? (
                 <video
                   src={videoUrl(item.video)}
@@ -234,7 +250,7 @@ export function GalleryStrip({ lang, items, division }: { lang: Lang; items: Gal
   const shown = items.slice(0, 5);
   return (
     <>
-      <ul className="-mx-(--gutter) flex snap-x snap-mandatory scroll-px-(--gutter) gap-3 overflow-x-auto px-(--gutter) pb-2 [scrollbar-width:none] md:mx-0 md:grid md:grid-cols-4 md:gap-4 md:overflow-visible md:px-0">
+      <ul className="fade-x -mx-(--gutter) flex snap-x snap-mandatory scroll-px-(--gutter) gap-3 overflow-x-auto px-(--gutter) pb-2 [scrollbar-width:none] md:mx-0 md:grid md:grid-cols-4 md:gap-4 md:overflow-visible md:px-0">
         {shown.map((it, i) => (
           <li key={it.id} className={cn("relative w-[68%] shrink-0 snap-start sm:w-[44%] md:w-auto", i === 0 && "md:col-span-2 md:row-span-2")}>
             <GalleryTile

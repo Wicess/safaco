@@ -51,7 +51,7 @@ export function PageHero({
         alt={imageAlt ?? ""}
         priority={imagePriority}
         sizes={layout === "split" ? "(min-width: 64rem) 40vw, 100vw" : "(min-width: 88rem) 84rem, 100vw"}
-        className={cn(layout === "split" ? "grain aspect-[4/5] lg:aspect-[4/5]" : "grain aspect-[4/3] md:aspect-[21/9]", imageClass)}
+        className={cn(layout === "split" ? "grain aspect-[4/3] sm:aspect-[5/4] lg:aspect-[4/5]" : "grain aspect-[4/3] md:aspect-[21/9]", imageClass)}
       />
     ));
   const note = !media && isStock(image) && <StockNote lang={lang} />;
@@ -68,12 +68,12 @@ export function PageHero({
 
   if (layout === "split") {
     return (
-      <section className="pt-[calc(var(--header-h)+1.5rem)] md:pt-[calc(var(--header-h)+3rem)]">
+      <section className="pt-[calc(var(--header-h)+0.5rem)] md:pt-[calc(var(--header-h)+2.25rem)]">
         <div className="container-x">
           <div className="text-muted">
             <Breadcrumbs lang={lang} trail={trail} />
           </div>
-          <div className="mt-10 grid gap-10 md:mt-14 lg:grid-cols-12 lg:items-end lg:gap-16">
+          <div className="mt-6 grid gap-10 md:mt-10 lg:grid-cols-12 lg:items-end lg:gap-16">
             <div className="lg:col-span-7 lg:pb-4">
               {heading}
               <p className="mt-8 max-w-xl text-lede text-muted">{lede}</p>
@@ -91,12 +91,12 @@ export function PageHero({
   }
 
   return (
-    <section className="pt-[calc(var(--header-h)+1.5rem)] md:pt-[calc(var(--header-h)+3rem)]">
+    <section className="pt-[calc(var(--header-h)+0.5rem)] md:pt-[calc(var(--header-h)+2.25rem)]">
       <div className="container-x">
         <div className="text-muted">
           <Breadcrumbs lang={lang} trail={trail} />
         </div>
-        <div className="mt-10 grid gap-8 md:mt-16 lg:grid-cols-[1.5fr_1fr] lg:items-end">
+        <div className="mt-6 grid gap-8 md:mt-12 lg:grid-cols-[1.5fr_1fr] lg:items-end">
           <div>{heading}</div>
           <div className="lg:pb-3">
             <p className="text-lede text-muted">{lede}</p>

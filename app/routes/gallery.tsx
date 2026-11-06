@@ -79,12 +79,12 @@ export default function Gallery() {
 
   return (
     <>
-      <section className="pt-[calc(var(--header-h)+1.5rem)] md:pt-[calc(var(--header-h)+3rem)]">
+      <section className="pt-[calc(var(--header-h)+0.5rem)] md:pt-[calc(var(--header-h)+2.25rem)]">
         <div className="container-x">
           <div className="text-muted">
             <Breadcrumbs lang={lang} trail={TRAIL} />
           </div>
-          <div className="mt-10 grid gap-8 md:mt-16 lg:grid-cols-[1.5fr_1fr] lg:items-end">
+          <div className="mt-6 grid gap-8 md:mt-12 lg:grid-cols-[1.5fr_1fr] lg:items-end">
             <h1 className="vt-title text-display-lg">
               {hero.title ??
                 (lang === "fr" ? (
@@ -108,7 +108,7 @@ export default function Gallery() {
           <div
             role="group"
             aria-label={lang === "fr" ? "Filtrer par division" : "Filter by division"}
-            className="sticky top-(--header-h) z-20 -mx-(--gutter) flex gap-2 overflow-x-auto bg-ivory/92 px-(--gutter) py-3 backdrop-blur-md [scrollbar-width:none]"
+            className="sticky-under-header fade-x sticky z-20 -mx-(--gutter) flex gap-2 overflow-x-auto bg-ivory/92 px-(--gutter) py-3 backdrop-blur-md [scrollbar-width:none]"
           >
             {FILTERS.map((f) => {
               const active = f === filter;

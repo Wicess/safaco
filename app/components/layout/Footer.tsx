@@ -33,22 +33,22 @@ export function Footer({ lang }: { lang: Lang }) {
             {DIVISION_LIST.map((d) => (
               <div key={d.key}>
                 <p className="eyebrow text-gold-300">{d.name}</p>
-                <address className="mt-4 space-y-2 text-sm not-italic leading-relaxed text-ivory/70">
+                <address className="mt-4 text-sm not-italic leading-relaxed text-ivory/70">
                   <span className="block">{d.address.line[lang]}</span>
-                  <span className="block">{d.hours[lang]}</span>
-                  <a className="block min-h-6 text-ivory hover:text-gold-300" href={telLink(d.phone)}>
+                  <span className="mt-1 block">{d.hours[lang]}</span>
+                  <a className="mt-1 flex min-h-11 items-center text-ivory hover:text-gold-300" href={telLink(d.phone)}>
                     {d.phone}
                   </a>
-                  <a className="block text-ivory/70 underline-offset-4 hover:underline" href={waLink(d.whatsapp, greeting(d.key, lang))} rel="noopener">
+                  <a className="flex min-h-11 items-center text-ivory/70 underline-offset-4 hover:underline" href={waLink(d.whatsapp, greeting(d.key, lang))} rel="noopener">
                     WhatsApp
                   </a>
                   {d.address.mapsUrl && (
-                    <a className="block text-ivory/70 underline-offset-4 hover:underline" href={d.address.mapsUrl} rel="noopener" target="_blank">
+                    <a className="flex min-h-11 items-center text-ivory/70 underline-offset-4 hover:underline" href={d.address.mapsUrl} rel="noopener" target="_blank">
                       {UI.directions[lang]}
                     </a>
                   )}
                 </address>
-                <Link to={href(d.page, lang)} className="mt-4 inline-block text-xs uppercase tracking-[0.16em] text-ivory/65 hover:text-ivory">
+                <Link to={href(d.page, lang)} className="mt-1 inline-flex min-h-11 items-center text-xs uppercase tracking-[0.16em] text-ivory/65 hover:text-ivory">
                   {UI.discover[lang]} →
                 </Link>
               </div>
@@ -56,7 +56,7 @@ export function Footer({ lang }: { lang: Lang }) {
           </div>
         </div>
 
-        <nav aria-label={UI.group[lang]} className="mt-16 flex flex-wrap gap-x-7 gap-y-2 border-t border-ivory/10 pt-8 text-sm text-ivory/60">
+        <nav aria-label={UI.group[lang]} className="mt-14 flex flex-wrap gap-x-6 border-t border-ivory/10 pt-6 text-sm text-ivory/60">
           {(
             [
               ["construction", NAV.construction.label[lang]],
@@ -70,7 +70,7 @@ export function Footer({ lang }: { lang: Lang }) {
               ["contact", UI.contact[lang]],
             ] as [PageKey, string][]
           ).map(([k, label]) => (
-            <Link key={k} to={href(k, lang)} className="min-h-8 hover:text-ivory">
+            <Link key={k} to={href(k, lang)} className="inline-flex min-h-11 items-center hover:text-ivory">
               {label}
             </Link>
           ))}
@@ -80,7 +80,7 @@ export function Footer({ lang }: { lang: Lang }) {
           <div className="space-y-1.5">
             <p>
               © {year} {SITE.legalName}. {UI.rights[lang]}{" "}
-              <Link to={href("legal", lang)} className="underline-offset-4 hover:text-ivory hover:underline">
+              <Link to={href("legal", lang)} className="inline-flex min-h-11 items-center underline-offset-4 hover:text-ivory hover:underline">
                 {UI.legal[lang]}
               </Link>
             </p>

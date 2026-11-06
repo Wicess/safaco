@@ -20,7 +20,7 @@ export default function Legal() {
   const fr = lang === "fr";
   const h2 = "mt-14 font-display text-3xl first:mt-0";
   return (
-    <section className="container-x pb-24 pt-[calc(var(--header-h)+1.5rem)] md:pt-[calc(var(--header-h)+3rem)]">
+    <section className="container-x pb-24 pt-[calc(var(--header-h)+0.5rem)] md:pt-[calc(var(--header-h)+2.25rem)]">
       <div className="text-muted">
         <Breadcrumbs lang={lang} trail={TRAIL} />
       </div>

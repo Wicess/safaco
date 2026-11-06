@@ -81,8 +81,8 @@ export default function Apartments() {
       </PageHero>
 
       <section className="py-20 md:py-28">
-        <div className="container-x grid gap-4 md:grid-cols-12 md:gap-6">
-          <div className="md:col-span-4 md:self-center" data-reveal>
+        <div className="container-x grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-12 md:gap-6">
+          <div className="col-span-2 mb-4 md:col-span-4 md:mb-0 md:self-center" data-reveal>
             <p className="eyebrow text-apartments">{lang === "fr" ? "Les espaces" : "The spaces"}</p>
             <p className="mt-6 font-display text-[1.875rem] leading-snug md:text-[2.5rem]">
               {lang === "fr"
@@ -94,7 +94,7 @@ export default function Apartments() {
           <div className="light-sweep md:col-span-5" data-trace>
             <Picture name={IMG.livingDining} alt={lang === "fr" ? "Comptoir repas et salon sous un lustre à anneaux" : "Dining counter and lounge under a ring chandelier"} sizes="(min-width: 48rem) 40vw, 100vw" className="grain aspect-[3/4]" />
           </div>
-          <div className="light-sweep md:col-span-3 md:mt-40" data-trace>
+          <div className="light-sweep mt-10 md:col-span-3 md:mt-40" data-trace>
             <Picture name={IMG.bedroomRose} alt={lang === "fr" ? "Chambre au mur rose et linge frais" : "Bedroom with a rose wall and fresh linen"} sizes="(min-width: 48rem) 24vw, 100vw" className="grain aspect-[3/4]" />
           </div>
         </div>
@@ -105,7 +105,7 @@ export default function Apartments() {
           <SectionHead index="01" eyebrow={lang === "fr" ? "Équipements" : "Amenities"} title={lang === "fr" ? "Ce qui vous attend." : "What's waiting for you."} />
           <ul className="mt-12 grid grid-cols-2 gap-px bg-ink/10 sm:grid-cols-3 lg:grid-cols-5">
             {AMENITIES.map(({ icon: Icon, label }) => (
-              <li key={label.en} className="flex min-h-32 flex-col justify-between gap-6 bg-ivory-2 p-5" data-reveal>
+              <li key={label.en} className="flex min-h-24 flex-col justify-between gap-4 bg-ivory-2 p-4 sm:min-h-32 sm:p-5" data-reveal>
                 <Icon className="size-5 text-apartments" aria-hidden />
                 <span className="text-[0.9375rem]">{label[lang]}</span>
               </li>

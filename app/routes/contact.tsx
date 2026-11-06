@@ -23,7 +23,7 @@ export default function Contact() {
   const lang = useLang();
   return (
     <>
-      <section className="pt-[calc(var(--header-h)+1.5rem)] md:pt-[calc(var(--header-h)+3rem)]">
+      <section className="pt-[calc(var(--header-h)+0.5rem)] md:pt-[calc(var(--header-h)+2.25rem)]">
         <div className="container-x">
           <div className="text-muted">
             <Breadcrumbs lang={lang} trail={TRAIL} />
@@ -65,7 +65,7 @@ export default function Contact() {
                 <li className="flex gap-3">
                   <Phone className="mt-1 size-4 shrink-0 text-muted" aria-label={UI.call[lang]} />
                   <span>
-                    <a href={telLink(d.phone)} className="underline-offset-4 hover:underline">
+                    <a href={telLink(d.phone)} className="-my-3 inline-flex min-h-11 items-center underline-offset-4 hover:underline">
                       {d.phone}
                     </a>
                   </span>
