@@ -9,7 +9,10 @@ import { Picture } from "../ui/Picture";
  *  no JS). From tablet up: a grid. */
 export function FleetGrid({ lang, units, link = true }: { lang: Lang; units: Unit[]; link?: boolean }) {
   return (
-    <ul className="fade-x -mx-(--gutter) flex snap-x snap-mandatory scroll-px-(--gutter) gap-4 overflow-x-auto px-(--gutter) pb-4 [scrollbar-width:none] md:mx-0 md:grid md:grid-cols-2 md:gap-6 md:overflow-visible md:px-0 lg:grid-cols-3">
+    <ul className="fade-x -mx-(--gutter) flex snap-x snap-mandatory scroll-px-(--gutter) gap-4 overflow-x-auto px-(--gutter) pb-4 [scrollbar-width:none] md:mx-0 md:grid md:grid-cols-2 md:gap-6 md:overflow-visible md:px-0 lg:grid-cols-3"
+      tabIndex={link ? undefined : 0}
+      aria-label={link ? undefined : lang === "fr" ? "Matériel disponible" : "Available equipment"}
+    >
       {units.map((u) => {
         const inner = (
           <>

@@ -28,7 +28,7 @@ export default function LanguageRoot() {
       <script dangerouslySetInnerHTML={{ __html: PICK }} />
       <div className="text-center">
         <img src="/brand/safa-monogram-light-sm.png" alt="SAFA & Co" width={62} height={96} className="mx-auto h-24 w-auto" />
-        <p className="mt-8 font-display text-3xl tracking-[0.2em]">SAFA &amp; Co</p>
+        <h1 className="mt-8 font-display text-3xl tracking-[0.2em]">SAFA &amp; Co</h1>
         <nav className="mt-10 flex justify-center gap-4" aria-label="Language / Langue">
           <a href="/en" hrefLang="en" lang="en" className="min-h-12 border border-ivory/30 px-6 py-3 text-sm uppercase tracking-[0.16em]">
             English

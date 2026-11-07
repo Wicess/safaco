@@ -112,7 +112,7 @@ function DeveloperCredit() {
       aria-label="Contact the developer, W!CE"
       className="group inline-flex items-baseline gap-2.5 self-start md:self-auto"
     >
-      <span className="font-sans text-[10px] font-medium uppercase tracking-[0.4em] text-ivory/30 transition-colors duration-300 group-hover:text-ivory/60">
+      <span className="font-sans text-[10px] font-medium uppercase tracking-[0.4em] text-ivory/55 transition-colors duration-300 group-hover:text-ivory/80">
         Developed by
       </span>
       <span ref={sheen} className="animate-sheen bg-[linear-gradient(90deg,var(--color-gold-300)_0%,#fff6e6_50%,var(--color-gold-300)_100%)] bg-size-[200%_auto] bg-clip-text font-sans text-[1.0625rem] font-bold leading-none tracking-[0.08em] text-transparent motion-reduce:animate-none">

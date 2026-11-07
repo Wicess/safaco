@@ -58,7 +58,7 @@ export function PageHero({
 
   const heading = (
     <>
-      <p className="eyebrow flex items-center gap-3" style={{ color: "var(--accent)" }}>
+      <p className="eyebrow flex items-center gap-3" style={{ color: "var(--accent-ink, var(--accent))" }}>
         <span aria-hidden className="h-px w-8 bg-current" />
         {eyebrow}
       </p>

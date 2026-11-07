@@ -80,7 +80,7 @@ export default function App() {
   const handle = matches.at(-1)?.handle as RouteHandle | undefined;
 
   return (
-    <div style={{ ["--accent" as string]: division ? DIVISIONS[division].accentVar : "var(--color-gold)" }}>
+    <div style={{ ["--accent" as string]: division ? DIVISIONS[division].accentVar : "var(--color-gold)", ["--accent-ink" as string]: division ? DIVISIONS[division].accentVar : "var(--color-gold-600)" }}>
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:bg-ink focus:px-4 focus:py-3 focus:text-ivory"

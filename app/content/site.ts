@@ -84,7 +84,7 @@ export const DIVISIONS: Record<DivisionKey, Division> = {
     phone: "+237 6 00 00 00 01", // CLIENT_TODO
     email: EMAIL,
     address: {
-      line: { en: "Yard address to be confirmed, Yaoundé", fr: "Adresse du dépôt à confirmer, Yaoundé" }, // CLIENT_TODO
+      line: { en: "Yaoundé, Cameroon", fr: "Yaoundé, Cameroun" }, // CLIENT_TODO: exact yard address
       district: "Yaoundé",
       locality: "Yaoundé",
     },
@@ -104,7 +104,7 @@ export const DIVISIONS: Record<DivisionKey, Division> = {
     phone: "+237 6 00 00 00 02", // CLIENT_TODO
     email: EMAIL,
     address: {
-      line: { en: "Meyo, Yaoundé IV (exact address to be confirmed)", fr: "Meyo, Yaoundé IV (adresse exacte à confirmer)" }, // CLIENT_TODO
+      line: { en: "Meyo, Yaoundé IV", fr: "Meyo, Yaoundé IV" }, // CLIENT_TODO: exact street/landmark address
       district: "Meyo, Yaoundé IV",
       locality: "Yaoundé",
     },
@@ -126,7 +126,7 @@ export const DIVISIONS: Record<DivisionKey, Division> = {
     phone: "+237 6 70 98 66 43",
     email: EMAIL,
     address: {
-      line: { en: "Carrefour MEEC, Yaoundé VI (exact address to be confirmed)", fr: "Carrefour MEEC, Yaoundé VI (adresse exacte à confirmer)" }, // CLIENT_TODO
+      line: { en: "Carrefour MEEC, Yaoundé VI", fr: "Carrefour MEEC, Yaoundé VI" }, // CLIENT_TODO: exact landmark address
       district: "Carrefour MEEC, Yaoundé VI",
       locality: "Yaoundé",
     },

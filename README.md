@@ -98,7 +98,8 @@ production launch.
 2. Add the environment variables from `.env.example`. Commercial sites need the **Pro** plan.
 3. Run `pnpm db:migrate` once against Neon.
 4. On Cloudflare DNS, point the domain at Vercel as **DNS only** (grey cloud), as Vercel recommends.
-5. In the Vercel Firewall, add a rate-limit rule on `/api/contact`, for example 5 requests per minute per IP.
+5. In the Vercel Firewall, add rate-limit rules on `/api/contact` (e.g. 5 requests/min per IP) and on
+   `/api/admin/login` (e.g. 10 requests/15 min per IP). The in-app limits only cover one warm function instance.
 6. Submit `https://<domain>/sitemap.xml` in Google Search Console and Bing Webmaster Tools.
 
 ### Database cost (Neon)

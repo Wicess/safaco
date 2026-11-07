@@ -27,8 +27,13 @@ export function posterUrl(key: VideoKey) {
 function mayAutoplay() {
   if (typeof window === "undefined") return false;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
-  const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
-  return !conn?.saveData;
+  // Phones and tablets: a 2–3 MB clip should be the visitor's choice, not a
+  // cost they pay for scrolling past (mobile data is paid by the megabyte in
+  // Cameroon). They get the poster and a play button; nothing downloads.
+  if (!window.matchMedia("(min-width: 64rem)").matches) return false;
+  const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+  if (conn?.saveData) return false;
+  return !conn?.effectiveType || conn.effectiveType === "4g";
 }
 
 /**
@@ -53,6 +58,7 @@ export function AmbientVideo({
 }) {
   const ref = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
+  const [started, setStarted] = useState(false);
   // null = follow visibility; true/false = the visitor decided.
   const userChoice = useRef<boolean | null>(null);
   const v = VIDEO[video];
@@ -61,7 +67,8 @@ export function AmbientVideo({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (!mayAutoplay()) userChoice.current = userChoice.current ?? false;
+    if (mayAutoplay()) setStarted(true);
+    else userChoice.current = userChoice.current ?? false;
     let visible = false;
     const sync = () => {
       const want = (userChoice.current ?? true) && visible && document.visibilityState === "visible";
@@ -74,7 +81,10 @@ export function AmbientVideo({
     }, { threshold: 0.35 });
     io.observe(el);
     document.addEventListener("visibilitychange", sync);
-    const on = () => setPlaying(true);
+    const on = () => {
+      setPlaying(true);
+      setStarted(true);
+    };
     const off = () => setPlaying(false);
     el.addEventListener("play", on);
     el.addEventListener("pause", off);
@@ -114,14 +124,30 @@ export function AmbientVideo({
         className={cn("h-full w-full", fit === "cover" ? "object-cover" : "object-contain")}
         style={blur ? { backgroundImage: `url(${blur})`, backgroundSize: "cover" } : undefined}
       />
-      <button
-        type="button"
-        onClick={toggle}
-        aria-label={playing ? (lang === "fr" ? "Mettre la vidéo en pause" : "Pause video") : lang === "fr" ? "Lire la vidéo" : "Play video"}
-        className="absolute bottom-3 right-3 z-10 grid size-11 place-items-center rounded-full bg-navy-950/70 text-ivory backdrop-blur-sm transition-[background-color,transform] duration-300 hover:bg-navy-950 active:scale-95"
-      >
-        {playing ? <Pause className="size-4" aria-hidden /> : <Play className="size-4 translate-x-px" aria-hidden />}
-      </button>
+      {!started && (
+        // Not autoplaying (phone, data saver, reduced motion): a clear,
+        // thumb-sized invitation over the poster. Tapping loads the clip.
+        <button
+          type="button"
+          onClick={toggle}
+          aria-label={lang === "fr" ? "Lire la vidéo" : "Play video"}
+          className="absolute inset-0 z-10 grid place-items-center bg-navy-950/15 transition-colors hover:bg-navy-950/25"
+        >
+          <span className="grid size-16 place-items-center rounded-full bg-ivory/90 text-navy-950 shadow-[0_4px_8px_rgb(12_21_28/0.3)] transition-transform duration-300 group-hover/video:scale-105">
+            <Play className="size-6 translate-x-0.5 fill-current" aria-hidden />
+          </span>
+        </button>
+      )}
+      {started && (
+        <button
+          type="button"
+          onClick={toggle}
+          aria-label={playing ? (lang === "fr" ? "Mettre la vidéo en pause" : "Pause video") : lang === "fr" ? "Lire la vidéo" : "Play video"}
+          className="absolute bottom-3 right-3 z-10 grid size-11 place-items-center rounded-full bg-navy-950/70 text-ivory backdrop-blur-sm transition-[background-color,transform] duration-300 hover:bg-navy-950 active:scale-95"
+        >
+          {playing ? <Pause className="size-4" aria-hidden /> : <Play className="size-4 translate-x-px" aria-hidden />}
+        </button>
+      )}
     </div>
   );
 }
