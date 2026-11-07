@@ -1,6 +1,6 @@
-import { ArrowRight, Phone } from "lucide-react";
+import { ArrowRight, MessageSquareText, Phone } from "lucide-react";
 import { Link } from "react-router";
-import { DIVISIONS, GROUP_CONTACT, greeting, telLink, waLink, type DivisionKey } from "~/content/site";
+import { DIVISIONS, GROUP_CONTACT, enquiryHref, greeting, telLink, waLink, type DivisionKey } from "~/content/site";
 import { UI } from "~/content/ui";
 import { href, type Lang, type T } from "~/lib/i18n";
 import { Button } from "../ui/button";
@@ -24,6 +24,7 @@ export function CtaBand({
   const d = division ? DIVISIONS[division] : undefined;
   const wa = d?.whatsapp ?? GROUP_CONTACT.whatsapp;
   const phone = d?.phone ?? GROUP_CONTACT.phone;
+  const contact = href("contact", lang);
   return (
     <section className="on-dark relative overflow-hidden bg-navy-900 text-ivory">
       <div className="container-x grid gap-10 py-20 md:py-28 lg:grid-cols-[1.4fr_1fr] lg:items-end">
@@ -33,30 +34,51 @@ export function CtaBand({
           <p className="mt-6 max-w-xl text-lede text-ivory/70">{body[lang]}</p>
         </div>
         <div className="flex flex-col gap-3" data-reveal>
-          <Button asChild variant="gold" size="lg" className="w-full justify-between">
-            <a href={waLink(wa, waMessage ?? greeting(division ?? "group", lang))} rel="noopener">
-              <span className="flex items-center gap-3">
-                <WhatsAppIcon className="size-5!" />
-                {UI.writeWhatsapp[lang]}
-              </span>
-              <ArrowRight aria-hidden />
-            </a>
-          </Button>
-          <Button asChild variant="outline-light" size="lg" className="w-full justify-between">
-            <a href={telLink(phone)}>
-              <span className="flex items-center gap-3">
-                <Phone aria-hidden />
-                {phone}
-              </span>
-              <ArrowRight aria-hidden />
-            </a>
-          </Button>
-          <Link
-            to={`${href("contact", lang)}${division ? `?d=${division}` : ""}`}
-            className="mt-2 inline-flex min-h-11 items-center gap-2 self-start text-sm text-ivory/70 underline-offset-4 hover:text-ivory hover:underline"
-          >
-            {lang === "fr" ? "Ou envoyez une demande écrite" : "Or send a written enquiry"} <ArrowRight className="size-3.5" aria-hidden />
-          </Link>
+          {wa && (
+            <Button asChild variant="gold" size="lg" className="w-full justify-between">
+              <a href={waLink(wa, waMessage ?? greeting(division ?? "group", lang))} rel="noopener">
+                <span className="flex items-center gap-3">
+                  <WhatsAppIcon className="size-5!" />
+                  {UI.writeWhatsapp[lang]}
+                </span>
+                <ArrowRight aria-hidden />
+              </a>
+            </Button>
+          )}
+          {phone && (
+            <Button asChild variant={wa ? "outline-light" : "gold"} size="lg" className="w-full justify-between">
+              <a href={telLink(phone)}>
+                <span className="flex items-center gap-3">
+                  <Phone aria-hidden />
+                  {phone}
+                </span>
+                <ArrowRight aria-hidden />
+              </a>
+            </Button>
+          )}
+          {wa || phone ? (
+            <Link
+              to={enquiryHref(contact, division)}
+              className="mt-2 inline-flex min-h-11 items-center gap-2 self-start text-sm text-ivory/70 underline-offset-4 hover:text-ivory hover:underline"
+            >
+              {lang === "fr" ? "Ou envoyez une demande écrite" : "Or send a written enquiry"} <ArrowRight className="size-3.5" aria-hidden />
+            </Link>
+          ) : (
+            <>
+              <Button asChild variant="gold" size="lg" className="w-full justify-between">
+                <Link to={enquiryHref(contact, division, waMessage)}>
+                  <span className="flex items-center gap-3">
+                    <MessageSquareText aria-hidden />
+                    {lang === "fr" ? "Envoyer une demande" : "Send an enquiry"}
+                  </span>
+                  <ArrowRight aria-hidden />
+                </Link>
+              </Button>
+              <p className="mt-1 text-sm text-ivory/60">
+                {lang === "fr" ? "Nous vous rappelons par téléphone ou sur WhatsApp." : "We call you back, by phone or on WhatsApp."}
+              </p>
+            </>
+          )}
         </div>
       </div>
     </section>

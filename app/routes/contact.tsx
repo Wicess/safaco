@@ -62,15 +62,18 @@ export default function Contact() {
                     )}
                   </span>
                 </li>
-                <li className="flex gap-3">
-                  <Phone className="mt-1 size-4 shrink-0 text-muted" aria-label={UI.call[lang]} />
-                  <span>
-                    <a href={telLink(d.phone)} className="-my-3 inline-flex min-h-11 items-center underline-offset-4 hover:underline">
-                      {d.phone}
-                    </a>
-                  </span>
-                </li>
+                {d.phone && (
+                  <li className="flex gap-3">
+                    <Phone className="mt-1 size-4 shrink-0 text-muted" aria-label={UI.call[lang]} />
+                    <span>
+                      <a href={telLink(d.phone)} className="-my-3 inline-flex min-h-11 items-center underline-offset-4 hover:underline">
+                        {d.phone}
+                      </a>
+                    </span>
+                  </li>
+                )}
               </ul>
+              {d.whatsapp ? (
               <a
                 href={waLink(d.whatsapp, greeting(d.key, lang))}
                 rel="noopener"
@@ -79,13 +82,21 @@ export default function Contact() {
                 <WhatsAppIcon className="size-5" />
                 WhatsApp
               </a>
+              ) : (
+                <a
+                  href="#enquiry"
+                  className="mt-6 inline-flex min-h-12 items-center gap-3 bg-navy-900 px-5 text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-ivory hover:bg-navy-700"
+                >
+                  {lang === "fr" ? "Écrire via le formulaire" : "Write via the form"}
+                </a>
+              )}
             </article>
           ))}
           </div>
         </div>
       </section>
 
-      <section className="bg-ivory-2 py-20 md:py-28">
+      <section id="enquiry" className="scroll-mt-(--header-h) bg-ivory-2 py-20 md:py-28">
         <div className="container-x grid gap-12 lg:grid-cols-[1fr_1.6fr]">
           <div>
             <p className="eyebrow text-gold-600">{lang === "fr" ? "Demande écrite" : "Written enquiry"}</p>

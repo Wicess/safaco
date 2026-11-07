@@ -9,32 +9,32 @@ import { Button } from "~/components/ui/button";
 import { WhatsAppIcon } from "~/components/ui/icons";
 import { Picture } from "~/components/ui/Picture";
 import { IMG } from "~/content/media-map";
-import { DIVISIONS, waLink } from "~/content/site";
+import { amenities, type AmenityKey } from "~/content/amenities";
+import { DIVISIONS, enquiryHref, waLink } from "~/content/site";
+import { Link } from "react-router";
 import { useLang } from "~/lib/hooks";
 import { pageHero } from "~/content/defaults";
-import type { Lang, T } from "~/lib/i18n";
+import { href, type Lang, type T } from "~/lib/i18n";
 import { breadcrumb, faqPage, pageMeta } from "~/lib/seo";
 import { APARTMENTS_FAQ } from "~/content/faqs";
 
 const TRAIL = [{ key: "apartments" as const, name: { en: "SAFA Apartments", fr: "SAFA Apartments" } }];
 
-/**
- * CLIENT_TODO: confirm every amenity below against the real apartments before
- * launch — remove any that don't apply. (These are what Yaoundé guests expect
- * to see listed; research, 2026-09.)
- */
-const AMENITIES: { icon: ComponentType<{ className?: string }>; label: T }[] = [
-  { icon: Zap, label: { en: "Backup generator", fr: "Groupe électrogène" } },
-  { icon: Droplets, label: { en: "Borehole water", fr: "Eau de forage" } },
-  { icon: Wifi, label: { en: "Wi-Fi", fr: "Wi-Fi" } },
-  { icon: Snowflake, label: { en: "Air conditioning", fr: "Climatisation" } },
-  { icon: Flame, label: { en: "Hot water", fr: "Eau chaude" } },
-  { icon: UtensilsCrossed, label: { en: "Equipped kitchen", fr: "Cuisine équipée" } },
-  { icon: Tv, label: { en: "TV", fr: "Télévision" } },
-  { icon: Car, label: { en: "Secure parking", fr: "Parking sécurisé" } },
-  { icon: ShieldCheck, label: { en: "Security", fr: "Gardiennage" } },
-  { icon: KeyRound, label: { en: "Flexible check-in", fr: "Arrivée flexible" } },
-];
+const ICONS: Record<AmenityKey, ComponentType<{ className?: string }>> = {
+  generator: Zap, borehole: Droplets, wifi: Wifi, ac: Snowflake, hotWater: Flame,
+  kitchen: UtensilsCrossed, tv: Tv, parking: Car, security: ShieldCheck, checkin: KeyRound,
+};
+const AMENITIES = amenities();
+/** Columns that leave no empty (grey) cells for the published count. */
+const AMENITY_COLS =
+  AMENITIES.length <= 4
+    ? ["", "", "sm:grid-cols-2", "sm:grid-cols-3", "sm:grid-cols-4"][AMENITIES.length]
+    : AMENITIES.length % 5 === 0
+      ? "grid-cols-2 sm:grid-cols-5"
+      : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4";
+/** A short list stacks as rows on phones (icon beside the label) rather than
+ *  squeezing long words like "Climatisation" into narrow tiles. */
+const AMENITY_ROWS = AMENITIES.length <= 4;
 
 
 export const meta = pageMeta({
@@ -103,14 +103,30 @@ export default function Apartments() {
       <section className="bg-ivory-2 py-20 md:py-28">
         <div className="container-x">
           <SectionHead index="01" eyebrow={lang === "fr" ? "Équipements" : "Amenities"} title={lang === "fr" ? "Ce qui vous attend." : "What's waiting for you."} />
-          <ul className="mt-12 grid grid-cols-2 gap-px bg-ink/10 sm:grid-cols-3 lg:grid-cols-5">
-            {AMENITIES.map(({ icon: Icon, label }) => (
-              <li key={label.en} className="flex min-h-24 flex-col justify-between gap-4 bg-ivory-2 p-4 sm:min-h-32 sm:p-5" data-reveal>
+          <ul className={`mt-12 grid gap-px bg-ink/10 ${AMENITY_COLS}`}>
+            {AMENITIES.map(({ key, label }) => {
+              const Icon = ICONS[key];
+              return (
+              <li
+                key={key}
+                className={
+                  AMENITY_ROWS
+                    ? "flex min-h-16 items-center gap-4 bg-ivory-2 px-4 sm:min-h-32 sm:flex-col sm:items-start sm:justify-between sm:p-5"
+                    : "flex min-h-24 flex-col justify-between gap-4 bg-ivory-2 p-4 sm:min-h-32 sm:p-5"
+                }
+                data-reveal
+              >
                 <Icon className="size-5 text-apartments" aria-hidden />
                 <span className="text-[0.9375rem]">{label[lang]}</span>
               </li>
-            ))}
+              );
+            })}
           </ul>
+          <p className="mt-6 max-w-xl text-sm text-muted">
+            {lang === "fr"
+              ? "Une question sur un équipement précis ? Demandez-nous avant de réserver."
+              : "Looking for something specific? Ask us before you book."}
+          </p>
         </div>
       </section>
 
@@ -165,9 +181,19 @@ function AvailabilityButton({ lang }: { lang: Lang }) {
     lang === "fr"
       ? "Bonjour SAFA Apartments, je souhaite vérifier une disponibilité. Arrivée : … Départ : … Personnes : …"
       : "Hello SAFA Apartments, I'd like to check availability. Arrival: … Departure: … Guests: …";
+  const wa = DIVISIONS.apartments.whatsapp;
+  if (!wa)
+    return (
+      <Button asChild>
+        <Link to={enquiryHref(href("contact", lang), "apartments", msg)}>
+          {lang === "fr" ? "Vérifier la disponibilité" : "Check availability"}
+          <ArrowRight aria-hidden />
+        </Link>
+      </Button>
+    );
   return (
     <Button asChild variant="whatsapp">
-      <a href={waLink(DIVISIONS.apartments.whatsapp, msg)} rel="noopener">
+      <a href={waLink(wa, msg)} rel="noopener">
         <WhatsAppIcon className="size-5!" />
         {lang === "fr" ? "Vérifier la disponibilité" : "Check availability"}
         <ArrowRight aria-hidden />

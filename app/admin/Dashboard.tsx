@@ -1,5 +1,8 @@
 import { ArrowDownRight, ArrowUpRight, RefreshCw } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
+import { Link } from "react-router";
+import { O } from "~/content/overrides";
+import { DIVISION_LIST, MINEFOP, SITE, isTodo } from "~/content/site";
 import { cn } from "~/lib/utils";
 import { api, errorText, type Stat, type Stats } from "./api";
 import { Btn, PageTitle, Skeleton } from "./ui";
@@ -64,6 +67,8 @@ export function Dashboard() {
           </>
         }
       />
+
+      <LaunchChecklist />
 
       {err && <p className="rounded-md border border-red-700/20 bg-red-50 px-4 py-3 text-sm text-red-900">{err}</p>}
 
@@ -235,6 +240,52 @@ function List({ title, rows, loading, empty }: { title: string; rows?: Stat[]; l
             </li>
           ))}
         </ul>
+      )}
+    </section>
+  );
+}
+
+/**
+ * What the published site is still missing. Read from the published content
+ * (this page is rebuilt on every publish), so it empties as the owner fills
+ * things in. Hidden entirely once nothing is left.
+ */
+function LaunchChecklist() {
+  const items: { text: string; to: string }[] = [];
+  for (const d of DIVISION_LIST) {
+    if (!d.phone) items.push({ text: `${d.name}: phone number (Call buttons are hidden until set)`, to: `contact#c-${d.key}` });
+    if (!d.whatsapp) items.push({ text: `${d.name}: WhatsApp number (WhatsApp buttons are hidden until set)`, to: `contact#c-${d.key}` });
+    if (!d.address.mapsUrl) items.push({ text: `${d.name}: Google Maps link (adds “Directions”)`, to: `contact#c-${d.key}` });
+  }
+  if (isTodo(MINEFOP.agrement)) items.push({ text: "MINEFOP approval number (backs up “approved” on the Training page)", to: "contact#c-company" });
+  if (isTodo(SITE.rccm) || isTodo(SITE.niu)) items.push({ text: "RCCM and NIU numbers (Legal page)", to: "contact#c-company" });
+  if (!Object.values(SITE.social).some(Boolean)) items.push({ text: "At least one social media link", to: "contact#c-company" });
+  if (!O.apartments?.amenities) items.push({ text: "Confirm the apartment amenities (only what the photos show is listed now)", to: "pages#amenities" });
+  if (!O.construction?.machinePerDay) items.push({ text: "Your own plastering-machine output for the calculator", to: "pages#calculator" });
+  if (!items.length) return null;
+  const SHOWN = 4;
+  const row = (i: { text: string; to: string }) => (
+    <li key={i.text}>
+      <Link to={`/admin/${i.to}`} className="flex min-h-11 items-center justify-between gap-3 py-2 text-sm hover:text-gold-600">
+        {i.text} <span aria-hidden className="text-muted">→</span>
+      </Link>
+    </li>
+  );
+  return (
+    <section className="rounded-lg border border-gold-600/30 bg-gold/8 p-5">
+      <h2 className="text-[0.9375rem] font-semibold" style={{ fontFamily: "var(--font-sans)" }}>
+        Still to fill in <span className="font-normal text-muted">· {items.length}</span>
+      </h2>
+      <p className="mt-1 text-xs text-muted">The site works without these, but each one makes it more complete or more trustworthy.</p>
+      <ul className="mt-3 divide-y divide-ink/8">{items.slice(0, SHOWN).map(row)}</ul>
+      {items.length > SHOWN && (
+        <details className="group">
+          <summary className="flex min-h-11 cursor-pointer list-none items-center border-t border-ink/8 text-sm font-medium text-gold-600 [&::-webkit-details-marker]:hidden">
+            <span className="group-open:hidden">Show {items.length - SHOWN} more</span>
+            <span className="hidden group-open:inline">Show fewer</span>
+          </summary>
+          <ul className="divide-y divide-ink/8 border-t border-ink/8">{items.slice(SHOWN).map(row)}</ul>
+        </details>
       )}
     </section>
   );

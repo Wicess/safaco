@@ -1,5 +1,6 @@
 import type { PageKey, T } from "~/lib/i18n";
 import { IMG } from "./media-map";
+import { O } from "./overrides";
 
 /**
  * SAFA Construction fleet — names taken from the client's own flyer
@@ -78,12 +79,17 @@ export const FLEET: Unit[] = [
  */
 export const PLASTER_RATES = {
   /** m² rendered per day by one machine with its crew */
-  machinePerDay: 250,
+  machinePerDay: posNum(O.construction?.machinePerDay) ?? 250,
   machineCrew: 3,
   /** m² rendered per day by one skilled mason, by hand */
-  manualPerMasonDay: 20,
+  manualPerMasonDay: posNum(O.construction?.manualPerMasonDay) ?? 20,
   manualCrew: 4,
 };
+
+function posNum(n: unknown): number | undefined {
+  const v = Number(n);
+  return Number.isFinite(v) && v > 0 && v < 10000 ? v : undefined;
+}
 
 export const HIRE_STEPS: { title: T; body: T }[] = [
   {

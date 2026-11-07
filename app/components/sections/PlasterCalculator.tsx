@@ -1,7 +1,8 @@
 import { useId, useState } from "react";
 import { PLASTER_RATES } from "~/content/construction";
-import { DIVISIONS, waLink } from "~/content/site";
-import type { Lang } from "~/lib/i18n";
+import { Link } from "react-router";
+import { DIVISIONS, enquiryHref, waLink } from "~/content/site";
+import { href, type Lang } from "~/lib/i18n";
 import { WhatsAppIcon } from "../ui/icons";
 
 const fmt = (n: number, lang: Lang) => new Intl.NumberFormat(lang === "fr" ? "fr-FR" : "en-GB", { maximumFractionDigits: 1 }).format(n);
@@ -103,14 +104,23 @@ export function PlasterCalculator({ lang }: { lang: Lang }) {
           ? `Estimation indicative : ${r.manualPerMasonDay} m²/jour par maçon, ${r.machinePerDay} m²/jour pour la machine. Le rendement réel dépend du support, de l'enduit et de l'accès ; nous l'évaluons lors de la visite.`
           : `Indicative estimate: ${r.manualPerMasonDay} m²/day per mason, ${r.machinePerDay} m²/day for the machine. Real output depends on the wall, the render and site access; we assess it during the site visit.`}
       </p>
-      <a
-        href={waLink(DIVISIONS.construction.whatsapp, msg)}
-        rel="noopener"
-        className="mt-8 inline-flex min-h-12 w-full items-center justify-center gap-3 bg-[#1f7a4d] px-6 text-[0.8125rem] font-semibold uppercase tracking-[0.14em] text-white hover:bg-[#186540]"
-      >
-        <WhatsAppIcon className="size-5" />
-        {lang === "fr" ? `Devis pour ${m2} m²` : `Quote for ${m2} m²`}
-      </a>
+      {DIVISIONS.construction.whatsapp ? (
+        <a
+          href={waLink(DIVISIONS.construction.whatsapp, msg)}
+          rel="noopener"
+          className="mt-8 inline-flex min-h-12 w-full items-center justify-center gap-3 bg-[#1f7a4d] px-6 text-[0.8125rem] font-semibold uppercase tracking-[0.14em] text-white hover:bg-[#186540]"
+        >
+          <WhatsAppIcon className="size-5" />
+          {lang === "fr" ? `Devis pour ${m2} m²` : `Quote for ${m2} m²`}
+        </a>
+      ) : (
+        <Link
+          to={enquiryHref(href("contact", lang), "construction", msg)}
+          className="mt-8 inline-flex min-h-12 w-full items-center justify-center gap-3 bg-navy-900 px-6 text-[0.8125rem] font-semibold uppercase tracking-[0.14em] text-ivory hover:bg-navy-700"
+        >
+          {lang === "fr" ? `Devis pour ${m2} m²` : `Quote for ${m2} m²`}
+        </Link>
+      )}
     </div>
   );
 }

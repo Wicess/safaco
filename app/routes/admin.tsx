@@ -104,15 +104,29 @@ function Login({ onIn }: { onIn: (u: User) => void }) {
 }
 
 function Shell({ user, onLogout }: { user: User; onLogout: () => void }) {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   const section = pathname.replace(/^\/admin\/?/, "").split("/")[0] ?? "";
   const [drawer, setDrawer] = useState(false);
   const main = useRef<HTMLElement>(null);
   useEffect(() => {
     setDrawer(false);
     main.current?.focus({ preventScroll: true });
-    window.scrollTo(0, 0);
-  }, [section]);
+    if (!hash) window.scrollTo(0, 0);
+  }, [section, hash]);
+  // Deep links (e.g. from the dashboard checklist): the editor loads its
+  // content first, so wait a moment for the target panel to exist.
+  useEffect(() => {
+    if (!hash) return;
+    let tries = 0;
+    let raf = 0;
+    const find = () => {
+      const el = document.getElementById(decodeURIComponent(hash.slice(1)));
+      if (el) el.scrollIntoView({ block: "start" });
+      else if (tries++ < 120) raf = requestAnimationFrame(find);
+    };
+    find();
+    return () => cancelAnimationFrame(raf);
+  }, [section, hash]);
 
   const screen: Record<string, ReactNode> = {
     "": <Dashboard />,

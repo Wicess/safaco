@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Link } from "react-router";
-import { DIVISION_LIST, MINEFOP, SITE, isTodo, telLink, waLink, greeting } from "~/content/site";
+import { DIVISION_LIST, MINEFOP, SITE, enquiryHref, isTodo, telLink, waLink, greeting } from "~/content/site";
 import { NAV, UI } from "~/content/ui";
 import { href, type Lang, type PageKey } from "~/lib/i18n";
 import { Logo } from "./Logo";
@@ -36,12 +36,21 @@ export function Footer({ lang }: { lang: Lang }) {
                 <address className="mt-4 text-sm not-italic leading-relaxed text-ivory/70">
                   <span className="block">{d.address.line[lang]}</span>
                   <span className="mt-1 block">{d.hours[lang]}</span>
-                  <a className="mt-1 flex min-h-11 items-center text-ivory hover:text-gold-300" href={telLink(d.phone)}>
-                    {d.phone}
-                  </a>
-                  <a className="flex min-h-11 items-center text-ivory/70 underline-offset-4 hover:underline" href={waLink(d.whatsapp, greeting(d.key, lang))} rel="noopener">
-                    WhatsApp
-                  </a>
+                  {d.phone && (
+                    <a className="mt-1 flex min-h-11 items-center text-ivory hover:text-gold-300" href={telLink(d.phone)}>
+                      {d.phone}
+                    </a>
+                  )}
+                  {d.whatsapp && (
+                    <a className="flex min-h-11 items-center text-ivory/70 underline-offset-4 hover:underline" href={waLink(d.whatsapp, greeting(d.key, lang))} rel="noopener">
+                      WhatsApp
+                    </a>
+                  )}
+                  {!d.phone && !d.whatsapp && (
+                    <Link className="mt-1 flex min-h-11 items-center text-ivory hover:text-gold-300" to={enquiryHref(href("contact", lang), d.key)}>
+                      {lang === "fr" ? "Envoyer une demande" : "Send an enquiry"}
+                    </Link>
+                  )}
                   {d.address.mapsUrl && (
                     <a className="flex min-h-11 items-center text-ivory/70 underline-offset-4 hover:underline" href={d.address.mapsUrl} rel="noopener" target="_blank">
                       {UI.directions[lang]}

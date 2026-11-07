@@ -158,6 +158,19 @@ export const DIVISIONS: Record<DivisionKey, Division> = {
   }
 }
 
+/* ── Placeholder numbers never reach a visitor ──
+   Until the owner enters a real number (admin → Contact & details), a
+   placeholder is blanked here, and every Call / WhatsApp button for that
+   division gives way to the enquiry form (stored in Neon, read in /admin). */
+export function isPlaceholderNumber(v: string | undefined): boolean {
+  const digits = (v ?? "").replace(/\D/g, "");
+  return digits.length < 8 || /^2376000000\d+$/.test(digits) || (v ?? "").includes(CLIENT_TODO);
+}
+for (const d of Object.values(DIVISIONS)) {
+  if (isPlaceholderNumber(d.phone)) d.phone = "";
+  if (isPlaceholderNumber(d.whatsapp)) d.whatsapp = "";
+}
+
 export const DIVISION_LIST = [DIVISIONS.construction, DIVISIONS.apartments, DIVISIONS.designs];
 
 /** MINEFOP approval for the SAFA Designs training centre (owner confirmed it exists). */
@@ -171,9 +184,20 @@ MINEFOP.agrement = val(O.company?.minefop) ?? MINEFOP.agrement;
 
 /** Group-level contact (used on the home page and generic CTAs). */
 export const GROUP_CONTACT = {
+  // Empty while Construction's number is still a placeholder: group CTAs then
+  // lead to the enquiry form rather than a number nobody answers.
   whatsapp: DIVISIONS.construction.whatsapp, // CLIENT_TODO: a group number if they have one
   phone: DIVISIONS.construction.phone,
 };
+
+/** Enquiry-form link, optionally for a division and with a pre-written message. */
+export function enquiryHref(contactPath: string, division?: DivisionKey, message?: string): string {
+  const q = new URLSearchParams();
+  if (division) q.set("d", division);
+  if (message) q.set("m", message.slice(0, 600));
+  const qs = q.toString();
+  return qs ? `${contactPath}?${qs}` : contactPath;
+}
 
 export function waLink(number: string, message: string): string {
   return `https://wa.me/${number}?text=${encodeURIComponent(message)}`;

@@ -4,6 +4,8 @@ import { WhatsAppIcon } from "~/components/ui/icons";
 import { Picture } from "~/components/ui/Picture";
 import { HOME_HERO, HOUSE_IMAGES, PAGE_HEROES } from "~/content/defaults";
 import { DEFAULT_GALLERY } from "~/content/gallery";
+import { AMENITY_LIST, DEFAULT_AMENITIES } from "~/content/amenities";
+import { PLASTER_RATES } from "~/content/construction";
 import type { DivisionKeyO, GalleryItemO, Overrides, PageHeroKey, TT } from "~/content/overrides";
 import { DIVISIONS, MINEFOP, SITE, isTodo } from "~/content/site";
 import { cn } from "~/lib/utils";
@@ -183,7 +185,7 @@ export function PagesEditor() {
     update((c) => ({ ...c, pages: { ...(c.pages ?? {}), [k]: { ...(c.pages?.[k] ?? {}), [field]: v } } }));
   return (
     <div className="space-y-6">
-      <PageTitle title="Page headers" intro="The title, introduction and main photo at the top of each page." />
+      <PageTitle title="Page headers" intro="The title, introduction and main photo at the top of each page, plus the apartment amenities and the plastering calculator figures." />
       <nav aria-label="Pages" className="flex flex-wrap gap-2">
         {keys.map((k) => (
           <a key={k} href={`#page-${k}`} className="rounded-full border border-ink/15 bg-white px-3.5 py-1.5 text-[0.8125rem] font-medium text-ink/75 hover:border-ink/35">
@@ -208,9 +210,67 @@ export function PagesEditor() {
                 onChange={(n) => set(k, "image", n)}
               />
             )}
+            {k === "apartments" && <AmenitiesField />}
+            {k === "plastering" && <RatesField />}
           </Panel>
         );
       })}
+    </div>
+  );
+}
+
+/** Which amenities the Apartments page lists. Only confirmed ones should be ticked. */
+function AmenitiesField() {
+  const { content, update } = useContent();
+  const chosen = new Set<string>(content.apartments?.amenities ?? DEFAULT_AMENITIES);
+  const toggle = (key: string) =>
+    update((c) => {
+      const next = new Set<string>(c.apartments?.amenities ?? DEFAULT_AMENITIES);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return { ...c, apartments: { ...(c.apartments ?? {}), amenities: AMENITY_LIST.map((a) => a.key).filter((k) => next.has(k)) } };
+    });
+  return (
+    <fieldset id="amenities" className="scroll-mt-32">
+      <legend className="block text-[0.8125rem] font-medium text-ink">Amenities shown</legend>
+      <p className="mt-1 text-xs text-muted">Tick only what every guest really gets. Until you change this, the site lists just what the photos show.</p>
+      <div className="mt-3 grid gap-2 sm:grid-cols-2">
+        {AMENITY_LIST.map((a) => (
+          <label key={a.key} className="flex min-h-11 cursor-pointer items-center gap-3 rounded-md border border-ink/12 bg-white px-3 text-[0.9375rem] has-checked:border-apartments/60">
+            <input type="checkbox" className="size-4 accent-[var(--color-apartments)]" checked={chosen.has(a.key)} onChange={() => toggle(a.key)} />
+            {a.label.en} <span className="text-muted">· {a.label.fr}</span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
+
+/** The plastering calculator's output figures: SAFA's own measurements. */
+function RatesField() {
+  const { content, update } = useContent();
+  const c0 = content.construction ?? {};
+  const set = (k: "machinePerDay" | "manualPerMasonDay", v: string) => {
+    const n = Number(v.replace(",", "."));
+    update((c) => ({ ...c, construction: { ...(c.construction ?? {}), [k]: v.trim() && Number.isFinite(n) && n > 0 ? n : undefined } }));
+  };
+  return (
+    <div id="calculator" className="grid scroll-mt-32 gap-5 md:grid-cols-2">
+      <TextInput
+        label="Calculator: machine output (m² per day)"
+        type="number"
+        value={c0.machinePerDay?.toString()}
+        placeholder={String(PLASTER_RATES.machinePerDay)}
+        onChange={(v) => set("machinePerDay", v)}
+        hint="What one machine and its crew really render in a day on your sites."
+      />
+      <TextInput
+        label="Calculator: one mason by hand (m² per day)"
+        type="number"
+        value={c0.manualPerMasonDay?.toString()}
+        placeholder={String(PLASTER_RATES.manualPerMasonDay)}
+        onChange={(v) => set("manualPerMasonDay", v)}
+      />
     </div>
   );
 }
@@ -263,8 +323,8 @@ export function ContactEditor() {
         return (
           <Panel key={d} id={`c-${d}`} title={NAME[d]}>
             <div className="grid gap-5 md:grid-cols-3">
-              <TextInput label="Phone" type="tel" value={o.phone} placeholder={def.phone} onChange={(v) => setDiv(d, "phone", v)} hint="As visitors should read it, e.g. +237 6 70 98 66 43" />
-              <TextInput label="WhatsApp number" type="tel" value={o.whatsapp} placeholder={def.whatsapp} onChange={(v) => setDiv(d, "whatsapp", v)} hint="With country code, e.g. 237670986643" />
+              <TextInput label="Phone" type="tel" value={o.phone} placeholder={def.phone || "Not set: visitors see the enquiry form"} onChange={(v) => setDiv(d, "phone", v)} hint="As visitors should read it, e.g. +237 6 70 98 66 43" />
+              <TextInput label="WhatsApp number" type="tel" value={o.whatsapp} placeholder={def.whatsapp || "Not set: no WhatsApp button"} onChange={(v) => setDiv(d, "whatsapp", v)} hint="With country code, e.g. 237670986643" />
               <TextInput label="Email" type="email" value={o.email} placeholder={def.email} onChange={(v) => setDiv(d, "email", v)} />
             </div>
             <BiField label="Address" value={o.addressLine} defaults={tval(def.address.line)} onChange={(v) => setDiv(d, "addressLine", v)} />

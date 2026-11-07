@@ -1,7 +1,7 @@
 import { ArrowRight, LoaderCircle } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { useNavigate, useSearchParams } from "react-router";
-import { DIVISIONS, greeting, waLink } from "~/content/site";
+import { DIVISIONS, DIVISION_LIST, SITE, greeting, waLink } from "~/content/site";
 import { FIELD_ERRORS } from "~/lib/contact-schema";
 import { href, type Lang } from "~/lib/i18n";
 import { cn } from "~/lib/utils";
@@ -34,6 +34,11 @@ export function ContactForm({ lang }: { lang: Lang }) {
     if (d && DIV_PARAM[d]) setDivision(DIV_PARAM[d]);
     const t = params.get("t");
     if (t) setTopic(t.slice(0, 40));
+    // ?m= carries a pre-written message (calculator, availability) when the
+    // division has no WhatsApp yet; never overwrite what the visitor typed.
+    const m = params.get("m");
+    const box = formRef.current?.elements.namedItem("message") as HTMLTextAreaElement | null;
+    if (m && box && !box.value) box.value = m.slice(0, 600);
     setTs(String(Date.now()));
     if (params.get("error")) setStatus("failed");
   }, [params]);
@@ -84,7 +89,7 @@ export function ContactForm({ lang }: { lang: Lang }) {
   }
 
   const divKey = (Object.keys(DIV_PARAM).find((k) => DIV_PARAM[k] === division) ?? undefined) as keyof typeof DIVISIONS | undefined;
-  const wa = divKey ? DIVISIONS[divKey].whatsapp : DIVISIONS.construction.whatsapp;
+  const wa = (divKey ? DIVISIONS[divKey].whatsapp : "") || DIVISION_LIST.find((d) => d.whatsapp)?.whatsapp || "";
 
   const label = "eyebrow mb-3 block text-ink/70";
   const input =
@@ -163,9 +168,15 @@ export function ContactForm({ lang }: { lang: Lang }) {
           <p className="font-medium">
             {lang === "fr" ? "Le message n'a pas pu partir. Écrivez-nous directement sur WhatsApp :" : "Your message couldn't be sent. Message us directly on WhatsApp instead:"}
           </p>
-          <a href={waLink(wa, greeting(divKey ?? "group", lang))} rel="noopener" className="mt-3 inline-flex min-h-11 items-center gap-2 font-semibold text-[#1f7a4d] underline underline-offset-4">
-            <WhatsAppIcon className="size-5" /> WhatsApp
-          </a>
+          {wa ? (
+            <a href={waLink(wa, greeting(divKey ?? "group", lang))} rel="noopener" className="mt-3 inline-flex min-h-11 items-center gap-2 font-semibold text-[#1f7a4d] underline underline-offset-4">
+              <WhatsAppIcon className="size-5" /> WhatsApp
+            </a>
+          ) : (
+            <a href={`mailto:${SITE.email}`} className="mt-3 inline-flex min-h-11 items-center gap-2 font-semibold underline underline-offset-4">
+              {SITE.email}
+            </a>
+          )}
         </div>
       )}
 

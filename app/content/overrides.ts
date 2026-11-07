@@ -70,6 +70,15 @@ export type Overrides = {
     houseImages?: Partial<Record<DivisionKeyO, string>>;
   };
   pages?: Partial<Record<PageHeroKey, { title?: TT; lede?: TT; image?: string }>>;
+  apartments?: {
+    /** Amenity keys (amenities.ts) the owner confirmed. Missing = photo-backed defaults. */
+    amenities?: string[];
+  };
+  construction?: {
+    /** SAFA's own measured outputs for the calculator, m² per day. */
+    machinePerDay?: number;
+    manualPerMasonDay?: number;
+  };
   /** The whole gallery, once edited in the admin (order = display order). */
   gallery?: GalleryItemO[];
   /** Images uploaded through the admin (manifest entries, served from R2). */
