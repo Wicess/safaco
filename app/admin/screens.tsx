@@ -6,6 +6,8 @@ import { HOME_HERO, HOUSE_IMAGES, PAGE_HEROES } from "~/content/defaults";
 import { DEFAULT_GALLERY } from "~/content/gallery";
 import { AMENITY_LIST, DEFAULT_AMENITIES } from "~/content/amenities";
 import { PLASTER_RATES } from "~/content/construction";
+import { IMG_DEFAULT, isStock } from "~/content/media-map";
+import { PHOTO_SLOTS } from "~/content/photo-slots";
 import type { DivisionKeyO, GalleryItemO, Overrides, PageHeroKey, TT } from "~/content/overrides";
 import { DIVISIONS, MINEFOP, SITE, isTodo } from "~/content/site";
 import { cn } from "~/lib/utils";
@@ -60,7 +62,7 @@ export function Enquiries() {
             type="button"
             aria-pressed={filter === f}
             onClick={() => setFilter(f)}
-            className={cn("min-h-9 rounded-full border px-3.5 text-[0.8125rem] font-medium", filter === f ? "border-navy-900 bg-navy-900 text-ivory" : "border-ink/15 bg-white text-ink/75 hover:border-ink/35")}
+            className={cn("min-h-11 rounded-full border px-4 pointer-fine:min-h-9 pointer-fine:px-3.5 text-[0.8125rem] font-medium", filter === f ? "border-navy-900 bg-navy-900 text-ivory" : "border-ink/15 bg-white text-ink/75 hover:border-ink/35")}
           >
             {f === "ALL" ? "All" : f[0] + f.slice(1).toLowerCase()}
           </button>
@@ -102,12 +104,12 @@ export function Enquiries() {
                     href={`https://wa.me/${wa}`}
                     target="_blank"
                     rel="noopener"
-                    className="inline-flex min-h-8 items-center gap-2 rounded-md bg-[#1f7a4d] px-3 text-[0.8125rem] font-medium text-white hover:bg-[#186540]"
+                    className="inline-flex min-h-11 items-center gap-2 rounded-md pointer-fine:min-h-8 bg-[#1f7a4d] px-3 text-[0.8125rem] font-medium text-white hover:bg-[#186540]"
                   >
                     <WhatsAppIcon className="size-4" /> WhatsApp
                   </a>
                   {l.email && (
-                    <a href={`mailto:${l.email}`} className="inline-flex min-h-8 items-center gap-2 rounded-md border border-ink/15 px-3 text-[0.8125rem] font-medium hover:border-ink/35">
+                    <a href={`mailto:${l.email}`} className="inline-flex min-h-11 items-center gap-2 rounded-md pointer-fine:min-h-8 border border-ink/15 px-3 text-[0.8125rem] font-medium hover:border-ink/35">
                       <Mail className="size-4" aria-hidden /> {l.email}
                     </a>
                   )}
@@ -275,6 +277,64 @@ function RatesField() {
   );
 }
 
+/* ───────────────────────── Photos ───────────────────────── */
+
+export function PhotosEditor() {
+  const { content, update } = useContent();
+  const set = (k: string, v: string | undefined) =>
+    update((c) => {
+      const images = { ...(c.images ?? {}) };
+      if (v) images[k] = v;
+      else delete images[k];
+      return { ...c, images };
+    });
+  return (
+    <div className="space-y-6">
+      <PageTitle
+        title="Photos"
+        intro="Every other photo on the website, page by page. Upload your own or pick one from the library; “Reset” brings back the original. Photos marked Illustrative are stock images, so replacing them with your own is the best upgrade."
+      />
+      <nav aria-label="Pages" className="flex flex-wrap gap-2">
+        {PHOTO_SLOTS.map((g, i) => (
+          <a key={g.group} href={`#photos-${i}`} className="rounded-full border border-ink/15 bg-white px-3.5 py-1.5 text-[0.8125rem] font-medium text-ink/75 hover:border-ink/35">
+            {g.group}
+          </a>
+        ))}
+      </nav>
+      {PHOTO_SLOTS.map((g, i) => (
+        <Panel key={g.group} id={`photos-${i}`} title={g.group}>
+          <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 xl:grid-cols-3">
+            {g.items.map((it) => {
+              const value = content.images?.[it.key] || undefined;
+              const shown = value ?? IMG_DEFAULT[it.key];
+              return (
+                <ImagePicker
+                  key={it.key}
+                  label={it.label}
+                  hint={
+                    <>
+                      {it.where}
+                      {shown && isStock(shown) && (
+                        <span className="ml-2 align-middle">
+                          <Badge tone="warn">Illustrative</Badge>
+                        </span>
+                      )}
+                    </>
+                  }
+                  value={value}
+                  fallback={IMG_DEFAULT[it.key] || undefined}
+                  empty="No photo yet"
+                  onChange={(n) => set(it.key, n)}
+                />
+              );
+            })}
+          </div>
+        </Panel>
+      ))}
+    </div>
+  );
+}
+
 /* ───────────────────────── Contact & details ───────────────────────── */
 
 export function ContactEditor() {
@@ -379,7 +439,7 @@ export function GalleryEditor() {
             <select
               value={division}
               onChange={(e) => setDivision(e.target.value as DivisionKeyO)}
-              className="mt-1.5 block min-h-10 rounded-md border border-ink/15 bg-white px-3 text-sm"
+              className="mt-1.5 block min-h-11 rounded-md border border-ink/15 bg-white px-3 text-base pointer-fine:min-h-10 pointer-fine:text-sm"
             >
               {DIVS.map((d) => (
                 <option key={d} value={d}>
@@ -403,7 +463,7 @@ export function GalleryEditor() {
             type="button"
             aria-pressed={show === f}
             onClick={() => setShow(f)}
-            className={cn("min-h-9 rounded-full border px-3.5 text-[0.8125rem] font-medium", show === f ? "border-navy-900 bg-navy-900 text-ivory" : "border-ink/15 bg-white text-ink/75 hover:border-ink/35")}
+            className={cn("min-h-11 rounded-full border px-4 pointer-fine:min-h-9 pointer-fine:px-3.5 text-[0.8125rem] font-medium", show === f ? "border-navy-900 bg-navy-900 text-ivory" : "border-ink/15 bg-white text-ink/75 hover:border-ink/35")}
           >
             {f === "all" ? `All (${items.length})` : `${NAME[f].replace("SAFA ", "")} (${items.filter((g) => g.division === f).length})`}
           </button>
@@ -436,7 +496,7 @@ export function GalleryEditor() {
                     aria-label="Business"
                     value={g.division}
                     onChange={(e) => patch(g.id, { division: e.target.value as DivisionKeyO })}
-                    className="min-h-9 rounded-md border border-ink/15 bg-white px-2 text-base sm:min-h-8 sm:text-[0.8125rem]"
+                    className="min-h-11 rounded-md border border-ink/15 bg-white px-2 text-base pointer-fine:min-h-8 pointer-fine:text-[0.8125rem]"
                   >
                     {DIVS.map((d) => (
                       <option key={d} value={d}>
@@ -473,7 +533,7 @@ export function GalleryEditor() {
               <div className="col-span-2 space-y-2 sm:col-span-1 sm:col-start-2">
                 {(["en", "fr"] as const).map((l) => (
                   <label key={l} className="relative block">
-                    <span className="pointer-events-none absolute right-2 top-1.5 rounded bg-ink/6 px-1.5 py-0.5 text-[0.625rem] font-semibold uppercase tracking-wider text-ink/55">{l}</span>
+                    <span className="pointer-events-none absolute right-2 top-1.5 rounded bg-ink/6 px-1.5 py-0.5 text-[0.6875rem] font-semibold uppercase tracking-wider text-ink/55">{l}</span>
                     <span className="sr-only">Caption ({l})</span>
                     <textarea
                       lang={l}
@@ -481,7 +541,7 @@ export function GalleryEditor() {
                       value={g.alt[l]}
                       placeholder={l === "en" ? "Caption in English" : "Légende en français"}
                       onChange={(e) => patch(g.id, { alt: { ...g.alt, [l]: e.target.value } })}
-                      className="w-full resize-y rounded-md border border-ink/15 py-1.5 pl-2.5 pr-10 text-base leading-snug placeholder:text-ink/40 focus:border-navy-700 focus:outline-none focus:ring-2 focus:ring-navy-700/15 sm:text-[0.8125rem]"
+                      className="min-h-[5.25rem] w-full resize-y rounded-md border border-ink/15 py-1.5 pl-2.5 pr-10 text-base pointer-fine:min-h-0 leading-snug placeholder:text-ink/40 focus:border-navy-700 focus:outline-none focus:ring-2 focus:ring-navy-700/15 pointer-fine:sm:text-[0.8125rem]"
                     />
                   </label>
                 ))}

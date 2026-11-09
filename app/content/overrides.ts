@@ -79,6 +79,8 @@ export type Overrides = {
     machinePerDay?: number;
     manualPerMasonDay?: number;
   };
+  /** Photo slots (media-map IMG keys) the owner replaced in admin → Photos. */
+  images?: Record<string, string>;
   /** The whole gallery, once edited in the admin (order = display order). */
   gallery?: GalleryItemO[];
   /** Images uploaded through the admin (manifest entries, served from R2). */

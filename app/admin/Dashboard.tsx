@@ -55,7 +55,7 @@ export function Dashboard() {
                   type="button"
                   aria-pressed={d === days}
                   onClick={() => setDays(d)}
-                  className={cn("min-h-9 rounded px-3 text-[0.8125rem] font-medium transition-colors", d === days ? "bg-navy-900 text-ivory" : "text-ink/70 hover:text-ink")}
+                  className={cn("min-h-11 rounded px-3 text-[0.8125rem] pointer-fine:min-h-9 font-medium transition-colors", d === days ? "bg-navy-900 text-ivory" : "text-ink/70 hover:text-ink")}
                 >
                   {d === 365 ? "1 year" : `${d} days`}
                 </button>

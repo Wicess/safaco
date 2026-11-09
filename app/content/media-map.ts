@@ -1,3 +1,4 @@
+import { O, val } from "./overrides";
 /**
  * Semantic image slots → media file base names (see scripts/media.ts).
  *
@@ -12,12 +13,13 @@
  * the training classroom and the Yaoundé cityscape on About.
  */
 
-/** True when an image is a stock placeholder rather than SAFA's own photo. */
+/** True when an image is a stock placeholder rather than SAFA's own photo
+ *  (built-in `safa-*` photos and anything uploaded in the admin, `up-*`, are SAFA's). */
 export function isStock(name: string | undefined): boolean {
-  return Boolean(name) && !name!.startsWith("safa-");
+  return Boolean(name) && !name!.startsWith("safa-") && !name!.startsWith("up-");
 }
 
-export const IMG = {
+const BASE_IMG = {
   // ── SAFA Construction (own photos) ──
   fleetYard: "safa-construction-fleet-yard",
   greenUnit: "safa-construction-green-unit",
@@ -72,7 +74,24 @@ export const IMG = {
   dualMastLift: "construction-dual-mast-lift-01",
   scaffoldPlatform: "construction-scaffold-platform-01",
   mastSections: "construction-mast-sections-01",
+  // Empty slot: fleet N° 06 (mobile lift base) until SAFA adds its own photo.
+  liftBase: "",
 } as const;
+
+export type ImgKey = keyof typeof BASE_IMG;
+/** The code's default photo for each slot (the admin shows it as "default"). */
+export const IMG_DEFAULT: Record<ImgKey, string> = BASE_IMG;
+const chosen = (O.images ?? {}) as Partial<Record<ImgKey, string>>;
+/** Every photo slot, with the admin's published choice applied (admin → Photos). */
+export const IMG = Object.fromEntries(
+  (Object.keys(BASE_IMG) as ImgKey[]).map((k) => [k, val(chosen[k]) ?? BASE_IMG[k]]),
+) as Record<ImgKey, string>;
+/** Images placed by the admin in a slot: their alt text comes from the
+ *  gallery caption rather than the slot's hard-coded description. */
+export const IMG_OVERRIDDEN = new Set(
+  (Object.keys(BASE_IMG) as ImgKey[]).filter((k) => val(chosen[k]) && val(chosen[k]) !== BASE_IMG[k]).map((k) => IMG[k]),
+);
+
 
 /** SAFA's own videos, served next to the images (public/media, or R2). Silent:
  *  the audio was stripped (site noise and a licensed music track). */

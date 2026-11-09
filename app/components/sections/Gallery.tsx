@@ -235,7 +235,7 @@ export function GalleryTile({
       />
       <span aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy-950/55 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover/tile:opacity-100" />
       {item.video && (
-        <span aria-hidden className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-navy-950/75 py-1.5 pl-2 pr-3 text-[0.625rem] font-semibold uppercase tracking-[0.16em] text-ivory backdrop-blur-sm">
+        <span aria-hidden className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-navy-950/75 py-1.5 pl-2 pr-3 text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-ivory backdrop-blur-sm">
           <Play className="size-3 fill-current" /> {L.video[lang]}
         </span>
       )}

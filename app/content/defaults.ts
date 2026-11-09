@@ -1,6 +1,6 @@
 import type { T } from "~/lib/i18n";
 import { DEFAULT_GALLERY } from "./gallery";
-import { IMG } from "./media-map";
+import { IMG_DEFAULT as IMG } from "./media-map";
 import { O, val, type DivisionKeyO, type PageHeroKey } from "./overrides";
 import type { Lang } from "~/lib/i18n";
 

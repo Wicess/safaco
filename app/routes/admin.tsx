@@ -1,9 +1,9 @@
-import { BarChart3, ExternalLink, Home, Image as ImageIcon, Inbox, LayoutTemplate, Loader2, Menu, Phone, UserRound, X } from "lucide-react";
+import { BarChart3, ExternalLink, Home, Image as ImageIcon, Images, Inbox, LayoutTemplate, Loader2, Menu, Phone, UserRound, X } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import { api, errorText, type User } from "~/admin/api";
 import { Dashboard } from "~/admin/Dashboard";
-import { Account, ContactEditor, Enquiries, GalleryEditor, HomeEditor, PagesEditor } from "~/admin/screens";
+import { Account, ContactEditor, Enquiries, GalleryEditor, HomeEditor, PagesEditor, PhotosEditor } from "~/admin/screens";
 import { ContentProvider, useContent } from "~/admin/store";
 import { Btn } from "~/admin/ui";
 import { ADMIN_FLAG } from "~/lib/beacon";
@@ -18,9 +18,10 @@ const NAV = [
   { path: "pages", label: "Page headers", icon: LayoutTemplate, group: "Website" },
   { path: "contact", label: "Contact & details", icon: Phone, group: "Website" },
   { path: "gallery", label: "Gallery", icon: ImageIcon, group: "Website" },
+  { path: "photos", label: "Photos", icon: Images, group: "Website" },
   { path: "account", label: "Account", icon: UserRound, group: "Settings" },
 ] as const;
-const EDITS = new Set(["home", "pages", "contact", "gallery"]);
+const EDITS = new Set(["home", "pages", "contact", "gallery", "photos"]);
 
 function flagAdmin(on: boolean) {
   try {
@@ -135,6 +136,7 @@ function Shell({ user, onLogout }: { user: User; onLogout: () => void }) {
     pages: <PagesEditor />,
     contact: <ContactEditor />,
     gallery: <GalleryEditor />,
+    photos: <PhotosEditor />,
     account: <Account user={user} onLogout={onLogout} />,
   };
 
@@ -147,7 +149,7 @@ function Shell({ user, onLogout }: { user: User; onLogout: () => void }) {
       {/* Mobile top bar + drawer */}
       <header className="on-dark sticky top-0 z-30 flex h-14 items-center justify-between bg-navy-950 px-4 text-ivory lg:hidden">
         <span className="font-display text-lg">SAFA &amp; Co · Admin</span>
-        <button type="button" onClick={() => setDrawer(true)} aria-label="Open menu" className="grid size-10 place-items-center rounded-md hover:bg-ivory/10">
+        <button type="button" onClick={() => setDrawer(true)} aria-label="Open menu" className="grid size-11 place-items-center rounded-md hover:bg-ivory/10">
           <Menu className="size-5" aria-hidden />
         </button>
       </header>
@@ -155,7 +157,7 @@ function Shell({ user, onLogout }: { user: User; onLogout: () => void }) {
         <div className="fixed inset-0 z-40 lg:hidden">
           <button type="button" aria-label="Close menu" className="admin-scrim absolute inset-0 bg-navy-950/60" onClick={() => setDrawer(false)} />
           <aside className="admin-drawer on-dark absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col bg-navy-950 text-ivory">
-            <button type="button" onClick={() => setDrawer(false)} aria-label="Close menu" className="absolute right-3 top-3 grid size-10 place-items-center rounded-md hover:bg-ivory/10">
+            <button type="button" onClick={() => setDrawer(false)} aria-label="Close menu" className="absolute right-3 top-3 grid size-11 place-items-center rounded-md hover:bg-ivory/10">
               <X className="size-5" aria-hidden />
             </button>
             <Sidebar user={user} section={section} />
@@ -198,7 +200,7 @@ function Sidebar({ user, section }: { user: User; section: string }) {
                 to={`/admin${n.path ? `/${n.path}` : ""}`}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "flex min-h-10 items-center gap-3 rounded-md px-3 text-sm transition-colors duration-150",
+                  "flex min-h-11 items-center gap-3 rounded-md px-3 text-sm pointer-fine:min-h-10 transition-colors duration-150",
                   active ? "bg-ivory/12 font-medium text-ivory" : "text-ivory/70 hover:bg-ivory/6 hover:text-ivory",
                 )}
               >
@@ -210,7 +212,7 @@ function Sidebar({ user, section }: { user: User; section: string }) {
         })}
       </nav>
       <div className="border-t border-ivory/10 p-4">
-        <a href="/en" target="_blank" rel="noopener" className="flex min-h-10 items-center gap-2 rounded-md px-2 text-sm text-ivory/70 hover:bg-ivory/6 hover:text-ivory">
+        <a href="/en" target="_blank" rel="noopener" className="flex min-h-11 items-center gap-2 rounded-md px-2 text-sm text-ivory/70 pointer-fine:min-h-10 hover:bg-ivory/6 hover:text-ivory">
           <ExternalLink className="size-4" aria-hidden /> View the website
         </a>
         <p className="mt-2 truncate px-2 text-xs text-ivory/45">{user.email}</p>

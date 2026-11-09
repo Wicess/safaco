@@ -119,7 +119,7 @@ function DeveloperCredit() {
     <a
       href="mailto:kenj52974@gmail.com"
       aria-label="Contact the developer, W!CE"
-      className="group inline-flex items-baseline gap-2.5 self-start md:self-auto"
+      className="group inline-flex items-baseline gap-2.5 self-start py-3 md:self-auto"
     >
       <span className="font-sans text-[10px] font-medium uppercase tracking-[0.4em] text-ivory/55 transition-colors duration-300 group-hover:text-ivory/80">
         Developed by

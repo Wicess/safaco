@@ -69,12 +69,12 @@ export default function Legal() {
           <ul className="mt-6 space-y-2 text-sm text-muted">
             {credits.map((c) => (
               <li key={c.file}>
-                <a className="underline underline-offset-4" href={c.source} rel="noopener nofollow">
+                <a className="inline-block py-1 underline underline-offset-4" href={c.source} rel="noopener nofollow">
                   {c.author}
                 </a>{" "}
                 —{" "}
                 {c.licenceUrl ? (
-                  <a className="underline underline-offset-4" href={c.licenceUrl} rel="noopener nofollow license">
+                  <a className="inline-block py-1 underline underline-offset-4" href={c.licenceUrl} rel="noopener nofollow license">
                     {c.licence}
                   </a>
                 ) : (

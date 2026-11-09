@@ -1,6 +1,6 @@
 import type { T } from "~/lib/i18n";
 import type { DivisionKey } from "./site";
-import { IMG, type VideoKey } from "./media-map";
+import { IMG_DEFAULT as IMG, type VideoKey } from "./media-map";
 import { O } from "./overrides";
 
 /**

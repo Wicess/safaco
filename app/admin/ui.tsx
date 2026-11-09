@@ -45,7 +45,7 @@ export function Btn({ variant = "outline", loading, size = "md", className, chil
       disabled={disabled || loading}
       className={cn(
         "inline-flex items-center justify-center gap-2 rounded-md font-medium transition-[background-color,border-color,color,opacity] duration-150 disabled:cursor-not-allowed disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
-        size === "sm" ? "min-h-8 px-3 text-[0.8125rem]" : "min-h-10 px-4 text-sm",
+        size === "sm" ? "min-h-11 px-3.5 text-[0.8125rem] pointer-fine:min-h-8 pointer-fine:px-3" : "min-h-11 px-4 text-sm pointer-fine:min-h-10",
         variant === "primary" && "bg-navy-900 text-ivory hover:bg-navy-700",
         variant === "gold" && "bg-gold text-navy-950 hover:bg-gold-300",
         variant === "outline" && "border border-ink/15 bg-white text-ink hover:border-ink/35 hover:bg-ivory",
@@ -61,7 +61,7 @@ export function Btn({ variant = "outline", loading, size = "md", className, chil
 }
 
 const inputCls =
-  "w-full rounded-md border border-ink/15 bg-white px-3 py-2 text-base text-ink sm:text-[0.9375rem] placeholder:text-ink/40 transition-[border-color,box-shadow] duration-150 hover:border-ink/30 focus:border-navy-700 focus:outline-none focus:ring-2 focus:ring-navy-700/15";
+  "min-h-11 w-full rounded-md border border-ink/15 bg-white px-3 py-2 text-base text-ink pointer-fine:min-h-10 pointer-fine:sm:text-[0.9375rem] placeholder:text-ink/40 transition-[border-color,box-shadow] duration-150 hover:border-ink/30 focus:border-navy-700 focus:outline-none focus:ring-2 focus:ring-navy-700/15";
 
 export function Field({ label, hint, children, htmlFor }: { label: string; hint?: ReactNode; children: ReactNode; htmlFor?: string }) {
   return (
@@ -140,7 +140,7 @@ function BiSide({ lang, value, placeholder, onChange, multiline }: { lang: "en" 
   const id = useId();
   return (
     <div className="relative">
-      <label htmlFor={id} className="pointer-events-none absolute right-2 top-2 rounded bg-ink/6 px-1.5 py-0.5 text-[0.625rem] font-semibold uppercase tracking-wider text-ink/55">
+      <label htmlFor={id} className="pointer-events-none absolute right-2 top-2 rounded bg-ink/6 px-1.5 py-0.5 text-[0.6875rem] font-semibold uppercase tracking-wider text-ink/55">
         {lang}
       </label>
       {multiline ? (
@@ -227,14 +227,14 @@ export function UploadButton({ onUploaded, label = "Upload photos", multiple = t
 }
 
 /** Thumbnail + "Change photo" opening the library (all site photos + uploads). */
-export function ImagePicker({ label, hint, value, fallback, onChange }: { label: string; hint?: ReactNode; value?: string; fallback?: string; onChange: (name: string | undefined) => void }) {
+export function ImagePicker({ label, hint, value, fallback, onChange, empty = "Video" }: { label: string; hint?: ReactNode; value?: string; fallback?: string; onChange: (name: string | undefined) => void; empty?: string }) {
   const [open, setOpen] = useState(false);
   const shown = value || fallback;
   return (
     <Field label={label} hint={hint}>
       <div className="flex flex-col items-start gap-3">
-        <div className="w-32 shrink-0 overflow-hidden rounded-md border border-ink/10 bg-stone">
-          {shown ? <Picture name={shown} alt="" sizes="112px" ratio="4/5" /> : <div className="grid aspect-[4/5] place-items-center text-xs text-muted">Video</div>}
+        <div className="w-full max-w-32 shrink-0 overflow-hidden rounded-md border border-ink/10 bg-stone">
+          {shown ? <Picture name={shown} alt="" sizes="112px" ratio="4/5" /> : <div className="grid aspect-[4/5] place-items-center p-2 text-center text-xs text-muted">{empty}</div>}
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <Btn type="button" size="sm" onClick={() => setOpen(true)}>

@@ -185,7 +185,7 @@ function MobileMenu({ lang }: { lang: Lang }) {
                 <ul className="mt-3 space-y-1 pl-0.5">
                   {g.children.map((c) => (
                     <li key={c.page}>
-                      <Link to={href(c.page as PageKey, lang)} className="flex min-h-10 items-center gap-2 text-sm text-ivory/70">
+                      <Link to={href(c.page as PageKey, lang)} className="flex min-h-11 items-center gap-2 text-sm text-ivory/70">
                         <span aria-hidden className="h-px w-4 bg-gold" />
                         {c.label[lang]}
                       </Link>

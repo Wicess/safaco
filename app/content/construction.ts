@@ -71,6 +71,7 @@ export const FLEET: Unit[] = [
       en: "A movable base so the lift follows the work around the building.",
       fr: "Une base mobile pour que le levage suive le chantier autour du bâtiment.",
     },
+    img: IMG.liftBase || undefined,
     page: "scaffold",
   },
 ];

@@ -30,12 +30,12 @@ export function FleetGrid({ lang, units, link = true }: { lang: Lang; units: Uni
             ) : (
               <div className="relative overflow-hidden">
                 <Picture name={u.img} alt={u.name[lang]} sizes="(min-width: 64rem) 30vw, (min-width: 48rem) 45vw, 80vw" className="grain aspect-[4/3]" imgClassName="transition-transform duration-[1.4s] ease-(--ease-out-quart) group-hover:scale-[1.04]" />
-                <span className="tabular absolute left-3 top-3 bg-navy-950/85 px-2 py-1 text-[0.625rem] font-semibold tracking-[0.18em] text-gold-300">
+                <span className="tabular absolute left-3 top-3 bg-navy-950/85 px-2 py-1 text-[0.6875rem] font-semibold tracking-[0.18em] text-gold-300">
                   N° {u.code}
                 </span>
                 {/* Stock photo of this KIND of unit, never presented as SAFA's own */}
                 {isStock(u.img) && (
-                  <span className="absolute bottom-3 right-3 bg-navy-950/75 px-2 py-1 text-[0.625rem] tracking-[0.04em] text-ivory/90">
+                  <span className="absolute bottom-3 right-3 bg-navy-950/75 px-2 py-1 text-[0.6875rem] tracking-[0.04em] text-ivory/90">
                     {lang === "fr" ? "Photo d'illustration" : "Illustrative photo"}
                   </span>
                 )}

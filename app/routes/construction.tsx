@@ -109,7 +109,7 @@ export default function Construction() {
                 <div className="relative">
                   <Picture name={s.img} alt="" sizes="(min-width: 48rem) 30vw, 100vw" className="grain aspect-[4/5]" imgClassName="transition-transform duration-[1.4s] ease-(--ease-out-quart) group-hover:scale-[1.04]" />
                   {isStock(s.img) && (
-                    <span className="absolute bottom-2 left-2 bg-ivory/85 px-1.5 py-0.5 text-[0.625rem] text-ink/70">{lang === "fr" ? "Photo d'illustration" : "Illustrative photo"}</span>
+                    <span className="absolute bottom-2 left-2 bg-ivory/85 px-1.5 py-0.5 text-[0.6875rem] text-ink/70">{lang === "fr" ? "Photo d'illustration" : "Illustrative photo"}</span>
                   )}
                 </div>
                 <h3 className="mt-6 text-[1.75rem] leading-tight">{s.title[lang]}</h3>

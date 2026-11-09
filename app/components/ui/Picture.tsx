@@ -1,5 +1,8 @@
 import manifest from "~/content/media.generated.json";
 import { O } from "~/content/overrides";
+import { IMG_OVERRIDDEN } from "~/content/media-map";
+import { altFor } from "~/content/defaults";
+import { useLang } from "~/lib/hooks";
 import { cn } from "~/lib/utils";
 
 type Entry = { w: number; h: number; widths: number[]; blur: string; formats: string[]; base?: string };
@@ -49,6 +52,12 @@ export function Picture({
   /** Force an aspect ratio box, e.g. "4/5". Image is cropped with object-cover. */
   ratio?: string;
 }) {
+  const lang = useLang();
+  // A photo the owner placed in this slot from the admin: describe it with its
+  // own gallery caption, not the default photo's description.
+  // No caption (uploaded straight into the slot): a neutral description beats
+  // one that describes a different picture.
+  if (alt && IMG_OVERRIDDEN.has(name)) alt = altFor(name, lang) || (lang === "fr" ? "Photo SAFA & Co" : "A SAFA & Co photo");
   const m = mediaEntry(name);
   if (!m) {
     return (

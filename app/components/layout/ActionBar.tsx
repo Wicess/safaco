@@ -13,7 +13,7 @@ export function ActionBar({ lang, division }: { lang: Lang; division?: DivisionK
   const d = division ? DIVISIONS[division] : undefined;
   const wa = d?.whatsapp ?? GROUP_CONTACT.whatsapp;
   const phone = d?.phone ?? GROUP_CONTACT.phone;
-  const cell = "flex min-h-(--bar-h) flex-1 flex-col items-center justify-center gap-1 text-[0.6875rem] font-semibold uppercase tracking-[0.12em]";
+  const cell = "flex min-h-(--bar-h) flex-1 flex-col items-center justify-center gap-1 text-[0.75rem] font-semibold uppercase tracking-[0.1em]";
   return (
     <nav
       aria-label={UI.contact[lang]}
