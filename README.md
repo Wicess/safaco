@@ -36,7 +36,7 @@ pnpm dev:api              # contact API on :3001 (Vite proxies /api)
 | `pnpm preview` | Serves the build like Vercel (language redirect on `/`, 404, `/api`) on :4173 |
 | `pnpm typecheck` | Route typegen + `tsc` |
 | `pnpm media` | Converts `media-src/*.jpg` into AVIF/WebP/JPEG at 360–1600 w in `public/media`, plus the manifest and photo credits |
-| `pnpm media:upload` | Syncs `public/media` to the R2 bucket (serve with `VITE_MEDIA_BASE`) |
+| `pnpm media:upload` | Optional: syncs `public/media` to R2, only if you serve media from R2 via `VITE_MEDIA_BASE` |
 | `pnpm indexnow` | After a production deploy: notifies Bing/IndexNow of every sitemap URL |
 | `pnpm db:migrate` | `prisma migrate deploy` against `DATABASE_URL_UNPOOLED` |
 
@@ -56,8 +56,9 @@ dev servers are holding the inotify limit. Build with polling instead:
 - **Videos:** `public/media/*.mp4` (silent H.264, 540–960 px, faststart), registered in `VIDEO` in `media-map.ts`;
   their poster stills are `media-src/safa-video-*.jpg`. `<AmbientVideo>` loads nothing until on screen, and pauses off screen or in a hidden tab.
 - **Gallery:** `app/content/gallery.ts` (own media only) feeds `/en/gallery`, the division strips and the home mosaic.
-- **After adding media:** run `pnpm media`, then `pnpm media:upload`. Production serves `/media` from R2 (`VITE_MEDIA_BASE`),
-  so new files must be uploaded **before** deploying, or they 404.
+- **After adding media:** run `pnpm media` and commit `public/media` + `app/content/media.generated.json`.
+  Production serves built-in media from Vercel (`/media`; `VITE_MEDIA_BASE` unset). If you ever set
+  `VITE_MEDIA_BASE` to an R2 custom domain, run `pnpm media:upload` before deploying or new files 404.
 - **SEO:** `app/lib/seo.ts` handles canonical, hreflang, Open Graph and the Organization graph (three sub-organizations).
 
 ### House rules (owner-confirmed)
@@ -94,10 +95,14 @@ production launch.
 
 ## Deploy (Vercel)
 
+Step-by-step owner guide: **[docs/DEPLOY.md](docs/DEPLOY.md)**. In short:
+
 1. Import the GitHub repo in Vercel. The framework preset is "Other"; `vercel.json` sets the rest.
-2. Add the environment variables from `.env.example`. Commercial sites need the **Pro** plan.
-3. Run `pnpm db:migrate` once against Neon.
-4. On Cloudflare DNS, point the domain at Vercel as **DNS only** (grey cloud), as Vercel recommends.
+2. Import the environment variables (a local, gitignored `.env.vercel` is generated from `.env`;
+   names are listed in `.env.example`). Commercial sites need the **Pro** plan.
+3. Migrations are already applied to Neon (`pnpm db:migrate` for future ones).
+4. DNS stays at Hostinger (mail lives there): add the `A`/`CNAME` records Vercel shows; never
+   change the nameservers or the MX/SPF/DKIM records.
 5. In the Vercel Firewall, add rate-limit rules on `/api/contact` (e.g. 5 requests/min per IP) and on
    `/api/admin/login` (e.g. 10 requests/15 min per IP). The in-app limits only cover one warm function instance.
 6. Submit `https://<domain>/sitemap.xml` in Google Search Console and Bing Webmaster Tools.
@@ -107,8 +112,9 @@ production launch.
 Neon bills for the time the database is **awake**; it suspends after 5 minutes with zero
 queries. This site is built so it is asleep almost always:
 
-- **Page views never query it.** Every page is static HTML; there is no admin dashboard, no
-  polling, no cron, no analytics writes, and `/api/health` does not touch Postgres.
+- **Page views never query it.** Every page is static HTML; there is no polling and no cron,
+  the admin dashboard only queries on open/refresh, the visit counter makes **one** write per
+  visit, and `/api/health` does not touch Postgres.
 - **Only a real enquiry wakes it, with exactly one query** (a single `INSERT`; the email is
   sent first so no follow-up `UPDATE` is needed).
 - **Spam never reaches it.** Validation, the honeypot, the minimum fill time, Turnstile, a
