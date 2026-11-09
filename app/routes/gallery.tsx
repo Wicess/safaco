@@ -1,12 +1,14 @@
-import { useEffect, useMemo, useState } from "react";
+import { ArrowRight } from "lucide-react";
+import { useEffect, useState, type KeyboardEvent } from "react";
+import { Link } from "react-router";
 import { CtaBand } from "~/components/sections/CtaBand";
 import { GalleryTile, Lightbox, useLightbox } from "~/components/sections/Gallery";
-import { Breadcrumbs, TraceLine } from "~/components/sections/primitives";
+import { Breadcrumbs } from "~/components/sections/primitives";
 import { GALLERY } from "~/content/gallery";
 import { DIVISION_LIST, type DivisionKey } from "~/content/site";
 import { useLang } from "~/lib/hooks";
 import { pageHero } from "~/content/defaults";
-import type { Lang } from "~/lib/i18n";
+import { href, type Lang } from "~/lib/i18n";
 import { breadcrumb, pageMeta } from "~/lib/seo";
 import { cn } from "~/lib/utils";
 
@@ -26,125 +28,161 @@ export const meta = pageMeta({
   jsonLd: (lang) => [breadcrumb(lang, TRAIL)],
 });
 
-type Filter = "all" | DivisionKey;
-const FILTERS: Filter[] = ["all", "construction", "apartments", "designs"];
-const FILTER_LABEL: Record<Filter, Record<Lang, string>> = {
-  all: { en: "Everything", fr: "Tout" },
+const TABS: DivisionKey[] = ["construction", "apartments", "designs"];
+const TAB_LABEL: Record<DivisionKey, Record<Lang, string>> = {
   construction: { en: "Construction", fr: "Construction" },
   apartments: { en: "Apartments", fr: "Appartements" },
   designs: { en: "Designs", fr: "Designs" },
 };
+const BY_DIVISION = Object.fromEntries(TABS.map((k) => [k, GALLERY.filter((g) => g.division === k)])) as Record<DivisionKey, typeof GALLERY>;
 
-/** "Everything" deals the three divisions out in turn, so every column of the
- *  masonry (which fills top-to-bottom) mixes machines, rooms and garments. */
-const MIXED = (() => {
-  const queues = DIVISION_LIST.map((d) => GALLERY.filter((g) => g.division === d.key));
-  const out: typeof GALLERY = [];
-  while (queues.some((q) => q.length)) for (const q of queues) if (q.length) out.push(q.shift()!);
-  return out;
-})();
-
-function isFilter(v: string | null): v is Filter {
-  return v !== null && (FILTERS as string[]).includes(v);
+function isTab(v: string | null): v is DivisionKey {
+  return v !== null && (TABS as string[]).includes(v);
 }
 
+/**
+ * One department at a time (owner, 2026-11-09). All three panels are in the
+ * prerendered HTML (crawlers see every photo); the inactive ones are `hidden`
+ * and their lazy images never load. ?c=<division> picks the tab.
+ */
 export default function Gallery() {
   const lang = useLang();
   const hero = pageHero("gallery", lang);
-  const [filter, setFilter] = useState<Filter>("all");
+  const [tab, setTab] = useState<DivisionKey>("construction");
 
-  // Prerendered HTML shows everything (crawlers see every photo); the
-  // ?c= filter from a division page is applied once JS runs.
   useEffect(() => {
     const c = new URLSearchParams(window.location.search).get("c");
-    if (isFilter(c)) setFilter(c);
+    if (isTab(c)) setTab(c);
   }, []);
 
-  const items = useMemo(() => (filter === "all" ? MIXED : GALLERY.filter((g) => g.division === filter)), [filter]);
+  const items = BY_DIVISION[tab];
   const lb = useLightbox(items);
 
-  const choose = (f: Filter) => {
-    if (f === filter) return;
+  const choose = (t: DivisionKey, focus = false) => {
+    if (focus) document.getElementById(`tab-${t}`)?.focus();
+    if (t === tab) return;
     const url = new URL(window.location.href);
-    if (f === "all") url.searchParams.delete("c");
-    else url.searchParams.set("c", f);
+    url.searchParams.set("c", t);
     window.history.replaceState(window.history.state, "", url);
     const doc = document as Document & { startViewTransition?: (cb: () => void) => unknown };
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (doc.startViewTransition && !reduce) doc.startViewTransition(() => setFilter(f));
-    else setFilter(f);
+    if (doc.startViewTransition && !reduce) doc.startViewTransition(() => setTab(t));
+    else setTab(t);
   };
 
-  const count = (f: Filter) => (f === "all" ? GALLERY.length : GALLERY.filter((g) => g.division === f).length);
+  // WAI-ARIA tabs: arrows move between departments, Home/End jump to the ends.
+  const onKey = (e: KeyboardEvent<HTMLDivElement>) => {
+    const i = TABS.indexOf(tab);
+    const next = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: TABS.length - 1 }[e.key];
+    if (next === undefined) return;
+    e.preventDefault();
+    choose(TABS[(next + TABS.length) % TABS.length]!, true);
+  };
 
   return (
     <>
-      <section className="pt-[calc(var(--header-h)+0.5rem)] md:pt-[calc(var(--header-h)+2.25rem)]">
+      <section className="pt-[calc(var(--header-h)+0.25rem)] md:pt-[calc(var(--header-h)+1.25rem)]">
         <div className="container-x">
           <div className="text-muted">
             <Breadcrumbs lang={lang} trail={TRAIL} />
           </div>
-          <div className="mt-6 grid gap-8 md:mt-12 lg:grid-cols-[1.5fr_1fr] lg:items-end">
-            <h1 className="vt-title text-display-lg">
+          <div className="mt-4 grid gap-4 md:mt-6 md:gap-6 lg:grid-cols-[1.4fr_1fr] lg:items-end lg:gap-16">
+            <h1 className="vt-title text-[clamp(2.375rem,1.5rem+3.4vw,4.75rem)] leading-[0.98] tracking-[-0.015em]">
               {hero.title ??
                 (lang === "fr" ? (
-                <>
-                  Notre travail, <em className="italic text-gold-600">tel qu'il est.</em>
-                </>
-              ) : (
-                <>
-                  Our work, <em className="italic text-gold-600">as it is.</em>
-                </>
-              ))}
+                  <>
+                    Notre travail, <em className="italic text-gold-600">tel qu'il est.</em>
+                  </>
+                ) : (
+                  <>
+                    Our work, <em className="italic text-gold-600">as it is.</em>
+                  </>
+                ))}
             </h1>
-            <p className="text-lede text-muted lg:pb-3">{hero.lede}</p>
+            <p className="max-w-md text-[1.0625rem] leading-relaxed text-muted lg:pb-2">{hero.lede}</p>
           </div>
-          <TraceLine className="mt-12 md:mt-16" scroll={false} />
         </div>
       </section>
 
-      <section className="pb-20 pt-6 md:pb-28 md:pt-8">
+      <section className="pb-20 pt-6 md:pb-28 md:pt-10">
         <div className="container-x">
+          {/* Department tabs: the page's rule line, marked in each house's colour */}
           <div
-            role="group"
-            aria-label={lang === "fr" ? "Filtrer par division" : "Filter by division"}
-            className="sticky-under-header fade-x sticky z-20 -mx-(--gutter) flex gap-2 overflow-x-auto bg-ivory/92 px-(--gutter) py-3 backdrop-blur-md [scrollbar-width:none]"
+            role="tablist"
+            aria-label={lang === "fr" ? "Galerie par division" : "Gallery by division"}
+            onKeyDown={onKey}
+            className="sticky-under-header sticky z-20 -mx-(--gutter) grid grid-cols-3 gap-x-2 border-b border-ink/12 bg-ivory/92 px-(--gutter) backdrop-blur-md sm:flex sm:gap-10 md:mx-0 md:gap-12 md:px-0"
           >
-            {FILTERS.map((f) => {
-              const active = f === filter;
-              const accent = f === "all" ? "var(--color-ink)" : DIVISION_LIST.find((d) => d.key === f)!.accentVar;
+            {TABS.map((t) => {
+              const active = t === tab;
+              const d = DIVISION_LIST.find((x) => x.key === t)!;
               return (
                 <button
-                  key={f}
+                  key={t}
+                  id={`tab-${t}`}
                   type="button"
-                  aria-pressed={active}
-                  onClick={() => choose(f)}
-                  style={{ ["--chip" as string]: accent }}
+                  role="tab"
+                  aria-selected={active}
+                  aria-controls={`panel-${t}`}
+                  tabIndex={active ? 0 : -1}
+                  onClick={() => choose(t)}
+                  style={{ ["--chip" as string]: d.accentVar }}
                   className={cn(
-                    "inline-flex min-h-11 shrink-0 items-center gap-2.5 rounded-full border px-4 text-[0.8125rem] font-medium transition-[background-color,border-color,color] duration-300",
-                    active ? "border-(--chip) bg-(--chip) text-ivory" : "border-ink/15 text-ink/80 hover:border-ink/40 hover:text-ink",
+                    "group relative flex min-h-14 min-w-0 items-baseline justify-center gap-2 pt-3 font-display text-[clamp(0.9375rem,4.4vw,1.375rem)] leading-none transition-colors duration-300 sm:justify-start sm:text-[1.375rem] md:min-h-16 md:text-[1.75rem]",
+                    active ? "text-ink" : "text-ink/70 hover:text-ink",
                   )}
                 >
-                  {FILTER_LABEL[f][lang]}
-                  <span className={cn("tabular text-[0.6875rem]", active ? "text-ivory/75" : "text-muted")}>{count(f)}</span>
+                  {TAB_LABEL[t][lang]}
+                  <span className={cn("tabular hidden font-sans text-[0.75rem] tracking-normal sm:inline", active ? "text-(--chip)" : "text-muted")}>{BY_DIVISION[t].length}</span>
+                  <span
+                    aria-hidden
+                    className={cn(
+                      "absolute inset-x-0 -bottom-px h-0.5 origin-left bg-(--chip) transition-transform duration-500 ease-(--ease-out-quart)",
+                      active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-[0.35]",
+                    )}
+                  />
                 </button>
               );
             })}
           </div>
 
-          <ul className="gallery-grid mt-6 columns-2 gap-3 sm:gap-4 md:columns-3 xl:columns-4" aria-live="polite">
-            {items.map((it, i) => (
-              <li key={it.id} className="mb-3 break-inside-avoid sm:mb-4" style={{ viewTransitionName: `g-${it.id}` }}>
-                <GalleryTile
-                  item={it}
-                  lang={lang}
-                  onOpen={() => lb.open(i)}
-                  priority={i < 2}
-                  sizes="(min-width: 80rem) 22vw, (min-width: 48rem) 31vw, 48vw"
-                />
-              </li>
-            ))}
-          </ul>
+          {TABS.map((t) => {
+            const d = DIVISION_LIST.find((x) => x.key === t)!;
+            const list = BY_DIVISION[t];
+            return (
+              <div key={t} id={`panel-${t}`} role="tabpanel" aria-labelledby={`tab-${t}`} hidden={t !== tab} tabIndex={0} className="focus-visible:outline-offset-8">
+                <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 py-5 md:py-6">
+                  <p className="max-w-xl text-[0.9375rem] text-muted">
+                    <span className="tabular mr-2 font-semibold text-ink sm:hidden">
+                      {list.length} {lang === "fr" ? "photos et vidéos ·" : "photos & videos ·"}
+                    </span>
+                    {d.tagline[lang]}
+                  </p>
+                  <Link
+                    to={href(d.page, lang)}
+                    className="group inline-flex min-h-11 items-center gap-2 text-[0.8125rem] font-semibold uppercase tracking-[0.14em]"
+                    style={{ color: "var(--accent-ink, var(--color-ink))" }}
+                  >
+                    {lang === "fr" ? `Découvrir ${d.name}` : `Discover ${d.name}`}
+                    <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden />
+                  </Link>
+                </div>
+                <ul className="gallery-grid columns-2 gap-3 sm:gap-4 md:columns-3 xl:columns-4">
+                  {list.map((it, i) => (
+                    <li key={it.id} className="mb-3 break-inside-avoid sm:mb-4" style={t === tab ? { viewTransitionName: `g-${it.id}` } : undefined}>
+                      <GalleryTile
+                        item={it}
+                        lang={lang}
+                        onOpen={() => lb.open(i)}
+                        priority={t === "construction" && i < 2}
+                        sizes="(min-width: 80rem) 22vw, (min-width: 48rem) 31vw, 48vw"
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
         </div>
       </section>
 
