@@ -92,10 +92,10 @@ export default function Apartments() {
             <TraceLine className="mt-10 w-20" />
           </div>
           <div className="light-sweep md:col-span-5" data-trace>
-            <Picture name={IMG.livingDining} alt={lang === "fr" ? "Comptoir repas et salon sous un lustre à anneaux" : "Dining counter and lounge under a ring chandelier"} sizes="(min-width: 48rem) 40vw, 100vw" className="grain aspect-[3/4]" />
+            <Picture name={IMG.livingDining} alt={lang === "fr" ? "Comptoir repas et salon sous un lustre à anneaux" : "Dining counter and lounge under a ring chandelier"} sizes="(min-width: 48rem) 40vw, 100vw" className="hover-zoom grain aspect-[3/4]" />
           </div>
           <div className="light-sweep mt-10 md:col-span-3 md:mt-40" data-trace>
-            <Picture name={IMG.bedroomRose} alt={lang === "fr" ? "Chambre au mur rose et linge frais" : "Bedroom with a rose wall and fresh linen"} sizes="(min-width: 48rem) 24vw, 100vw" className="grain aspect-[3/4]" />
+            <Picture name={IMG.bedroomRose} alt={lang === "fr" ? "Chambre au mur rose et linge frais" : "Bedroom with a rose wall and fresh linen"} sizes="(min-width: 48rem) 24vw, 100vw" className="hover-zoom grain aspect-[3/4]" />
           </div>
         </div>
       </section>

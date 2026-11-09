@@ -102,7 +102,7 @@ export default function Fabrication() {
 
       <section className="bg-ivory-2 py-20 md:py-28">
         <div className="container-x grid gap-10 md:grid-cols-12 md:items-end">
-          <Picture name={IMG.mixer} alt={lang === "fr" ? "Production de matériaux à la machine" : "Materials being produced by machine"} className="grain aspect-[4/3] md:col-span-7" sizes="(min-width: 48rem) 58vw, 100vw" />
+          <Picture name={IMG.mixer} alt={lang === "fr" ? "Production de matériaux à la machine" : "Materials being produced by machine"} className="hover-zoom grain aspect-[4/3] md:col-span-7" sizes="(min-width: 48rem) 58vw, 100vw" />
           <div className="md:col-span-5" data-reveal>
             <TraceLine className="mb-8 w-16" />
             <p className="font-display text-[1.75rem] leading-snug md:text-[2.25rem]">

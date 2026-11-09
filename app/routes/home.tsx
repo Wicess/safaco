@@ -121,21 +121,21 @@ function Hero({ lang }: { lang: Lang }) {
     <section className="on-dark relative isolate overflow-hidden bg-navy-950 text-ivory">
       <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(90%_70%_at_15%_0%,var(--color-navy-800),var(--color-navy-950)_70%)]" />
 
-      <div className="container-x grid min-h-[calc(100svh-var(--bar-h))] gap-12 pb-10 pt-[calc(var(--header-h)+2.5rem)] md:pb-16 md:pt-[calc(var(--header-h)+4rem)] lg:min-h-[100svh] lg:grid-cols-12 lg:gap-16">
-        <div className="flex flex-col lg:col-span-7">
+      <div className="hero-fit container-x grid gap-12 pb-[clamp(1rem,4svh,3.5rem)] pt-[calc(var(--header-h)+clamp(1rem,5svh,4rem))] lg:grid-cols-12 lg:gap-16">
+        <div className="flex min-h-0 flex-col lg:col-span-7">
           <p className="eyebrow hero-in text-gold-300" style={{ ["--d" as string]: "0.05s" }}>
             {pick(O.home?.heroEyebrow, lang, HOME_HERO.eyebrow[lang])}
           </p>
-          <h1 className="hero-in mt-6 max-w-[13ch] text-display-xl text-ivory" style={{ ["--d" as string]: "0.1s" }}>
+          <h1 className="hero-in hero-title mt-[clamp(0.75rem,2.5svh,1.5rem)] max-w-[13ch] lg:max-w-[18ch] text-ivory" style={{ ["--d" as string]: "0.1s" }}>
             {pick(O.home?.heroTitle, lang, HOME_HERO.title[lang])}{" "}
             <em className="font-display italic text-gold-300">{pick(O.home?.heroEmphasis, lang, HOME_HERO.emphasis[lang]).replace(/ (?=\S+$)/, "\u00a0")}</em>
           </h1>
-          <p className="hero-in mt-6 max-w-md text-lede text-ivory/70" style={{ ["--d" as string]: "0.2s" }}>
+          <p className="hero-in hero-lede mt-[clamp(0.75rem,2.5svh,1.5rem)] max-w-md text-lede text-ivory/70" style={{ ["--d" as string]: "0.2s" }}>
             {pick(O.home?.heroLede, lang, HOME_HERO.lede[lang])}
           </p>
 
           {/* The line that splits into three */}
-          <nav aria-label={lang === "fr" ? "Nos trois maisons" : "Our three houses"} className="branch mt-auto pt-12">
+          <nav aria-label={lang === "fr" ? "Nos trois maisons" : "Our three houses"} className="branch mt-auto pt-[clamp(1rem,4svh,3rem)]">
             <span aria-hidden className="branch-stem" />
             <ul className="space-y-1">
               {HOUSES.map((h, i) => {
@@ -147,18 +147,18 @@ function Hero({ lang }: { lang: Lang }) {
                       viewTransition
                       onMouseEnter={() => setActive(i)}
                       onFocus={() => setActive(i)}
-                      className="group flex min-h-[4.75rem] items-center justify-between gap-4 border-b border-ivory/10 md:min-h-24"
+                      className="group flex min-h-(--row-h) items-center justify-between gap-4 border-b border-ivory/10"
                     >
                       <span className="flex min-w-0 items-baseline gap-3 sm:gap-4">
                         <span className="tabular text-[0.6875rem] text-ivory/60">0{i + 1}</span>
-                        <span className={`font-display text-[clamp(1.75rem,8.4vw,2.125rem)] leading-none transition-colors duration-500 md:text-[3.25rem] ${active === i ? "lg:text-ivory" : "lg:text-ivory/55"}`}>
+                        <span className={`hero-house font-display leading-none transition-colors duration-500 ${active === i ? "lg:text-ivory" : "lg:text-ivory/55"}`}>
                           {d.name.replace("SAFA ", "")}
                         </span>
                         <span className="hidden font-display text-xl italic text-gold-300/80 sm:inline">{d.short[lang]}</span>
                       </span>
                       <span className="flex shrink-0 items-center gap-3 sm:gap-4">
                         {/* Phones: the photo travels with the line */}
-                        <Picture name={h.img} alt="" sizes="56px" className="size-12 shrink-0 sm:size-14 lg:hidden" ratio="1/1" />
+                        <Picture name={h.img} alt="" sizes="56px" className="size-[min(3.5rem,calc(var(--row-h)-1.25rem))] shrink-0 lg:hidden" ratio="1/1" />
                         <ArrowUpRight className="size-5 shrink-0 text-gold-300 transition-transform duration-500 group-hover:-translate-y-1 group-hover:translate-x-1" aria-hidden />
                       </span>
                     </Link>
@@ -171,7 +171,7 @@ function Hero({ lang }: { lang: Lang }) {
 
         {/* Desktop: one photo per house, cross-faded by the line above */}
         <div aria-hidden className="hero-in relative hidden lg:col-span-5 lg:block" style={{ ["--d" as string]: "0.3s" }}>
-          <div className="relative h-full min-h-[34rem] overflow-hidden">
+          <div className="relative h-full overflow-hidden">
             {HOUSES.map((h, i) => (
               <Picture
                 key={h.key}
@@ -179,7 +179,7 @@ function Hero({ lang }: { lang: Lang }) {
                 alt=""
                 priority={i === 0}
                 sizes="40vw"
-                className={`grain absolute inset-0 h-full transition-[opacity,transform] duration-[1.1s] ease-(--ease-out-quart) ${active === i ? "opacity-100" : "scale-[1.03] opacity-0"}`}
+                className={`hero-shot grain absolute inset-0 h-full transition-[opacity,transform] duration-[1.1s] ease-(--ease-out-quart) ${active === i ? "is-active opacity-100" : "scale-[1.03] opacity-0"}`}
               />
             ))}
             <span className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-navy-950/80 to-transparent" />
@@ -240,6 +240,7 @@ function Houses({ lang }: { lang: Lang }) {
                   name={h.inset}
                   alt={h.insetAlt[lang]}
                   sizes="(min-width: 48rem) 16vw, 36vw"
+                  imgClassName="transition-transform delay-75 duration-[1.6s] ease-(--ease-out-quart) group-hover:scale-[1.05]"
                   className={`absolute -bottom-6 aspect-[3/4] w-[36%] border-[6px] border-ivory shadow-[0_8px_8px_-4px_rgb(12_21_28/0.25)] md:-bottom-10 md:w-[38%] ${flip ? "-left-1 md:left-0" : "-right-1 md:right-0"}`}
                 />
               </Link>
@@ -248,7 +249,7 @@ function Houses({ lang }: { lang: Lang }) {
                   <span aria-hidden className="h-px w-6 bg-current" />
                   {d.name}
                 </p>
-                <h3 className="mt-5 text-display-md">{d.tagline[lang]}</h3>
+                <h3 className="mt-5 max-w-[18ch] text-[clamp(2rem,1.35rem+2.1vw,3.25rem)] leading-[1.04]">{d.tagline[lang]}</h3>
                 <TraceLine className="mt-8" />
                 <ul className="mt-6 space-y-1">
                   {h.offers.map((o) => (

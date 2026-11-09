@@ -133,7 +133,7 @@ export default function Plastering() {
               <AmbientVideo lang={lang} video="mastGreen" label={lang === "fr" ? "La machine pilotée depuis son pupitre" : "The machine operated from its control panel"} className="grain aspect-[9/16]" />
             </div>
             <div className="md:col-span-5" data-reveal>
-              <Picture name={IMG.controlPanel} alt={lang === "fr" ? "Le pupitre à écran tactile de la machine" : "The machine's touch-screen control panel"} sizes="(min-width: 48rem) 40vw, 100vw" className="grain aspect-[4/3]" />
+              <Picture name={IMG.controlPanel} alt={lang === "fr" ? "Le pupitre à écran tactile de la machine" : "The machine's touch-screen control panel"} sizes="(min-width: 48rem) 40vw, 100vw" className="hover-zoom grain aspect-[4/3]" />
               <p className="mt-4 text-[0.9375rem] leading-relaxed text-muted">
                 {lang === "fr"
                   ? "Tout se commande depuis le pupitre : montée, descente et mise à niveau. Au montage, notre équipe le prend en main avec la vôtre."

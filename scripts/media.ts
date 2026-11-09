@@ -6,15 +6,21 @@
  * Also turns media-src/CREDITS.md into app/content/credits.generated.json
  * (CC BY / BY-SA photos legally need visible attribution — shown on /legal).
  *
- * Budgets (Cameroon mobile networks): hero ≤ ~100 KB, cards ≤ ~40 KB at 720w.
+ * Budgets (Cameroon mobile networks): hero ≤ ~130 KB, cards ≤ ~50 KB at 720w.
  */
-import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { basename, extname, join } from "node:path";
 import sharp, { type Sharp } from "sharp";
 
 const SRC = "media-src";
 const OUT = "public/media";
 const WIDTHS = [360, 540, 720, 1080, 1600];
+/** Re-encode after changing quality settings:
+ *   MEDIA_FORCE=1 pnpm media                       → every file
+ *   MEDIA_FORCE=2026-11-09T19:00:00Z pnpm media    → files older than that (resumable) */
+const FORCE_ENV = process.env.MEDIA_FORCE;
+const FORCE_BEFORE = FORCE_ENV === "1" ? Infinity : FORCE_ENV ? Date.parse(FORCE_ENV) : -Infinity;
+const stale = (out: string) => !existsSync(out) || statSync(out).mtimeMs < FORCE_BEFORE;
 mkdirSync(OUT, { recursive: true });
 
 type Entry = { w: number; h: number; widths: number[]; blur: string; formats: string[] };
@@ -34,15 +40,21 @@ for (const file of files) {
   if (!widths.length || (w0 > widths.at(-1)! && w0 < 1600)) widths.push(w0);
 
   for (const w of widths) {
-    const base = input.clone().resize({ width: w, withoutEnlargement: true });
+    // Downscaled copies get a light unsharp mask: resampling softens edges
+    // (stitching, fabric weave, machine labels) and this restores the crisp,
+    // "HD" read. The native-width copy is left exactly as shot.
+    const resized = input.clone().resize({ width: w, withoutEnlargement: true, kernel: "lanczos3" });
+    const base = w < w0 ? resized.sharpen({ sigma: 0.55, m1: 0.6, m2: 1.6 }) : resized;
+    // Quality tuned for detail over the last few KB (2026-11-09): AVIF 60 /
+    // WebP 80 / JPEG 82, still ~45 KB for a 720 px card.
     const targets: [string, Sharp][] = [
-      ["avif", base.clone().avif({ quality: 52, effort: 2 })],
-      ["webp", base.clone().webp({ quality: 70, effort: 4 })],
-      ["jpg", base.clone().jpeg({ quality: 72, mozjpeg: true, progressive: true })],
+      ["avif", base.clone().avif({ quality: 60, effort: 2 })],
+      ["webp", base.clone().webp({ quality: 80, effort: 5, smartSubsample: true })],
+      ["jpg", base.clone().jpeg({ quality: 82, mozjpeg: true, progressive: true })],
     ];
     for (const [ext, pipe] of targets) {
       const out = join(OUT, `${name}-${w}.${ext}`);
-      if (existsSync(out)) continue;
+      if (!stale(out)) continue;
       const info = await pipe.toFile(out);
       bytes += info.size;
     }

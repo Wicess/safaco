@@ -90,7 +90,7 @@ export default function Scaffold() {
             </ul>
           </div>
           <div className="light-sweep grain aspect-[4/5]" data-trace>
-            <Picture name={IMG.golden} alt={lang === "fr" ? "Bâtiment en construction au coucher du soleil" : "A building under construction at golden hour"} sizes="(min-width: 64rem) 45vw, 100vw" className="h-full" />
+            <Picture name={IMG.golden} alt={lang === "fr" ? "Bâtiment en construction au coucher du soleil" : "A building under construction at golden hour"} sizes="(min-width: 64rem) 45vw, 100vw" className="hover-zoom h-full" />
           </div>
         </div>
       </section>

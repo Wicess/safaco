@@ -119,7 +119,7 @@ export default function Training() {
 
       <section className="bg-ivory-2 py-20 md:py-28">
         <div className="container-x grid gap-10 md:grid-cols-12 md:items-center">
-          <Picture name={IMG.cutting} alt={lang === "fr" ? "Table de coupe avec patron et craie" : "Cutting table with pattern and chalk"} sizes="(min-width: 48rem) 50vw, 100vw" className="grain aspect-[4/3] md:col-span-6" />
+          <Picture name={IMG.cutting} alt={lang === "fr" ? "Table de coupe avec patron et craie" : "Cutting table with pattern and chalk"} sizes="(min-width: 48rem) 50vw, 100vw" className="hover-zoom grain aspect-[4/3] md:col-span-6" />
           <div className="md:col-span-6" data-reveal>
             <SectionHead
               index="02"

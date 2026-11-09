@@ -28,7 +28,7 @@ export function LangSwitch({ lang, className }: { lang: Lang; className?: string
         className,
       )}
     >
-      <span className="opacity-40">{lang.toUpperCase()}</span>
+      <span className="opacity-70">{lang.toUpperCase()}</span>
       <span aria-hidden className="h-3 w-px bg-current opacity-30" />
       <span className="underline-offset-4 hover:underline">{target.toUpperCase()}</span>
     </Link>

@@ -132,7 +132,7 @@ export default function Designs() {
 
       <section className="on-dark bg-navy-900 py-20 text-ivory md:py-28" style={{ ["--accent" as string]: "var(--color-gold-300)" }}>
         <div className="container-x grid gap-12 lg:grid-cols-2 lg:items-center">
-          <Picture name={IMG.sewing} alt={lang === "fr" ? "Machine à coudre industrielle en gros plan" : "Close-up of an industrial sewing machine"} sizes="(min-width: 64rem) 45vw, 100vw" className="grain aspect-[4/3]" />
+          <Picture name={IMG.sewing} alt={lang === "fr" ? "Machine à coudre industrielle en gros plan" : "Close-up of an industrial sewing machine"} sizes="(min-width: 64rem) 45vw, 100vw" className="hover-zoom grain aspect-[4/3]" />
           <SectionHead
             tone="dark"
             index="02"
@@ -174,7 +174,7 @@ export default function Designs() {
             </Button>
           </div>
           <div className="md:col-span-6">
-            <Picture name={IMG.classroom} alt="" sizes="(min-width: 48rem) 50vw, 100vw" className="grain aspect-[4/3]" />
+            <Picture name={IMG.classroom} alt="" sizes="(min-width: 48rem) 50vw, 100vw" className="hover-zoom grain aspect-[4/3]" />
             <p className="mt-2 text-[0.6875rem] text-muted">{lang === "fr" ? "Photo d'illustration" : "Illustrative photo"}</p>
           </div>
         </div>
