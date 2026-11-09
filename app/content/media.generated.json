@@ -50,6 +50,23 @@
       "jpg"
     ]
   },
+  "construction-dual-mast-lift-01": {
+    "w": 1600,
+    "h": 1200,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAACQAwCdASoUAA8APu1iqk2ppaQiMAgBMB2JYwC7MoAATEnf/UYIAPnYQ5jyIbZwWBSIVGYWDKeqUjvC3JAYqGOo//t6C83I3P/fhibkN+25DNXgxqd3UD3h5bGnmcDCgGakQQQK38Ef62EssFQAAA==",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
   "construction-mast-climbing-platform-01": {
     "w": 1600,
     "h": 1200,
@@ -67,6 +84,23 @@
       "jpg"
     ]
   },
+  "construction-mast-sections-01": {
+    "w": 1600,
+    "h": 1200,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRnQAAABXRUJQVlA4IGgAAAAQAwCdASoUAA8APu1iqU2ppaQiMAgBMB2JZwAAJ/p5aAAAi8eAemcNfSf5xNicOqrs9KMlzqdydwKPpnAfN3BXYSyNqMklHnUIboMP7bEK6cbPvyRxnqdrXOKk2Afp5qa1OA0PYKAAAA==",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
   "construction-rendered-wall-texture-01": {
     "w": 1600,
     "h": 1200,
@@ -78,6 +112,23 @@
       1600
     ],
     "blur": "data:image/webp;base64,UklGRkoAAABXRUJQVlA4ID4AAABwAwCdASoUAA8APu1qrU8ppiQiMAgBMB2JZwABBVwKaSw5H4AA/oMcGJ8gYecf16PWWe4UQ9V6exlH4gAAAA==",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "construction-scaffold-platform-01": {
+    "w": 1600,
+    "h": 1160,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRpgAAABXRUJQVlA4IIwAAAAQBACdASoUAA4APu1iqU2ppaOiMAgBMB2JbACdABuzjlmGKbuPu3xtaAD9l6W2RUdgEy7caNvy19cD0U0gLWyaApFzY91hhwfN/TPk4B/79VZ86UANyi8VyniQ8vFmCLbwvTnutYXs2wVpW1itlvty1f8dXvKFn/HBD/jAg3aY4j9tMV1V3SaAcOdoAA==",
     "formats": [
       "avif",
       "webp",
@@ -163,6 +214,23 @@
       1600
     ],
     "blur": "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAACwAwCdASoUAA0APu1iqk4ppaQiMAgBMB2JZQDImCHZnMLiT12tUAD+3nZxUsPLKNx+bVdYVEHMgXZ8lBv6XtxA8abx+Rbxk6ZY4EhzHVa4AAAA",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "group-yaounde-modern-01": {
+    "w": 1600,
+    "h": 1067,
+    "widths": [
+      360,
+      540,
+      720,
+      1080,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAABwAwCdASoUAA0APu1iqk4ppaQiMAgBMB2JQBOgBEPqB72K9ZQA/dzqU97r7mkDOsuOxgf9/6gIJjgjHDaeoFYPV4XZqC8RQdAC9p7XcUvEQSEj+/otBuAL04r8dOIkgBRwAA==",
     "formats": [
       "avif",
       "webp",
@@ -440,6 +508,36 @@
       1280
     ],
     "blur": "data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAABwBACdASoUAA8APu1iqU2ppaOiMAgBMB2JbACdMoR3A8ABIkOY4guTF6LqsAD+2fHoBDFUMruSPVJLjdXDZcthuTEI50LiaHPJfa9PyV/swokEIdoGEFehwWKViiRT3PKb9h2BADvIhL1DzWTUwZOsQEN8Bw+riXY+Vf93UnkmieTyhklSWP90h/PwcUBZ7pa6hHpgAAA=",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "safa-designs-atelier-arch": {
+    "w": 576,
+    "h": 860,
+    "widths": [
+      360,
+      540,
+      576
+    ],
+    "blur": "data:image/webp;base64,UklGRsoAAABXRUJQVlA4IL4AAABQBQCdASoUAB4APu1qrlCppaQiqAqpMB2JQBWGWOibXGLy9X3Ri06dAvtKlF6zoMoWvwAA4n2l6a2ZUCY1aTpupHcsRFKDNx0MsAbUoA/KCkpsCR0t6/MPxWPAYWiE33rrA6X9BgU+a8a2A1fcvP+7TiNWoymHocEg4bqUtyHTAu8lvpMJ1EznaHIWlnX2TTvaxrAMfZuQQEniV2ORCJi0trWvAQ+7vi/ZrbzWa3Ybv9wQVchIyLICVYkmoAAA",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
+  },
+  "safa-designs-atelier-tunic": {
+    "w": 576,
+    "h": 860,
+    "widths": [
+      360,
+      540,
+      576
+    ],
+    "blur": "data:image/webp;base64,UklGRqQAAABXRUJQVlA4IJgAAAAQBQCdASoUAB4APu1mqk+ppaOiMBgIATAdiUAWI+1/hAODTIbWIJJQ8/a6SZ7L7KQAAP0jDjVMGp8CbisIGyB8MU0TudHKCrroT1uxDShuXKZoCUSSKRmuciu33fVowqOsasdrcFIukFK0H7kbNuGanRXqX7lf41nytU0MB6KOsOpaii60z5QhGdU/eimbqlI7Jo4K0AQAAA==",
     "formats": [
       "avif",
       "webp",

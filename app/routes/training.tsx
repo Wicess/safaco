@@ -78,8 +78,9 @@ export default function Training() {
             ? "Formation et apprentissage en couture homme dans l'atelier SAFA Designs, au Carrefour MEEC. Un centre agréé par le Ministère de l'Emploi et de la Formation Professionnelle."
             : "Men's tailoring training and apprenticeship inside the SAFA Designs atelier at Carrefour MEEC — a centre approved by Cameroon's Ministry of Employment and Vocational Training."
         }
-        image={IMG.classroom}
-        imageAlt={lang === "fr" ? "Atelier de couture avec des machines" : "A sewing workshop with machines"}
+        image={IMG.atelierTunic}
+        imageAlt={lang === "fr" ? "Une tunique en lin terminée à l'atelier SAFA Designs" : "A finished linen tunic in the SAFA Designs atelier"}
+        layout="split"
       >
         <Button asChild variant="primary">
           <Link to={`${href("contact", lang)}?d=designs&t=training`}>

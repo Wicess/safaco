@@ -16,9 +16,8 @@ export function FleetGrid({ lang, units, link = true }: { lang: Lang; units: Uni
       {units.map((u) => {
         const inner = (
           <>
-            {!u.img || isStock(u.img) ? (
-              // No stock photo here: a card captioned "unit N°" must show SAFA's real
-              // machine or nothing. Typographic panel until the client's shoot.
+            {!u.img ? (
+              // No photo at all: a typographic panel.
               <div className="grain relative flex aspect-[4/3] flex-col justify-between overflow-hidden bg-navy-900 p-5 text-ivory">
                 <span className="eyebrow text-gold-300">SAFA Construction</span>
                 <div>
@@ -34,6 +33,12 @@ export function FleetGrid({ lang, units, link = true }: { lang: Lang; units: Uni
                 <span className="tabular absolute left-3 top-3 bg-navy-950/85 px-2 py-1 text-[0.625rem] font-semibold tracking-[0.18em] text-gold-300">
                   N° {u.code}
                 </span>
+                {/* Stock photo of this KIND of unit, never presented as SAFA's own */}
+                {isStock(u.img) && (
+                  <span className="absolute bottom-3 right-3 bg-navy-950/75 px-2 py-1 text-[0.625rem] tracking-[0.04em] text-ivory/90">
+                    {lang === "fr" ? "Photo d'illustration" : "Illustrative photo"}
+                  </span>
+                )}
               </div>
             )}
             <div className="flex items-start justify-between gap-4 pt-5">

@@ -46,6 +46,9 @@ export const IMG = {
   navyTunic: "safa-designs-navy-tunic",
   whiteTunic: "safa-designs-white-tunic",
   stripedShirt: "safa-designs-striped-shirt",
+  // Stills from SAFA's own atelier video (music sticker cropped off)
+  atelierArch: "safa-designs-atelier-arch",
+  atelierTunic: "safa-designs-atelier-tunic",
 
   // ── Video posters (stills from SAFA's own videos) ──
   posterAtelier: "safa-video-designs-atelier",
@@ -65,6 +68,10 @@ export const IMG = {
   cutting: "designs-cutting-chalk-fabric-01",
   classroom: "designs-sewing-class-01",
   city: "group-yaounde-cityscape-01",
+  yaoundeModern: "group-yaounde-modern-01",
+  dualMastLift: "construction-dual-mast-lift-01",
+  scaffoldPlatform: "construction-scaffold-platform-01",
+  mastSections: "construction-mast-sections-01",
 } as const;
 
 /** SAFA's own videos, served next to the images (public/media, or R2). Silent:

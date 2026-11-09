@@ -23,24 +23,34 @@ export default function Contact() {
   const lang = useLang();
   return (
     <>
-      <section className="pt-[calc(var(--header-h)+0.5rem)] md:pt-[calc(var(--header-h)+2.25rem)]">
+      <section className="pt-[calc(var(--header-h)+0.25rem)] md:pt-[calc(var(--header-h)+1.25rem)]">
         <div className="container-x">
           <div className="text-muted">
             <Breadcrumbs lang={lang} trail={TRAIL} />
           </div>
-          <h1 className="vt-title mt-10 max-w-4xl text-display-lg md:mt-16">
-            {lang === "fr" ? "Parlons de votre projet." : "Let's talk about your project."}
-          </h1>
-          <p className="mt-6 max-w-2xl text-lede text-muted">
-            {lang === "fr"
-              ? "Le plus rapide : WhatsApp. Vous pouvez aussi nous appeler ou laisser une demande écrite — la bonne division vous répond."
-              : "Fastest: WhatsApp. You can also call us or leave a written enquiry — the right division will answer you."}
-          </p>
-          <TraceLine className="mt-12" scroll={false} />
+          <div className="mx-auto mt-8 max-w-3xl text-center md:mt-10">
+            <h1 className="vt-title text-[clamp(2.5rem,1.6rem+3.6vw,5rem)] leading-[0.98] tracking-[-0.015em]">
+              {lang === "fr" ? (
+                <>
+                  Parlons de votre <em className="italic text-gold-600">projet.</em>
+                </>
+              ) : (
+                <>
+                  Let's talk about your <em className="italic text-gold-600">project.</em>
+                </>
+              )}
+            </h1>
+            <p className="mx-auto mt-5 max-w-xl text-lede text-muted [text-wrap:balance]">
+              {lang === "fr"
+                ? "Un appel, un message WhatsApp ou une demande écrite : la bonne division vous répond."
+                : "A call, a WhatsApp message or a written enquiry: the right division answers you."}
+            </p>
+            <TraceLine className="mx-auto mt-8 w-24 md:mt-10" scroll={false} />
+          </div>
         </div>
       </section>
 
-      <section className="py-14 md:py-20">
+      <section className="pb-14 pt-10 md:pb-20 md:pt-14">
         <div className="container-x">
           <div className="grid gap-px bg-ink/10 md:grid-cols-3">
           {DIVISION_LIST.map((d) => (

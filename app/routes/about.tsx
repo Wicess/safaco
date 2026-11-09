@@ -66,8 +66,8 @@ export default function About() {
             ? "SAFA & Co SARL est un groupe camerounais basé à Yaoundé. Nous équipons les chantiers, accueillons des hôtes et habillons les hommes — avec la même exigence de précision."
             : "SAFA & Co SARL is a Cameroonian group based in Yaoundé. We equip building sites, host guests and dress men — with the same standard of precision."
         }
-        image={IMG.city}
-        imageAlt={lang === "fr" ? "Vue de Yaoundé" : "A view of Yaoundé"}
+        image={IMG.yaoundeModern}
+        imageAlt={lang === "fr" ? "Le centre de Yaoundé vu du monument de la Réunification" : "Central Yaoundé seen from the Reunification Monument"}
       />
 
       <section className="py-20 md:py-32">

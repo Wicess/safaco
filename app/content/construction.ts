@@ -8,8 +8,9 @@ import { O } from "./overrides";
  * unit, render spray machine, delivery-ready masts, mobile lift base).
  * CLIENT_TODO: confirm models, max heights and capacities before publishing specs.
  */
-/** `img` only when SAFA has photographed that exact kind of unit: a card
- *  captioned "N° 03" must show SAFA's real machine or a typographic panel. */
+/** `img`: SAFA's own photo when they have one of that exact kind of unit;
+ *  otherwise a licensed stock photo of the same kind of unit, which the card
+ *  labels "Illustrative photo" (isStock). No img → a typographic panel. */
 export type Unit = { code: string; name: T; body: T; img?: string; page: PageKey };
 
 export const FLEET: Unit[] = [
@@ -40,6 +41,7 @@ export const FLEET: Unit[] = [
       en: "Twin-mast platform that carries crew and materials up the façade.",
       fr: "Plateforme sur deux mâts qui monte équipe et matériaux le long de la façade.",
     },
+    img: IMG.dualMastLift,
     page: "scaffold",
   },
   {
@@ -49,6 +51,7 @@ export const FLEET: Unit[] = [
       en: "A stable, railed working deck for façade and finishing work at height.",
       fr: "Un plancher de travail stable, avec garde-corps, pour les façades et finitions en hauteur.",
     },
+    img: IMG.scaffoldPlatform,
     page: "scaffold",
   },
   {
@@ -58,6 +61,7 @@ export const FLEET: Unit[] = [
       en: "Delivery-ready mast sections, assembled on site to the height you need.",
       fr: "Éléments de mât prêts à livrer, assemblés sur place à la hauteur voulue.",
     },
+    img: IMG.mastSections,
     page: "scaffold",
   },
   {

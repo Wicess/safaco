@@ -174,8 +174,12 @@ export default function Designs() {
             </Button>
           </div>
           <div className="md:col-span-6">
-            <Picture name={IMG.classroom} alt="" sizes="(min-width: 48rem) 50vw, 100vw" className="hover-zoom grain aspect-[4/3]" />
-            <p className="mt-2 text-[0.6875rem] text-muted">{lang === "fr" ? "Photo d'illustration" : "Illustrative photo"}</p>
+            <Picture
+              name={IMG.atelierArch}
+              alt={lang === "fr" ? "Une veste en lin sur mannequin, dans l'atelier SAFA Designs" : "A linen jacket on a mannequin in the SAFA Designs atelier"}
+              sizes="(min-width: 48rem) 28rem, 100vw"
+              className="hover-zoom grain mx-auto aspect-[4/5] max-w-md md:mr-0"
+            />
           </div>
         </div>
       </section>
