@@ -1,5 +1,5 @@
-import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { useState } from "react";
+import { ArrowRight, ArrowUpRight, Pause, Play } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { GalleryTile, Lightbox, useLightbox } from "~/components/sections/Gallery";
 import { CtaBand } from "~/components/sections/CtaBand";
@@ -117,6 +117,8 @@ export default function Home() {
 function Hero({ lang }: { lang: Lang }) {
   // Which house the visitor is pointing at (desktop): swaps the photo panel.
   const [active, setActive] = useState(0);
+  // While the visitor points at (or tabs through) the houses, the reel holds.
+  const [hold, setHold] = useState(false);
   return (
     <section className="on-dark relative isolate overflow-hidden bg-navy-950 text-ivory">
       <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(90%_70%_at_15%_0%,var(--color-navy-800),var(--color-navy-950)_70%)]" />
@@ -135,13 +137,18 @@ function Hero({ lang }: { lang: Lang }) {
           </p>
 
           {/* The line that splits into three */}
-          <nav aria-label={lang === "fr" ? "Nos trois maisons" : "Our three houses"} className="branch mt-auto pt-[clamp(1rem,4svh,3rem)]">
+          <nav aria-label={lang === "fr" ? "Nos trois maisons" : "Our three houses"} className="branch mt-auto pt-[clamp(1rem,4svh,3rem)]"
+            onMouseEnter={() => setHold(true)}
+            onMouseLeave={() => setHold(false)}
+            onFocus={() => setHold(true)}
+            onBlur={() => setHold(false)}
+          >
             <span aria-hidden className="branch-stem" />
             <ul className="space-y-1">
               {HOUSES.map((h, i) => {
                 const d = DIVISIONS[h.key];
                 return (
-                  <li key={d.key} className="branch-row" style={{ ["--i" as string]: i }}>
+                  <li key={d.key} className={`branch-row ${active === i ? "is-active" : ""}`} style={{ ["--i" as string]: i }}>
                     <Link
                       to={href(d.page, lang)}
                       viewTransition
@@ -169,28 +176,169 @@ function Hero({ lang }: { lang: Lang }) {
           </nav>
         </div>
 
-        {/* Desktop: one photo per house, cross-faded by the line above */}
-        <div aria-hidden className="hero-in relative hidden lg:col-span-5 lg:block" style={{ ["--d" as string]: "0.3s" }}>
-          <div className="relative h-full overflow-hidden">
-            {HOUSES.map((h, i) => (
-              <Picture
-                key={h.key}
-                name={h.img}
-                alt=""
-                priority={i === 0}
-                sizes="40vw"
-                className={`hero-shot grain absolute inset-0 h-full transition-[opacity,transform] duration-[1.1s] ease-(--ease-out-quart) ${active === i ? "is-active opacity-100" : "scale-[1.03] opacity-0"}`}
-              />
-            ))}
-            <span className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-navy-950/80 to-transparent" />
-            <p className="absolute bottom-5 left-5 right-5 flex items-center gap-3 text-xs text-ivory/80">
-              <span className="h-px w-6 bg-gold-300" />
-              {DIVISIONS[HOUSES[active]!.key].address.district}
-            </p>
-          </div>
+        {/* Desktop: the reel. One house at a time, revealed by a rising line */}
+        <div className="hero-in relative hidden lg:col-span-5 lg:block" style={{ ["--d" as string]: "0.3s" }}>
+          <HeroReel lang={lang} active={active} setActive={setActive} hold={hold} />
         </div>
       </div>
     </section>
+  );
+}
+
+const REEL_MS = 6500;
+
+/**
+ * Hero reel (desktop). Each house rises over the last behind a gold blade
+ * line, the way a plastering machine's blade climbs a wall; the camera eases
+ * back, the detail photo slides in, and the caption counts 01 / 03.
+ * Autoplay is driven by the progress line's CSS animation (animationend →
+ * next), so there is no timer: it pauses with the tab, on hover, while the
+ * visitor points at a house on the left, or with the pause button (WCAG
+ * 2.2.2). Reduced motion: no autoplay, no wipe, a plain swap.
+ */
+function HeroReel({ lang, active, setActive, hold }: { lang: Lang; active: number; setActive: (i: number) => void; hold: boolean }) {
+  const [stopped, setStopped] = useState(false);
+  const [hover, setHover] = useState(false);
+  // Off until hydrated: a CSS progress animation that ended before React
+  // attached its handler would leave the reel stuck.
+  const [motion, setMotion] = useState(false);
+  const last = useRef(active);
+  const [prev, setPrev] = useState<number | null>(null);
+  const stage = useRef<HTMLDivElement>(null);
+  const raf = useRef(0);
+
+  useEffect(() => {
+    setMotion(!window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }, []);
+  useEffect(() => {
+    if (last.current !== active) {
+      setPrev(last.current);
+      last.current = active;
+    }
+  }, [active]);
+
+  const paused = stopped || hover || hold;
+  const next = () => setActive((active + 1) % HOUSES.length);
+
+  // Pointer parallax: photo and detail card drift in opposite directions.
+  const onMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType !== "mouse" || !motion) return;
+    const el = stage.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width) * 2 - 1;
+    const y = ((e.clientY - r.top) / r.height) * 2 - 1;
+    cancelAnimationFrame(raf.current);
+    raf.current = requestAnimationFrame(() => {
+      el.style.setProperty("--px", x.toFixed(3));
+      el.style.setProperty("--py", y.toFixed(3));
+    });
+  };
+  const onLeave = () => {
+    setHover(false);
+    stage.current?.style.setProperty("--px", "0");
+    stage.current?.style.setProperty("--py", "0");
+  };
+
+  const h = HOUSES[active]!;
+  const d = DIVISIONS[h.key];
+  const pad = (n: number) => String(n).padStart(2, "0");
+
+  return (
+    <div className="flex h-full flex-col">
+      <div
+        ref={stage}
+        className={`reel relative min-h-0 flex-1 ${motion ? "has-motion" : ""}`}
+        onPointerEnter={() => setHover(true)}
+        onPointerLeave={onLeave}
+        onPointerMove={onMove}
+        aria-hidden
+      >
+        {/* The line, offset behind the photo */}
+        <span className="reel-frame pointer-events-none absolute inset-0 translate-x-4 translate-y-4 border border-gold/45" />
+
+        <div className="reel-stage absolute inset-0 overflow-hidden bg-navy-900">
+          {HOUSES.map((x, i) => (
+            <div key={x.key} className={`reel-slide ${i === active ? "is-active" : i === prev ? "is-prev" : ""}`}>
+              <div className="reel-parallax absolute -inset-4">
+                <Picture name={x.img} alt="" priority={i === 0} sizes="(min-width: 64rem) 42vw, 1px" className="grain absolute inset-0 h-full" />
+              </div>
+            </div>
+          ))}
+          {/* Blade: a gold line that climbs with the reveal (re-mounted per slide) */}
+          {motion && prev !== null && (
+            <span key={active} className="reel-blade pointer-events-none absolute inset-0 z-30">
+              <span className="absolute inset-x-0 bottom-0 h-px bg-gold-300 shadow-[0_0_14px_2px_rgb(212_185_138/0.55)]" />
+            </span>
+          )}
+          <span className="pointer-events-none absolute inset-x-0 bottom-0 z-30 h-2/5 bg-gradient-to-t from-navy-950/90 via-navy-950/40 to-transparent" />
+
+          {/* Caption: count, house, district */}
+          <div key={`cap-${active}`} className="reel-caption absolute inset-x-6 bottom-6 z-40 flex items-end justify-between gap-6 text-ivory">
+            <p className="flex items-end gap-3">
+              <span className="font-display text-[4.25rem] leading-[0.8] tracking-[-0.02em] text-ivory [font-variant-numeric:lining-nums]">{pad(active + 1)}</span>
+              <span className="pb-1 text-xs tracking-[0.2em] text-ivory/60">/ {pad(HOUSES.length)}</span>
+            </p>
+            <p className="pb-1 text-right">
+              <span className="block font-display text-[1.375rem] italic leading-tight text-gold-300">{d.name}</span>
+              <span className="mt-1 flex items-center justify-end gap-2 text-[0.6875rem] uppercase tracking-[0.2em] text-ivory/70">
+                <span className="h-px w-5 bg-gold-300" />
+                {d.address.district}
+              </span>
+            </p>
+          </div>
+        </div>
+
+        {/* Detail card, overlapping the frame */}
+        <div className="reel-insets pointer-events-none absolute -left-[clamp(2rem,4vw,3.5rem)] top-[12%] z-40 aspect-[3/4] w-[30%]">
+          {HOUSES.map((x, i) => (
+            <div key={x.key} className={`reel-inset absolute inset-0 border-[5px] border-navy-950 shadow-[0_8px_8px_-4px_rgb(0_0_0/0.45)] ${i === active ? "is-active" : i === prev ? "is-prev" : ""}`}>
+              <Picture name={x.inset} alt="" sizes="(min-width: 64rem) 13vw, 1px" className="absolute inset-0 h-full" />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Progress line + controls (not aria-hidden: these are real controls) */}
+      <div className="mt-9 flex items-center gap-4 pl-4">
+        <ol className="flex flex-1 gap-4">
+          {HOUSES.map((x, i) => (
+            <li key={x.key} className="flex-1">
+              <button
+                type="button"
+                onClick={() => setActive(i)}
+                aria-label={lang === "fr" ? `Voir ${DIVISIONS[x.key].name}` : `Show ${DIVISIONS[x.key].name}`}
+                aria-current={i === active ? "true" : undefined}
+                className="group block w-full py-2 text-left"
+              >
+                <span className={`block truncate text-[0.6875rem] uppercase tracking-[0.14em] transition-colors duration-500 ${i === active ? "text-ivory" : "text-ivory/60 group-hover:text-ivory/85"}`}>
+                  <span className="tabular mr-2 text-gold-300/80">{pad(i + 1)}</span>
+                  {DIVISIONS[x.key].name.replace("SAFA ", "")}
+                </span>
+                <span className="relative mt-2.5 block h-px overflow-hidden bg-ivory/15">
+                  <span
+                    key={i === active ? `on-${active}` : "off"}
+                    className={`reel-progress absolute inset-0 origin-left bg-gold-300 ${i < active ? "scale-x-100" : i === active ? (motion ? "is-running" : "scale-x-100") : "scale-x-0"}`}
+                    style={i === active && motion ? { animationDuration: `${REEL_MS}ms`, animationPlayState: paused ? "paused" : "running" } : undefined}
+                    onAnimationEnd={i === active ? next : undefined}
+                  />
+                </span>
+              </button>
+            </li>
+          ))}
+        </ol>
+        {motion && (
+          <button
+            type="button"
+            onClick={() => setStopped((v) => !v)}
+            aria-label={stopped ? (lang === "fr" ? "Reprendre le défilement" : "Resume slideshow") : lang === "fr" ? "Mettre le défilement en pause" : "Pause slideshow"}
+            className="grid size-11 shrink-0 place-items-center rounded-full border border-ivory/20 text-ivory/80 transition-colors hover:border-gold-300 hover:text-gold-300"
+          >
+            {stopped ? <Play className="size-3.5 translate-x-px" aria-hidden /> : <Pause className="size-3.5" aria-hidden />}
+          </button>
+        )}
+      </div>
+    </div>
   );
 }
 
