@@ -28,6 +28,10 @@ const GARMENTS: { name: T; body: T }[] = [
     body: { en: "Tunics, boubous and shirts in the fabric you choose.", fr: "Tuniques, boubous et chemises dans le tissu de votre choix." },
   },
   {
+    name: { en: "Dresses & women’s wear", fr: "Robes et tenues pour femmes" },
+    body: { en: "Dresses and outfits cut to your measurements, in the fabric you choose.", fr: "Robes et tenues coupées à vos mesures, dans le tissu de votre choix." },
+  },
+  {
     name: { en: "Shirts & everyday pieces", fr: "Chemises et pièces du quotidien" },
     body: { en: "Well-fitting shirts and trousers that last, made to measure.", fr: "Chemises et pantalons sur mesure, bien ajustés et faits pour durer." },
   },
@@ -55,12 +59,12 @@ const PROCESS: { title: T; body: T }[] = [
 export const meta = pageMeta({
   key: "designs",
   title: {
-    en: "Made-to-Measure Menswear in Yaoundé | SAFA Designs",
-    fr: "Couture homme sur mesure à Yaoundé | SAFA Designs",
+    en: "Made-to-Measure Tailoring for Men & Women, Yaoundé | SAFA Designs",
+    fr: "Couture sur mesure homme et femme à Yaoundé | SAFA Designs",
   },
   description: {
-    en: "Made-to-measure suits, ceremony and African menswear at Carrefour MEEC, Yaoundé. Delivered to Douala, across Cameroon and abroad. By appointment.",
-    fr: "Couture homme sur mesure au Carrefour MEEC, Yaoundé : costumes, tenues de cérémonie et tenues africaines. Sur rendez-vous, livraison à Douala et à l’étranger.",
+    en: "Made-to-measure clothing for men and women at Carrefour MEEC, Yaoundé: suits, dresses, ceremony and African wear. Delivered to Douala, across Cameroon and abroad. By appointment.",
+    fr: "Couture sur mesure pour hommes et femmes au Carrefour MEEC, Yaoundé : costumes, robes, tenues de cérémonie et tenues africaines. Sur rendez-vous, livraison à Douala et à l’étranger.",
   },
   image: "/og/designs.jpg",
   jsonLd: (lang) => [breadcrumb(lang, TRAIL), faqPage(lang, DESIGNS_FAQ)],
@@ -119,9 +123,9 @@ export default function Designs() {
             eyebrow={lang === "fr" ? "L’atelier" : "The atelier"}
             title={lang === "fr" ? "Ce que nous confectionnons." : "What we make."}
           />
-          <ul className="mt-12 grid gap-px border-y border-ink/12 bg-ink/12 md:grid-cols-3">
+          <ul className="mt-12 grid gap-px border-y border-ink/12 bg-ink/12 md:grid-cols-2 lg:grid-cols-4">
             {GARMENTS.map((g, i) => (
-              <li key={g.name.en} className="bg-ivory py-7 md:px-8 md:first:pl-0" data-reveal style={{ transitionDelay: `${i * 80}ms` }}>
+              <li key={g.name.en} className="bg-ivory py-7 md:px-8 md:max-lg:odd:pl-0 lg:first:pl-0" data-reveal style={{ transitionDelay: `${i * 80}ms` }}>
                 <h3 className="text-[1.625rem] leading-tight">{g.name[lang]}</h3>
                 <p className="mt-2 text-[0.9375rem] text-muted">{g.body[lang]}</p>
               </li>

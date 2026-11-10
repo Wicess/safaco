@@ -63,8 +63,8 @@ export default function About() {
         title={lang === "fr" ? "Trois maisons, un même geste." : "Three houses, one gesture."}
         lede={
           lang === "fr"
-            ? "SAFA & Co SARL est un groupe camerounais basé à Yaoundé. Nous équipons les chantiers, recevons nos hôtes et habillons les hommes — avec la même exigence de précision."
-            : "SAFA & Co SARL is a Cameroonian group based in Yaoundé. We equip building sites, host guests and dress men — with the same standard of precision."
+            ? "SAFA & Co SARL est un groupe camerounais basé à Yaoundé. Nous équipons les chantiers, recevons nos hôtes et habillons hommes et femmes — avec la même exigence de précision."
+            : "SAFA & Co SARL is a Cameroonian group based in Yaoundé. We equip building sites, host guests and dress men and women — with the same standard of precision."
         }
         image={IMG.yaoundeModern}
         imageAlt={lang === "fr" ? "Le centre de Yaoundé vu depuis le monument de la Réunification" : "Central Yaoundé seen from the Reunification Monument"}
@@ -77,7 +77,7 @@ export default function About() {
             <p>
               {lang === "fr"
                 ? "Avant de crépir un mur, le maçon tend un cordeau enduit de craie et le fait claquer sur la paroi. Avant de couper un tissu, le tailleur trace sa ligne à la craie. Avant d’accueillir un hôte, on pense un lieu où il se sentira chez lui."
-                : "Before rendering a wall, the builder stretches a line and snaps it with chalk. Before cutting cloth, the tailor draws his line. Before welcoming a guest, you design a place where they'll feel at home."}
+                : "Before rendering a wall, the builder stretches a line and snaps it with chalk. Before cutting cloth, the tailor draws the line. Before welcoming a guest, you design a place where they'll feel at home."}
             </p>
             <p>
               {lang === "fr"

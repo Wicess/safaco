@@ -23,7 +23,7 @@ const LEARN: T[] = [
   { en: "Pattern drafting and cutting", fr: "Le patronage et la coupe" },
   { en: "Operating and maintaining specialised machines", fr: "L’utilisation et l’entretien des machines spécialisées" },
   { en: "Assembly, seams and finishing", fr: "L’assemblage, les coutures et les finitions" },
-  { en: "Men's garments: shirts, trousers, suits, African wear", fr: "Le vêtement homme : chemises, pantalons, costumes, tenues africaines" },
+  { en: "Garments for men and women: shirts, trousers, suits, dresses, African wear", fr: "Le vêtement homme et femme : chemises, pantalons, costumes, robes, tenues africaines" },
   { en: "Working with clients in a real atelier", fr: "La relation avec la clientèle, dans un véritable atelier" },
 ];
 
@@ -42,19 +42,19 @@ export const meta = pageMeta({
     fr: "Formation couture à Yaoundé, centre agréé MINEFOP | SAFA",
   },
   description: {
-    en: "Learn men's tailoring at SAFA Designs, a MINEFOP-approved training centre at Carrefour MEEC, Yaoundé. Hands-on training on specialised machines.",
-    fr: "Formation en couture homme chez SAFA Designs, centre agréé par le MINEFOP au Carrefour MEEC, Yaoundé. Pratique sur machines spécialisées, à l’atelier.",
+    en: "Learn tailoring at SAFA Designs, a MINEFOP-approved training centre at Carrefour MEEC, Yaoundé. Hands-on training on specialised machines.",
+    fr: "Formation en couture chez SAFA Designs, centre agréé par le MINEFOP au Carrefour MEEC, Yaoundé. Pratique sur machines spécialisées, à l’atelier.",
   },
   image: "/og/training.jpg",
   jsonLd: (lang) => [
     breadcrumb(lang, TRAIL),
     {
       "@type": "Course",
-      name: lang === "fr" ? "Formation en couture homme" : "Men's tailoring training",
+      name: lang === "fr" ? "Formation en couture sur mesure" : "Made-to-measure tailoring training",
       description:
         lang === "fr"
-          ? "Formation et apprentissage en couture homme sur machines spécialisées, dans un centre agréé par le MINEFOP à Yaoundé."
-          : "Men's tailoring training and apprenticeship on specialised machines, in a MINEFOP-approved centre in Yaoundé.",
+          ? "Formation et apprentissage en couture sur machines spécialisées, dans un centre agréé par le MINEFOP à Yaoundé."
+          : "Tailoring training and apprenticeship on specialised machines, in a MINEFOP-approved centre in Yaoundé.",
       inLanguage: "fr",
       url: abs(href("training", lang)),
       provider: { "@id": `${abs("")}/#designs` },
@@ -76,8 +76,8 @@ export default function Training() {
         title={lang === "fr" ? "La couture s’apprend à la machine, et à la main." : "Learn tailoring, by machine and by hand."}
         lede={
           lang === "fr"
-            ? "Formation et apprentissage en couture homme au sein de l’atelier SAFA Designs, au Carrefour MEEC. Un centre agréé par le Ministère de l’Emploi et de la Formation professionnelle (MINEFOP)."
-            : "Men's tailoring training and apprenticeship inside the SAFA Designs atelier at Carrefour MEEC — a centre approved by Cameroon's Ministry of Employment and Vocational Training."
+            ? "Formation et apprentissage en couture au sein de l’atelier SAFA Designs, au Carrefour MEEC. Un centre agréé par le Ministère de l’Emploi et de la Formation professionnelle (MINEFOP)."
+            : "Tailoring training and apprenticeship inside the SAFA Designs atelier at Carrefour MEEC — a centre approved by Cameroon's Ministry of Employment and Vocational Training."
         }
         image={IMG.atelierTunic}
         imageAlt={lang === "fr" ? "Une tunique en lin achevée à l’atelier SAFA Designs" : "A finished linen tunic in the SAFA Designs atelier"}

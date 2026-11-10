@@ -131,8 +131,8 @@ export const DIVISIONS: Record<DivisionKey, Division> = {
     page: "designs",
     accentVar: "var(--color-designs)",
     tagline: {
-      en: "Made-to-measure menswear, specialised sewing machines and a MINEFOP-approved training centre.",
-      fr: "Couture homme sur mesure, machines à coudre spécialisées et centre de formation agréé par le MINEFOP.",
+      en: "Made-to-measure clothing for men and women, specialised sewing machines and a MINEFOP-approved training centre.",
+      fr: "Couture sur mesure homme et femme, machines à coudre spécialisées et centre de formation agréé par le MINEFOP.",
     },
     short: { en: "Wear", fr: "S’habiller" },
     // Owner, 2026-11-10: "670986643 / 695356742 · Carrefour MEEC, Yaoundé".

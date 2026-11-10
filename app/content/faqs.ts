@@ -7,8 +7,8 @@ export const GROUP_FAQ: Faq[] = [
   {
     q: { en: "What does SAFA & Co do?", fr: "Quelles sont les activités de SAFA & Co ?" },
     a: {
-      en: "SAFA & Co SARL is a Yaoundé group with three divisions: SAFA Construction hires out automatic wall-plastering machines, mast lifts and scaffold platforms and fabricates construction materials; SAFA Apartments rents furnished apartments in Meyo; SAFA Designs makes menswear to measure and runs a MINEFOP-approved sewing school at Carrefour MEEC.",
-      fr: "SAFA & Co SARL est un groupe basé à Yaoundé qui réunit trois maisons : SAFA Construction loue des machines à crépir automatiques, des monte-charges et des plateformes d’échafaudage, et fabrique des matériaux de construction ; SAFA Apartments propose des appartements meublés à Meyo ; SAFA Designs réalise la couture homme sur mesure et dirige, au Carrefour MEEC, un centre de formation en couture agréé par le MINEFOP.",
+      en: "SAFA & Co SARL is a Yaoundé group with three divisions: SAFA Construction hires out automatic wall-plastering machines, mast lifts and scaffold platforms and fabricates construction materials; SAFA Apartments rents furnished apartments in Meyo; SAFA Designs makes clothing to measure for men and women and runs a MINEFOP-approved sewing school at Carrefour MEEC.",
+      fr: "SAFA & Co SARL est un groupe basé à Yaoundé qui réunit trois maisons : SAFA Construction loue des machines à crépir automatiques, des monte-charges et des plateformes d’échafaudage, et fabrique des matériaux de construction ; SAFA Apartments propose des appartements meublés à Meyo ; SAFA Designs réalise la couture sur mesure pour hommes et femmes et dirige, au Carrefour MEEC, un centre de formation en couture agréé par le MINEFOP.",
     },
   },
   {

@@ -15,7 +15,7 @@ export const meta = () => [
   {
     name: "description",
     content:
-      "SAFA & Co SARL, Yaoundé: construction equipment hire, furnished apartments and made-to-measure menswear. · Location de matériel de construction, appartements meublés et couture homme sur mesure.",
+      "SAFA & Co SARL, Yaoundé: construction equipment hire, furnished apartments and made-to-measure clothing for men and women. · Location de matériel de construction, appartements meublés et couture sur mesure homme et femme.",
   },
   { tagName: "link", rel: "canonical", href: `${SITE.url}/` },
   ...LANGS.map((l) => ({ tagName: "link", rel: "alternate", hrefLang: HREFLANG[l], href: `${SITE.url}${PAGES.home.path[l]}` })),

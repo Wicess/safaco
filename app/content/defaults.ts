@@ -14,8 +14,8 @@ export const HOME_HERO = {
   title: { en: "Everything starts with", fr: "Tout commence par" },
   emphasis: { en: "a line.", fr: "un trait." },
   lede: {
-    en: "Plastering machines for hire, furnished apartments in Meyo, made-to-measure menswear: in Yaoundé, three trades served with the same standard of precision.",
-    fr: "Machines à crépir en location, appartements meublés à Meyo, couture homme sur mesure : à Yaoundé, trois métiers servis avec la même exigence de précision.",
+    en: "Plastering machines for hire, furnished apartments in Meyo, made-to-measure clothing for men and women: in Yaoundé, three trades served with the same standard of precision.",
+    fr: "Machines à crépir en location, appartements meublés à Meyo, couture sur mesure homme et femme : à Yaoundé, trois métiers servis avec la même exigence de précision.",
   },
 } satisfies Record<string, T>;
 
@@ -58,8 +58,8 @@ export const PAGE_HEROES: Record<PageHeroKey, { label: string; title: T; lede: T
     label: "Designs",
     title: { en: "Cut for you. Sewn to last.", fr: "Coupé pour vous. Cousu pour durer." },
     lede: {
-      en: "Made-to-measure menswear, from suits to African garments, finished on our specialised machines at Carrefour MEEC, Yaoundé. By appointment, with delivery to Douala, across Cameroon and abroad.",
-      fr: "Couture homme sur mesure, du costume à la tenue africaine, finie sur nos machines spécialisées au Carrefour MEEC, à Yaoundé. Sur rendez-vous, avec livraison à Douala, partout au Cameroun et à l’étranger.",
+      en: "Made-to-measure clothing for men and women, from suits and dresses to African wear, finished on our specialised machines at Carrefour MEEC, Yaoundé. By appointment, with delivery to Douala, across Cameroon and abroad.",
+      fr: "Couture sur mesure pour hommes et femmes, du costume à la robe et à la tenue africaine, finie sur nos machines spécialisées au Carrefour MEEC, à Yaoundé. Sur rendez-vous, avec livraison à Douala, partout au Cameroun et à l’étranger.",
     },
   },
   gallery: {

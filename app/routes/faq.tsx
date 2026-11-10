@@ -43,7 +43,7 @@ export const meta = pageMeta({
   title: { en: "Questions & answers — SAFA & Co, Yaoundé", fr: "Questions fréquentes — SAFA & Co, Yaoundé" },
   description: {
     en: "Answers on hiring plastering machines and mast lifts, furnished apartments in Meyo, and made-to-measure tailoring and training at SAFA Designs.",
-    fr: "Location de machines à crépir et monte-charges, appartements meublés à Meyo, couture homme sur mesure et formation agréée MINEFOP à Yaoundé : nos réponses.",
+    fr: "Location de machines à crépir et monte-charges, appartements meublés à Meyo, couture sur mesure homme et femme, formation agréée MINEFOP à Yaoundé : nos réponses.",
   },
   // FAQPage markup lives on each division page (one instance per question, per
   // Google's guidance); this hub repeats the answers for people, not markup.

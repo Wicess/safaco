@@ -79,7 +79,7 @@ writeFileSync(
   [
     `# ${SITE.legalName}`,
     "",
-    "> Cameroonian company based in Yaoundé, Cameroon, with three divisions: automatic plastering machine and mast-lift hire (SAFA Construction), furnished apartments in Meyo, Yaoundé IV (SAFA Apartments), and made-to-measure menswear with a MINEFOP-approved tailoring school at Carrefour MEEC, Yaoundé VI (SAFA Designs). Bilingual French/English. No online booking and no published prices: rates are on request, by WhatsApp, phone or the enquiry form.",
+    "> Cameroonian company based in Yaoundé, Cameroon, with three divisions: automatic plastering machine and mast-lift hire (SAFA Construction), furnished apartments in Meyo, Yaoundé IV (SAFA Apartments), and made-to-measure clothing for men and women with a MINEFOP-approved tailoring school at Carrefour MEEC, Yaoundé VI (SAFA Designs). Bilingual French/English. No online booking and no published prices: rates are on request, by WhatsApp, phone or the enquiry form.",
     "",
     "## Where SAFA works",
     "",

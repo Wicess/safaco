@@ -28,8 +28,8 @@ export const meta = pageMeta({
     fr: "SAFA & Co, Yaoundé — Location de matériel, meublés, couture",
   },
   description: {
-    en: "Yaoundé group: automatic plastering machine and mast-lift hire, furnished apartments in Meyo, made-to-measure menswear and a MINEFOP-approved sewing school.",
-    fr: "Groupe à Yaoundé : location de machines à crépir et de monte-charges, appartements meublés à Meyo, couture homme sur mesure, formation agréée MINEFOP.",
+    en: "Yaoundé group: automatic plastering machine and mast-lift hire, furnished apartments in Meyo, made-to-measure clothing for men and women and a MINEFOP-approved sewing school.",
+    fr: "Groupe à Yaoundé : location de machines à crépir et de monte-charges, appartements meublés à Meyo, couture sur mesure homme et femme, formation agréée MINEFOP.",
   },
   image: "/og/home.jpg",
   jsonLd: (lang) => [faqPage(lang, GROUP_FAQ)],
@@ -70,7 +70,7 @@ const HOUSES: { key: HouseKey; img: string; alt: T; inset: string; insetAlt: T; 
     inset: IMG.printShirt,
     insetAlt: { en: "A print-panel shirt in the showroom", fr: "Une chemise à empiècement imprimé, en salle d’exposition" },
     offers: [
-      { label: { en: "Made-to-measure menswear", fr: "Tenues homme sur mesure" } },
+      { label: { en: "Made-to-measure for men & women", fr: "Sur mesure, homme et femme" } },
       { label: { en: "Specialised machines", fr: "Machines spécialisées" } },
       { label: { en: "MINEFOP-approved training", fr: "Formation agréée MINEFOP" }, page: "training" },
     ],
@@ -351,12 +351,12 @@ function Statement({ lang }: { lang: Lang }) {
           {lang === "fr" ? (
             <>
               SAFA &amp; Co réunit trois métiers qui partent du même geste : <span className="text-gold-600 italic">mesurer juste</span>. Nous
-              équipons les chantiers, nous accueillons nos hôtes, nous habillons les hommes — à Yaoundé, avec nos propres équipes.
+              équipons les chantiers, nous accueillons nos hôtes, nous habillons hommes et femmes — à Yaoundé, avec nos propres équipes.
             </>
           ) : (
             <>
               SAFA &amp; Co brings together three crafts that share the same first move: <span className="text-gold-600 italic">measure true</span>. We
-              equip building sites, we host guests, we dress men — in Yaoundé, with our own teams.
+              equip building sites, we host guests, we dress men and women — in Yaoundé, with our own teams.
             </>
           )}
         </p>
