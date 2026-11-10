@@ -556,6 +556,37 @@ export function GalleryEditor() {
 
 /* ───────────────────────── Account ───────────────────────── */
 
+/** Sends one real email through the configured mailbox and reports why if it fails. */
+function TestEmail() {
+  const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
+  return (
+    <Panel title="Enquiry emails" intro="Every contact-form enquiry is emailed to your inbox. Send a test to check it arrives.">
+      <div className="space-y-3">
+        <Btn
+          type="button"
+          loading={busy}
+          onClick={async () => {
+            setBusy(true);
+            setMsg(null);
+            try {
+              const r = await api.testEmail();
+              setMsg({ ok: true, text: `Sent to ${r.to}. Check that inbox (and its spam folder) in a minute.` });
+            } catch (err) {
+              setMsg({ ok: false, text: errorText(err) });
+            } finally {
+              setBusy(false);
+            }
+          }}
+        >
+          Send test email
+        </Btn>
+        {msg && <p className={cn("max-w-xl text-sm", msg.ok ? "text-emerald-800" : "text-red-800")} role="status">{msg.text}</p>}
+      </div>
+    </Panel>
+  );
+}
+
 /** Name + sign-in email (the username). Saving needs the current password. */
 function SignInDetails({ user, onUser }: { user: { email: string; name: string }; onUser: (u: { email: string; name: string }) => void }) {
   const [name, setName] = useState(user.name);
@@ -640,6 +671,7 @@ export function Account({ user, onUser, onLogout }: { user: { email: string; nam
           </div>
         </form>
       </Panel>
+      <TestEmail />
       <Panel title="System" intro="What the admin panel is connected to.">
         {!status ? (
           <Skeleton className="h-24" />

@@ -114,3 +114,39 @@ export async function sendLeadEmails(lead: ContactInput, geo: Geo): Promise<bool
   }
   return true;
 }
+
+/**
+ * Admin "Send test email": signs in to the mailbox and sends one message to
+ * the enquiry inbox. Returns a short reason code when it fails, so the owner
+ * can tell a wrong password from a network problem without reading logs.
+ */
+export async function sendTestEmail(): Promise<{ ok: true; to: string } | { ok: false; error: string; detail?: string }> {
+  const { SMTP_HOST, SMTP_USER, SMTP_PASS } = process.env;
+  if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS) return { ok: false, error: "smtp_not_configured" };
+  const to = process.env.LEADS_TO_DEFAULT || SMTP_USER;
+  const from = process.env.MAIL_FROM || SMTP_USER;
+  // A fresh transporter: a cached one might hold an old, failed connection.
+  const port = Number(process.env.SMTP_PORT ?? 465);
+  const t = nodemailer.createTransport({ host: SMTP_HOST, port, secure: port === 465, auth: { user: SMTP_USER, pass: SMTP_PASS }, connectionTimeout: 8000, greetingTimeout: 8000, socketTimeout: 10000 });
+  try {
+    await t.verify();
+    await t.sendMail({
+      from: { name: "SAFA & Co — Site web", address: from },
+      to,
+      subject: "Test email from your website",
+      text: "This is a test from the SAFA & Co admin panel. If you are reading this, contact-form enquiries will reach this inbox.",
+    });
+    return { ok: true, to };
+  } catch (err) {
+    const e = err as { code?: string; responseCode?: number; message?: string };
+    console.error("[mail] test failed", e.code, e.responseCode, e.message);
+    const error =
+      e.code === "EAUTH" || e.responseCode === 535 ? "smtp_auth"
+      : e.code === "ETIMEDOUT" || e.code === "ECONNECTION" || e.code === "ESOCKET" || e.code === "EDNS" ? "smtp_connection"
+      : e.code === "EENVELOPE" ? "smtp_address"
+      : "smtp_failed";
+    return { ok: false, error, detail: [e.code, e.responseCode].filter(Boolean).join(" ") || undefined };
+  } finally {
+    t.close();
+  }
+}

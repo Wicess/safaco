@@ -3,6 +3,7 @@ import type { MediaEntry, Overrides } from "../app/content/overrides";
 import { clearSession, hashPassword, issueSession, loginLimited, readSession, requireAdmin, sessionConfigured, verifyPassword, type Session } from "./lib/auth";
 import { db } from "./lib/db";
 import { deleteMedia, newMediaName, processUpload } from "./lib/images";
+import { sendTestEmail } from "./lib/mail";
 import { deleteKeys, getJson, putJson, putObject, r2Configured } from "./lib/r2";
 
 /**
@@ -91,6 +92,12 @@ admin.post("/api/admin/account", express.json({ limit: "4kb" }), async (req, res
   // The session carries the email and name: re-issue it with the new ones.
   issueSession(res, req, updated);
   res.json({ ok: true, user: { email: updated.email, name: updated.name } });
+});
+
+admin.post("/api/admin/test-email", express.json({ limit: "1kb" }), async (_req, res) => {
+  const r = await sendTestEmail();
+  if (r.ok) return res.json(r);
+  res.status(502).json({ ok: false, error: r.error, detail: r.detail });
 });
 
 admin.get("/api/admin/status", (_req, res) => {
