@@ -13,7 +13,10 @@ export async function verifyTurnstile(token: string | undefined, ip?: string): P
     });
     const data = (await res.json()) as { success: boolean; hostname?: string };
     const allowed = process.env.TURNSTILE_HOSTNAME;
-    return data.success && (!allowed || data.hostname === allowed);
+    // The bare domain and its www twin are the same site (one redirects to
+    // the other), so either hostname is accepted.
+    const host = (data.hostname ?? "").replace(/^www\./, "");
+    return data.success && (!allowed || host === allowed.replace(/^www\./, ""));
   } catch {
     return false;
   }

@@ -27,6 +27,9 @@ export function Footer({ lang }: { lang: Lang }) {
               {lang === "fr" ? "Bâtir, accueillir, habiller — avec précision." : "We build, host and tailor — with precision."}
             </p>
             <p className="mt-4 text-sm text-ivory/55">{lang === "fr" ? "Un groupe camerounais basé à Yaoundé." : "A Cameroonian group based in Yaoundé."}</p>
+            <a href={`mailto:${SITE.email}`} className="mt-3 inline-flex min-h-11 items-center text-sm text-ivory underline decoration-gold-300/50 underline-offset-4 hover:text-gold-300">
+              {SITE.email}
+            </a>
           </div>
 
           <div className="grid gap-10 sm:grid-cols-3">

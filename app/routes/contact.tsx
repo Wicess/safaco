@@ -1,8 +1,8 @@
-import { MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import { ContactForm } from "~/components/sections/ContactForm";
 import { Breadcrumbs, TraceLine } from "~/components/sections/primitives";
 import { WhatsAppIcon } from "~/components/ui/icons";
-import { DIVISION_LIST, greeting, telLink, waLink } from "~/content/site";
+import { DIVISION_LIST, SITE, greeting, telLink, waLink } from "~/content/site";
 import { UI } from "~/content/ui";
 import { useLang } from "~/lib/hooks";
 import { breadcrumb, pageMeta } from "~/lib/seo";
@@ -45,7 +45,14 @@ export default function Contact() {
                 ? "Un appel, un message WhatsApp ou une demande écrite : la bonne division vous répond."
                 : "A call, a WhatsApp message or a written enquiry: the right division answers you."}
             </p>
-            <TraceLine className="mx-auto mt-8 w-24 md:mt-10" scroll={false} />
+            <a
+              href={`mailto:${SITE.email}`}
+              className="mt-4 inline-flex min-h-11 items-center gap-2 text-[1.0625rem] font-medium underline decoration-gold/60 underline-offset-[6px] hover:decoration-gold-600"
+            >
+              <Mail className="size-4 text-gold-600" aria-hidden />
+              {SITE.email}
+            </a>
+            <TraceLine className="mx-auto mt-6 w-24 md:mt-8" scroll={false} />
           </div>
         </div>
       </section>
@@ -78,6 +85,19 @@ export default function Contact() {
                     <span>
                       <a href={telLink(d.phone)} className="-my-3 inline-flex min-h-11 items-center underline-offset-4 hover:underline">
                         {d.phone}
+                      </a>
+                    </span>
+                  </li>
+                )}
+                {d.email && (
+                  <li className="flex gap-3">
+                    <Mail className="mt-1 size-4 shrink-0 text-muted" aria-label="Email" />
+                    <span className="min-w-0">
+                      <a
+                        href={`mailto:${d.email}?subject=${encodeURIComponent(d.name)}`}
+                        className="-my-3 inline-flex min-h-11 items-center break-all underline-offset-4 hover:underline"
+                      >
+                        {d.email}
                       </a>
                     </span>
                   </li>

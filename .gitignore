@@ -12,3 +12,4 @@ node_modules
 
 # Published admin content, pulled from R2 at build (scripts/content-pull.ts)
 /app/content/overrides.generated.json
+/server/dist
