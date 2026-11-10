@@ -5,7 +5,7 @@ import { DEFAULT_GALLERY } from "~/content/gallery";
 import { registerClip } from "~/content/media-map";
 import type { ClipEntry, TT } from "~/content/overrides";
 import { cn } from "~/lib/utils";
-import { ERRORS, MAX_VIDEO_MB, api, errorText, isHevc, probeVideo, sendVideo, shrinkImage, videoType } from "./api";
+import { ERRORS, MAX_SOURCE_MB, MAX_VIDEO_MB, api, compressVideo, errorText, isHevc, probeVideo, sendVideo, shrinkImage, videoType } from "./api";
 import { useContent } from "./store";
 
 /* ── Basic building blocks: one vocabulary across every admin screen ── */
@@ -233,30 +233,42 @@ export function UploadButton({ onUploaded, label = "Upload photos", multiple = t
  */
 export function useVideoUploader() {
   const { update, notify } = useContent();
-  const [stage, setStage] = useState<null | "check" | number>(null);
+  const [stage, setStage] = useState<null | "check" | { step: "compress" | "upload"; f: number }>(null);
   const uploadVideo = async (file: File): Promise<{ name: string; clip: ClipEntry } | null> => {
     const type = videoType(file);
+    const MB = 1024 * 1024;
     if (!type) return notify("error", `${file.name}: ${ERRORS.unreadable_video}`), null;
-    if (file.size > MAX_VIDEO_MB * 1024 * 1024) return notify("error", `${file.name}: ${ERRORS.video_too_large}`), null;
+    if (file.size > MAX_SOURCE_MB * MB) return notify("error", `${file.name}: ${ERRORS.video_too_large}`), null;
     try {
       setStage("check");
+      const p = await probeVideo(file);
+      // Shrink it here first (same look, about half the size, no sound).
+      setStage({ step: "compress", f: 0 });
+      const small = await compressVideo(file, p.w, p.h, (f) => setStage({ step: "compress", f }));
+      const send = small?.file ?? file;
+      if (send.size > MAX_VIDEO_MB * MB) return notify("error", `${file.name}: ${ERRORS.video_too_large}`), null;
       if (
+        !small &&
         (await isHevc(file)) &&
         !confirm(
           "This video uses the iPhone “High Efficiency” format. It plays on iPhones and most recent Android phones, but not on some older phones and computers.\n\nFor the widest reach: on the iPhone, Settings → Camera → Formats → Most Compatible, then film again (or export the clip as MP4).\n\nUpload it anyway?",
         )
       )
         return null;
-      const p = await probeVideo(file);
       const hint = file.name.replace(/\.[^.]+$/, "");
       const cover = await api.upload(p.cover, `${hint}-cover`);
       registerMedia(cover.name, cover.entry);
       update((c) => ({ ...c, media: { ...(c.media ?? {}), [cover.name]: cover.entry } }));
-      setStage(0);
-      const r = await sendVideo(file, { type, name: hint, w: p.w, h: p.h, duration: p.duration, poster: cover.name }, (f) => setStage(f));
+      setStage({ step: "upload", f: 0 });
+      const r = await sendVideo(
+        send,
+        { type: small ? "video/mp4" : type, name: hint, w: small?.w ?? p.w, h: small?.h ?? p.h, duration: p.duration, poster: cover.name },
+        (f) => setStage({ step: "upload", f }),
+      );
       registerClip(r.name, r.clip);
       update((c) => ({ ...c, clips: { ...(c.clips ?? {}), [r.name]: r.clip } }));
-      notify("ok", "Video uploaded. Publish to put it on the website.");
+      const saved = small ? ` Compressed from ${(file.size / MB).toFixed(1)} MB to ${(send.size / MB).toFixed(1)} MB.` : "";
+      notify("ok", `Video uploaded.${saved} Publish to put it on the website.`);
       return r;
     } catch (e) {
       notify("error", `${file.name}: ${errorText(e)}`);
@@ -306,7 +318,7 @@ export function VideoUploadButton({
           ) : stage === "check" ? (
             "Checking video…"
           ) : (
-            `Uploading ${Math.round(stage * 100)} %`
+            `${stage.step === "compress" ? "Optimising" : "Uploading"} ${Math.round(stage.f * 100)} %`
           )}
         </span>
       </Btn>

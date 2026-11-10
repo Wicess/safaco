@@ -104,7 +104,10 @@ export const api = {
 
 /* ── Videos ── */
 
+/** Largest file stored (after compression). */
 export const MAX_VIDEO_MB = 60;
+/** Largest file accepted from the phone when it can compress it first. */
+export const MAX_SOURCE_MB = 600;
 /** Each piece stays under Vercel's 4.5 MB request limit. */
 const CHUNK = 3.5 * 1024 * 1024;
 
@@ -172,6 +175,48 @@ export async function probeVideo(file: File): Promise<{ w: number; h: number; du
   }
 }
 
+/**
+ * Re-encodes the video on this device (WebCodecs, hardware-accelerated on
+ * phones) before upload: H.264 at Mediabunny's "high" quality, which looked
+ * the same as the source in side-by-side tests at about half the size; at
+ * most 1080p; no sound (the site plays videos silently); index first for a
+ * fast start. Returns null when this browser can't do it or it wouldn't save
+ * at least 10% — the original is then uploaded as before.
+ */
+export async function compressVideo(file: File, w: number, h: number, onProgress: (fraction: number) => void): Promise<{ file: File; w: number; h: number } | null> {
+  if (typeof VideoEncoder === "undefined" || typeof VideoDecoder === "undefined") return null;
+  let lock: { release: () => Promise<void> } | undefined;
+  try {
+    // Keep the phone's screen on while it works.
+    lock = await (navigator as Navigator & { wakeLock?: { request: (t: "screen") => Promise<{ release: () => Promise<void> }> } }).wakeLock?.request("screen").catch(() => undefined);
+    const M = await import("mediabunny");
+    const input = new M.Input({ source: new M.BlobSource(file), formats: M.ALL_FORMATS });
+    const output = new M.Output({ format: new M.Mp4OutputFormat({ fastStart: "in-memory" }), target: new M.BufferTarget() });
+    const even = (n: number) => Math.max(2, Math.round(n / 2) * 2);
+    const scale = Math.min(1, 1080 / Math.min(w, h));
+    const ow = even(w * scale);
+    const oh = even(h * scale);
+    const conv = await M.Conversion.init({
+      input,
+      output,
+      audio: { discard: true },
+      video: { codec: "avc", quality: new M.Quality("high"), forceTranscode: true, keyFrameInterval: 2, width: ow, height: oh, fit: "fill" },
+      showWarnings: false,
+    });
+    if (!conv.isValid) return null;
+    conv.onProgress = (p) => onProgress(p);
+    await conv.execute();
+    const buf = output.target.buffer;
+    if (!buf || buf.byteLength > file.size * 0.9) return null;
+    return { file: new File([buf], `${file.name.replace(/\.[^.]+$/, "")}.mp4`, { type: "video/mp4" }), w: ow, h: oh };
+  } catch (e) {
+    console.warn("[video] compression skipped", e);
+    return null;
+  } finally {
+    await lock?.release().catch(() => {});
+  }
+}
+
 /** iPhone "High Efficiency" (HEVC) video: plays on iPhones and recent
  *  Android phones, but not everywhere. Looks for the codec tag near the start
  *  and end of the file, where MP4/MOV keep their index. */
@@ -231,7 +276,7 @@ export const ERRORS: Record<string, string> = {
   unreadable_image: "That file couldn't be read as a photo. Try a JPEG or PNG.",
   unplayable_video: "This video doesn't play in this browser, so visitors might not be able to play it either. Save or export it as MP4 and try again.",
   unreadable_video: "That file isn't a video we can use. Choose an MP4, MOV or WebM file.",
-  video_too_large: `That video is over ${60} MB. Trim it or send a shorter clip (under 20 MB loads best on phones).`,
+  video_too_large: "That video is too large (over 60 MB once optimised). Trim it or send a shorter clip: under 20 MB loads best on phones.",
   upload_incomplete: "Part of the video didn't arrive. Check your connection and try again.",
   unauthorized: "Your session has ended. Sign in again.",
   nothing_to_publish: "There are no changes to publish.",

@@ -341,7 +341,7 @@ export function PhotosEditor() {
         title="Videos"
         intro={
           <>
-            Replace any video with your own: MP4 or MOV from your phone, up to 60 MB (short clips under 20 MB load best on mobile data). Videos play silently, and on phones only when the visitor taps play. The cover is the still shown before playing: it is taken from the video automatically, and “Change cover” lets you pick a better photo.
+            Replace any video with your own, straight from your phone (MP4 or MOV). Before uploading, the video is optimised on your device: it looks the same at about half the size, without sound (the site plays videos silently). Keep the screen on until it finishes. On phones, visitors download a video only when they tap play. The cover is the still shown before playing: it is taken from the video automatically, and “Change cover” lets you pick a better photo.
           </>
         }
       >
@@ -597,7 +597,7 @@ export function GalleryEditor() {
       />
       <Panel
         title="Add photos & videos"
-        intro="Choose which business they belong to first. Photos are resized and optimised automatically. Videos: MP4 or MOV, up to 60 MB, one at a time (short clips under 20 MB load best on phones)."
+        intro="Choose which business they belong to first. Photos are resized and optimised automatically. Videos: MP4 or MOV from your phone, one at a time; each is optimised on your device first (same look, about half the size)."
       >
         <div className="flex flex-wrap items-end gap-3">
           <label className="text-[0.8125rem] font-medium text-ink">
