@@ -104,7 +104,7 @@ export function ContactForm({ lang }: { lang: Lang }) {
       {/* Honeypot: invisible to people, tempting to bots. */}
       <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">
         <label>
-          Website <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+          {lang === "fr" ? "Site web" : "Website"} <input type="text" name="website" tabIndex={-1} autoComplete="off" />
         </label>
       </div>
 

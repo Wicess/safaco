@@ -24,7 +24,7 @@ export const meta = pageMeta({
   key: "construction",
   title: {
     en: "Plastering Machine & Mast Lift Hire, Yaoundé | SAFA",
-    fr: "Location machine à crépir et monte-charge, Yaoundé | SAFA",
+    fr: "Location de machine à crépir et monte-charge, Yaoundé | SAFA",
   },
   description: {
     en: "Hire automatic wall-plastering machines, mast lifts and scaffold platforms in Yaoundé. Delivered, set up and collected by SAFA's own crew. Quote on request.",
@@ -205,7 +205,7 @@ export default function Construction() {
       <CtaBand
         lang={lang}
         division="construction"
-        title={{ en: "Planning the finishing phase?", fr: "Vous préparez les finitions ?" }}
+        title={{ en: "Planning the finishing phase?", fr: "Votre chantier arrive aux finitions ?" }}
         body={{
           en: "Send the site location, surface and dates. We'll recommend the right machine and reply with a quote.",
           fr: "Indiquez-nous le lieu du chantier, la surface et vos dates. Nous vous conseillons la machine adaptée et vous répondons avec un devis.",

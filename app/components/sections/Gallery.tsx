@@ -197,6 +197,14 @@ function NavButton({ label, onClick, className, children }: { label: string; onC
 
 /* ───────────────────────── Tiles ───────────────────────── */
 
+/** "Lire la vidéo — …" / "Agrandir la photo — …": one clear verb, no double colon. */
+function tileLabel(alt: string, lang: Lang): string {
+  const video = /^(Video|Vidéo)\s?:\s?/.exec(alt);
+  const rest = video ? alt.slice(video[0].length) : alt;
+  if (lang === "fr") return `${video ? "Lire la vidéo" : "Agrandir la photo"} — ${rest}`;
+  return `${video ? "Play video" : "Enlarge photo"} — ${rest}`;
+}
+
 export function GalleryTile({
   item,
   lang,
@@ -221,7 +229,7 @@ export function GalleryTile({
     <button
       type="button"
       onClick={onOpen}
-      aria-label={`${L.open[lang]}${lang === "fr" ? " : " : ": "}${item.alt[lang]}`}
+      aria-label={tileLabel(item.alt[lang], lang)}
       className={cn("group/tile relative block w-full overflow-hidden bg-stone text-left", className)}
     >
       <Picture

@@ -26,7 +26,7 @@ export const FLEET: Unit[] = [
   },
   {
     code: "02",
-    name: { en: "Render spray machine", fr: "Machine à projeter l’enduit" },
+    name: { en: "Render spray machine", fr: "Pompe à mortier" },
     body: {
       en: "Pumps and sprays mortar through a hose for walls and ceilings.",
       fr: "Elle pompe le mortier et le projette par un flexible, sur murs et plafonds.",
@@ -36,7 +36,7 @@ export const FLEET: Unit[] = [
   },
   {
     code: "03",
-    name: { en: "Dual-mast site lift", fr: "Monte-charge bi-mât" },
+    name: { en: "Dual-mast site lift", fr: "Plateforme bi-mât" },
     body: {
       en: "Twin-mast platform that carries crew and materials up the façade.",
       fr: "Plateforme sur deux mâts qui monte l’équipe et les matériaux le long de la façade.",

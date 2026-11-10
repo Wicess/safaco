@@ -60,7 +60,7 @@ export const meta = pageMeta({
   },
   description: {
     en: "Made-to-measure suits, ceremony and African menswear at Carrefour MEEC, Yaoundé. Delivered to Douala, across Cameroon and abroad. By appointment.",
-    fr: "Couture homme sur mesure au Carrefour MEEC, Yaoundé : costumes, tenues de cérémonie et africaines. Sur rendez-vous, livraison à Douala et à l’étranger.",
+    fr: "Couture homme sur mesure au Carrefour MEEC, Yaoundé : costumes, tenues de cérémonie et tenues africaines. Sur rendez-vous, livraison à Douala et à l’étranger.",
   },
   image: "/og/designs.jpg",
   jsonLd: (lang) => [breadcrumb(lang, TRAIL), faqPage(lang, DESIGNS_FAQ)],

@@ -77,7 +77,7 @@ export default function Apartments() {
             <p className="eyebrow text-apartments">{lang === "fr" ? "Les espaces" : "The spaces"}</p>
             <p className="mt-6 font-display text-[1.875rem] leading-snug md:text-[2.5rem]">
               {lang === "fr"
-                ? "Des pièces calmes, du linge frais, une vraie cuisine pour cuisiner."
+                ? "Des pièces calmes, du linge frais, une vraie cuisine équipée."
                 : "Quiet rooms, fresh linen, a kitchen you'll actually cook in."}
             </p>
             <TraceLine className="mt-10 w-20" />

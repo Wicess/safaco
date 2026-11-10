@@ -41,7 +41,7 @@ export const PAGE_HEROES: Record<PageHeroKey, { label: string; title: T; lede: T
     title: { en: "Automatic plastering machine hire in Yaoundé.", fr: "Location de machine à crépir automatique à Yaoundé." },
     lede: {
       en: "SAFA Construction is among the first companies in Cameroon to hire out automatic plastering machines. The machine lays render in one steady pass: walls finished faster, a constant thickness, fewer hands needed.",
-      fr: "SAFA Construction est parmi les premières entreprises au Cameroun à louer des machines à crépir automatiques. La machine projette l’enduit en une passe régulière : des murs finis plus vite, une épaisseur constante, moins de main-d’œuvre.",
+      fr: "SAFA Construction compte parmi les premières entreprises au Cameroun à louer des machines à crépir automatiques. La machine projette l’enduit en une passe régulière : des murs finis plus vite, une épaisseur constante, moins de main-d’œuvre.",
     },
     image: IMG.fleetYard,
   },

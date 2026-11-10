@@ -1,6 +1,6 @@
 import { Breadcrumbs } from "~/components/sections/primitives";
 import credits from "~/content/credits.generated.json";
-import { MINEFOP, SITE } from "~/content/site";
+import { MINEFOP, SITE, isTodo } from "~/content/site";
 import { useLang } from "~/lib/hooks";
 import { pageMeta } from "~/lib/seo";
 
@@ -14,6 +14,11 @@ export const meta = pageMeta({
     fr: "Informations sur la société, hébergement, crédits photo et traitement des données que vous envoyez à SAFA & Co SARL par le formulaire de contact.",
   },
 });
+
+/** Licence names in French (CC names are international; "Public domain" is not). */
+function frLicence(l: string) {
+  return l.replace(/^Public domain(?: \(PD-self\))?$/i, "Domaine public").replace(/^CC0 1\.0$/, "CC0 1.0 (domaine public)");
+}
 
 export default function Legal() {
   const lang = useLang();
@@ -31,12 +36,19 @@ export default function Legal() {
           {SITE.legalName} — {fr ? "société à responsabilité limitée" : "limited liability company (SARL)"}, Yaoundé, {fr ? "Cameroun" : "Cameroon"}.
         </p>
         {/* CLIENT_TODO: registered address, RCCM, NIU, legal representative */}
-        <p>
-          RCCM : {SITE.rccm} · NIU : {SITE.niu}
-        </p>
-        <p>
-          {fr ? "Centre de formation SAFA Designs — agrément MINEFOP n°" : "SAFA Designs training centre — MINEFOP approval no."} {MINEFOP.agrement}
-        </p>
+        {/* Registration numbers appear once set in admin → Contact & details;
+            a placeholder is never printed. */}
+        {(!isTodo(SITE.rccm) || !isTodo(SITE.niu)) && (
+          <p>
+            {[!isTodo(SITE.rccm) && `RCCM${fr ? "\u00a0" : ""}: ${SITE.rccm}`, !isTodo(SITE.niu) && `NIU${fr ? "\u00a0" : ""}: ${SITE.niu}`].filter(Boolean).join(" · ")}
+          </p>
+        )}
+        {!isTodo(MINEFOP.agrement) && (
+          <p>
+            {fr ? "Centre de formation SAFA Designs — agrément MINEFOP n°\u00a0" : "SAFA Designs training centre — MINEFOP approval no. "}
+            {MINEFOP.agrement}
+          </p>
+        )}
         <p>
           {fr ? "Contact : " : "Contact: "}
           <a className="underline underline-offset-4" href={`mailto:${SITE.email}`}>
@@ -45,7 +57,7 @@ export default function Legal() {
         </p>
 
         <h2 className={h2}>{fr ? "Hébergement" : "Hosting"}</h2>
-        <p>Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, USA — vercel.com.</p>
+        <p>Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, {fr ? "États-Unis" : "USA"} — vercel.com.</p>
 
         <h2 className={h2}>{fr ? "Vos données" : "Your data"}</h2>
         <p>
@@ -75,8 +87,10 @@ export default function Legal() {
                 —{" "}
                 {c.licenceUrl ? (
                   <a className="inline-block py-1 underline underline-offset-4" href={c.licenceUrl} rel="noopener nofollow license">
-                    {c.licence}
+                    {fr ? frLicence(c.licence) : c.licence}
                   </a>
+                ) : fr ? (
+                  frLicence(c.licence)
                 ) : (
                   c.licence
                 )}

@@ -449,7 +449,7 @@ function PlasteringSpotlight({ lang }: { lang: Lang }) {
             index="04"
             eyebrow={lang === "fr" ? "Crépissage automatique" : "Automatic plastering"}
             title={
-              lang === "fr" ? "Parmi les premières au Cameroun à louer des machines à crépir automatiques." : "Among the first in Cameroon to hire out automatic plastering machines."
+              lang === "fr" ? "SAFA Construction compte parmi les premières entreprises au Cameroun à louer des machines à crépir automatiques." : "Among the first in Cameroon to hire out automatic plastering machines."
             }
             lede={
               lang === "fr"

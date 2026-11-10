@@ -36,7 +36,7 @@ const GROUPS: { title: T; accent?: string; entries: Entry[] }[] = [
     accent: DIVISIONS.construction.accentVar,
     entries: [
       { page: "construction", name: { en: "Equipment hire", fr: "Location de matériel" }, note: { en: "The fleet, delivered in Yaoundé", fr: "Notre parc de machines, livré à Yaoundé" } },
-      { page: "plastering", name: { en: "Plastering machine hire", fr: "Location de machine à crépir" }, note: { en: "With the surface calculator", fr: "Avec le calculateur de surface" } },
+      { page: "plastering", name: { en: "Plastering machine hire", fr: "Location de machine à crépir" }, note: { en: "With the surface calculator", fr: "Avec l’estimation de durée du chantier" } },
       { page: "scaffold", name: { en: "Scaffolds & mast lifts", fr: "Échafaudages et monte-charges" }, note: { en: "Access at height", fr: "Accès en hauteur" } },
       { page: "fabrication", name: { en: "Materials fabrication", fr: "Fabrication de matériaux" }, note: { en: "Machine-made materials", fr: "Matériaux fabriqués à la machine" } },
     ],

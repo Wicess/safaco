@@ -111,14 +111,14 @@ export function PlasterCalculator({ lang }: { lang: Lang }) {
           className="mt-8 inline-flex min-h-12 w-full items-center justify-center gap-3 bg-[#1f7a4d] px-6 text-[0.8125rem] font-semibold uppercase tracking-[0.14em] text-white hover:bg-[#186540]"
         >
           <WhatsAppIcon className="size-5" />
-          {lang === "fr" ? `Devis pour ${m2} m²` : `Quote for ${m2} m²`}
+          {lang === "fr" ? `Devis pour ${m2} ` : `Quote for ${m2} `}<span className="normal-case">m²</span>
         </a>
       ) : (
         <Link
           to={enquiryHref(href("contact", lang), "construction", msg)}
           className="mt-8 inline-flex min-h-12 w-full items-center justify-center gap-3 bg-navy-900 px-6 text-[0.8125rem] font-semibold uppercase tracking-[0.14em] text-ivory hover:bg-navy-700"
         >
-          {lang === "fr" ? `Devis pour ${m2} m²` : `Quote for ${m2} m²`}
+          {lang === "fr" ? `Devis pour ${m2} ` : `Quote for ${m2} `}<span className="normal-case">m²</span>
         </Link>
       )}
     </div>

@@ -39,7 +39,7 @@ export const CONSTRUCTION_FAQ: Faq[] = [
     q: { en: "What equipment does SAFA Construction hire out?", fr: "Quel matériel peut-on louer chez SAFA Construction ?" },
     a: {
       en: "Automatic wall-plastering machines, render spray machines, dual-mast site lifts, scaffold platforms, mast sections and mobile lift bases — delivered, assembled and collected by our own team.",
-      fr: "Des machines à crépir automatiques, des machines à projeter l’enduit, des monte-charges de chantier bi-mâts, des plateformes d’échafaudage, des éléments de mât et des bases mobiles de levage. Notre propre équipe en assure la livraison, le montage et la reprise.",
+      fr: "Des machines à crépir automatiques, des pompes à mortier, des monte-charges de chantier bi-mâts, des plateformes d’échafaudage, des éléments de mât et des bases mobiles de levage. Notre propre équipe en assure la livraison, le montage et la reprise.",
     },
   },
   {
@@ -70,7 +70,7 @@ export const PLASTERING_FAQ: Faq[] = [
     q: { en: "What is an automatic plastering machine?", fr: "Qu’est-ce qu’une machine à crépir automatique ?" },
     a: {
       en: "It is a rendering machine mounted on a vertical mast. Mortar is loaded into its hopper, and the machine travels up and down the mast, spreading and pressing the plaster onto the wall in one even pass — a job normally done by hand with a trowel.",
-      fr: "C’est une machine d’enduit montée sur un mât vertical. On verse le mortier dans sa trémie, puis la machine monte et descend le long du mât en étalant et en serrant l’enduit sur le mur, en une seule passe régulière — un travail qui se fait normalement à la main, à la truelle.",
+      fr: "La machine à crépir automatique est montée sur un mât vertical. On verse le mortier dans sa trémie, puis la machine monte et descend le long du mât en étalant et en serrant l’enduit sur le mur, en une seule passe régulière — un travail qui se fait normalement à la main, à la truelle.",
     },
   },
   {
@@ -109,7 +109,7 @@ export const SCAFFOLD_FAQ: Faq[] = [
     q: { en: "What is a mast-climbing platform?", fr: "Qu’est-ce qu’une plateforme élévatrice sur mât ?" },
     a: {
       en: "A working platform that travels up and down one or two vertical masts fixed against the building. It carries workers and materials to the exact height of the job, and can be moved along the façade as work progresses.",
-      fr: "C’est une plateforme de travail qui monte et descend le long d’un ou deux mâts verticaux fixés contre le bâtiment. Elle amène ouvriers et matériaux à la hauteur exacte du travail et se déplace le long de la façade à mesure que le chantier avance.",
+      fr: "Une plateforme sur mât est une plateforme de travail qui monte et descend le long d’un ou deux mâts verticaux fixés contre le bâtiment. Elle amène ouvriers et matériaux à la hauteur exacte du travail et se déplace le long de la façade à mesure que le chantier avance.",
     },
   },
   {
