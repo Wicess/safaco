@@ -266,7 +266,7 @@ function AmenitiesField() {
   return (
     <fieldset id="amenities" className="scroll-mt-32">
       <legend className="block text-[0.8125rem] font-medium text-ink">Amenities shown</legend>
-      <p className="mt-1 text-xs text-muted">Tick only what every guest really gets. Until you change this, the site lists just what the photos show.</p>
+      <p className="mt-1 text-xs text-muted">Tick only what every guest really gets. All of these were confirmed on 10 Nov 2026; untick anything that stops being true.</p>
       <div className="mt-3 grid gap-2 sm:grid-cols-2">
         {AMENITY_LIST.map((a) => (
           <label key={a.key} className="flex min-h-11 cursor-pointer items-center gap-3 rounded-md border border-ink/12 bg-white px-3 text-[0.9375rem] has-checked:border-apartments/60">

@@ -1,3 +1,4 @@
+import { amenities } from "~/content/amenities";
 import type { MetaDescriptor } from "react-router";
 import { DIVISIONS, DIVISION_LIST, MINEFOP, SITE, isTodo, type DivisionKey } from "~/content/site";
 import { LANGS, PAGES, type Lang, type PageKey, type T, langFromPath } from "./i18n";
@@ -122,6 +123,10 @@ function division(k: DivisionKey, lang: Lang): Record<string, unknown> {
   if (!isTodo(d.phone)) node.telephone = d.phone;
   if (!isTodo(d.email)) node.email = d.email;
   if (d.address.geo) node.geo = { "@type": "GeoCoordinates", latitude: d.address.geo.lat, longitude: d.address.geo.lng };
+  // Owner-confirmed amenities (admin-editable), as LodgingBusiness features.
+  if (k === "apartments") {
+    node.amenityFeature = amenities().map((a) => ({ "@type": "LocationFeatureSpecification", name: a.label[lang], value: true }));
+  }
   if (k === "designs" && !isTodo(MINEFOP.agrement)) {
     node.hasCredential = {
       "@type": "EducationalOccupationalCredential",

@@ -1,4 +1,4 @@
-import { ArrowRight, Car, Droplets, Flame, KeyRound, ShieldCheck, Snowflake, Tv, UtensilsCrossed, Wifi, Zap } from "lucide-react";
+import { ArrowRight, BedDouble, Car, CookingPot, Droplets, KeyRound, Microwave, ShieldCheck, Shirt, ShowerHead, Snowflake, Sofa, Sparkles, Sun, Tv, UtensilsCrossed, WashingMachine, Wifi, Zap } from "lucide-react";
 import type { ComponentType } from "react";
 import { CtaBand } from "~/components/sections/CtaBand";
 import { GalleryStrip } from "~/components/sections/Gallery";
@@ -9,7 +9,7 @@ import { Button } from "~/components/ui/button";
 import { WhatsAppIcon } from "~/components/ui/icons";
 import { Picture } from "~/components/ui/Picture";
 import { IMG } from "~/content/media-map";
-import { amenities, type AmenityKey } from "~/content/amenities";
+import { amenityGroups, type AmenityKey } from "~/content/amenities";
 import { DIVISIONS, enquiryHref, waLink } from "~/content/site";
 import { Link } from "react-router";
 import { useLang } from "~/lib/hooks";
@@ -21,21 +21,12 @@ import { APARTMENTS_FAQ } from "~/content/faqs";
 const TRAIL = [{ key: "apartments" as const, name: { en: "SAFA Apartments", fr: "SAFA Apartments" } }];
 
 const ICONS: Record<AmenityKey, ComponentType<{ className?: string }>> = {
-  generator: Zap, borehole: Droplets, wifi: Wifi, ac: Snowflake, hotWater: Flame,
-  kitchen: UtensilsCrossed, tv: Tv, parking: Car, security: ShieldCheck, checkin: KeyRound,
+  ac: Snowflake, hotWater: ShowerHead, wifi: Wifi, tv: Tv, furnished: Sofa, balcony: Sun,
+  kitchen: UtensilsCrossed, microwave: Microwave, utensils: CookingPot, washer: WashingMachine, iron: Shirt,
+  generator: Zap, borehole: Droplets,
+  security: ShieldCheck, parking: Car, linen: BedDouble, housekeeping: Sparkles, checkin: KeyRound,
 };
-const AMENITIES = amenities();
-/** Columns that leave no empty (grey) cells for the published count. */
-const AMENITY_COLS =
-  AMENITIES.length <= 4
-    ? ["", "", "sm:grid-cols-2", "sm:grid-cols-3", "sm:grid-cols-4"][AMENITIES.length]
-    : AMENITIES.length % 5 === 0
-      ? "grid-cols-2 sm:grid-cols-5"
-      : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4";
-/** A short list stacks as rows on phones (icon beside the label) rather than
- *  squeezing long words like "Climatisation" into narrow tiles. */
-const AMENITY_ROWS = AMENITIES.length <= 4;
-
+const GROUPS = amenityGroups();
 
 export const meta = pageMeta({
   key: "apartments",
@@ -103,25 +94,27 @@ export default function Apartments() {
       <section className="bg-ivory-2 py-20 md:py-28">
         <div className="container-x">
           <SectionHead index="01" eyebrow={lang === "fr" ? "Équipements" : "Amenities"} title={lang === "fr" ? "Ce qui vous attend." : "What's waiting for you."} />
-          <ul className={`mt-12 grid gap-px bg-ink/10 ${AMENITY_COLS}`}>
-            {AMENITIES.map(({ key, label }) => {
-              const Icon = ICONS[key];
-              return (
-              <li
-                key={key}
-                className={
-                  AMENITY_ROWS
-                    ? "flex min-h-16 items-center gap-4 bg-ivory-2 px-4 sm:min-h-32 sm:flex-col sm:items-start sm:justify-between sm:p-5"
-                    : "flex min-h-24 flex-col justify-between gap-4 bg-ivory-2 p-4 sm:min-h-32 sm:p-5"
-                }
-                data-reveal
-              >
-                <Icon className="size-5 text-apartments" aria-hidden />
-                <span className="text-[0.9375rem]">{label[lang]}</span>
-              </li>
-              );
-            })}
-          </ul>
+          <div className="mt-12 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+            {GROUPS.map((g) => (
+              <div key={g.key} data-reveal>
+                <h3 className="flex items-center gap-3 font-sans text-[0.75rem] font-semibold uppercase tracking-[0.18em] text-apartments">
+                  <span aria-hidden className="h-px w-6 bg-current" />
+                  {g.label[lang]}
+                </h3>
+                <ul className="mt-4 border-t border-ink/10">
+                  {g.items.map(({ key, label }) => {
+                    const Icon = ICONS[key];
+                    return (
+                      <li key={key} className="flex min-h-13 items-center gap-3.5 border-b border-ink/10 py-2.5 text-[0.9375rem]">
+                        <Icon className="size-[1.125rem] shrink-0 text-apartments" aria-hidden />
+                        {label[lang]}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ))}
+          </div>
           <p className="mt-6 max-w-xl text-sm text-muted">
             {lang === "fr"
               ? "Vous cherchez un équipement précis ? Posez-nous la question avant de réserver."

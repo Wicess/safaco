@@ -260,7 +260,6 @@ function LaunchChecklist() {
   if (isTodo(MINEFOP.agrement)) items.push({ text: "MINEFOP approval number (backs up “approved” on the Training page)", to: "contact#c-company" });
   if (isTodo(SITE.rccm) || isTodo(SITE.niu)) items.push({ text: "RCCM and NIU numbers (Legal page)", to: "contact#c-company" });
   if (!Object.values(SITE.social).some(Boolean)) items.push({ text: "At least one social media link", to: "contact#c-company" });
-  if (!O.apartments?.amenities) items.push({ text: "Confirm the apartment amenities (only what the photos show is listed now)", to: "pages#amenities" });
   if (!O.construction?.machinePerDay) items.push({ text: "Your own plastering-machine output for the calculator", to: "pages#calculator" });
   if (!items.length) return null;
   const SHOWN = 4;
