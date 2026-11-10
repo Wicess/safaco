@@ -181,6 +181,19 @@ for (const d of Object.values(DIVISIONS)) {
   if (isPlaceholderNumber(d.whatsapp)) d.whatsapp = "";
 }
 
+/** Floating contact button: the numbers set in admin → Contact & details →
+ *  Company, else the first division with a real number (never a placeholder). */
+export const CONTACT_FAB = (() => {
+  const phone = val(O.company?.contactPhone);
+  const wa = val(O.company?.contactWhatsapp)?.replace(/\D/g, "");
+  const real = Object.values(DIVISIONS);
+  return {
+    phone: phone && !isPlaceholderNumber(phone) ? phone : (real.find((d) => d.phone)?.phone ?? ""),
+    whatsapp: wa && !isPlaceholderNumber(wa) ? wa : (real.find((d) => d.whatsapp)?.whatsapp ?? ""),
+    email: EMAIL,
+  };
+})();
+
 export const DIVISION_LIST = [DIVISIONS.construction, DIVISIONS.apartments, DIVISIONS.designs];
 
 /** MINEFOP approval for the SAFA Designs training centre (owner confirmed it exists). */

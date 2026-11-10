@@ -19,7 +19,7 @@ export function Footer({ lang }: { lang: Lang }) {
       <span aria-hidden className="trace-line" data-trace data-scroll style={{ ["--accent" as string]: "var(--color-gold)" }} />
 
       {/* Bottom padding clears the fixed mobile action bar */}
-      <div className="container-x pb-[calc(var(--bar-h)+env(safe-area-inset-bottom)+2.5rem)] pt-16 md:pt-24 lg:pb-10">
+      <div className="container-x pb-[calc(env(safe-area-inset-bottom)+6rem)] pt-16 md:pt-24 lg:pb-10">
         <div className="grid gap-14 lg:grid-cols-[1.1fr_2fr]">
           <div>
             <Logo tone="light" />

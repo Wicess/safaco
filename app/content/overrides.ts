@@ -44,6 +44,9 @@ export type Overrides = {
     rccm?: string;
     niu?: string;
     minefop?: string;
+    /** Floating contact button (every page): call + WhatsApp numbers. */
+    contactPhone?: string;
+    contactWhatsapp?: string;
     social?: { facebook?: string; instagram?: string; tiktok?: string; linkedin?: string };
   };
   divisions?: Partial<

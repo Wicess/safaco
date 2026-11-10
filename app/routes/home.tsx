@@ -165,7 +165,7 @@ function Hero({ lang }: { lang: Lang }) {
                       </span>
                       <span className="flex shrink-0 items-center gap-3 sm:gap-4">
                         {/* Phones: the photo travels with the line */}
-                        <Picture name={h.img} alt="" sizes="56px" className="size-[min(3.5rem,calc(var(--row-h)-1.25rem))] shrink-0 lg:hidden" ratio="1/1" />
+                        <Picture name={h.img} alt="" sizes="80px" className="size-[min(5rem,calc(var(--row-h)-0.5rem))] shrink-0 lg:hidden" ratio="1/1" />
                         <ArrowUpRight className="size-5 shrink-0 text-gold-300 transition-transform duration-500 group-hover:-translate-y-1 group-hover:translate-x-1" aria-hidden />
                       </span>
                     </Link>

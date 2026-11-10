@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, isRouteErrorResponse, useLocation, useMatches } from "react-router";
 import type { Route } from "./+types/root";
-import { ActionBar } from "./components/layout/ActionBar";
+import { ContactFab } from "./components/layout/ContactFab";
 import { divisionOf } from "./components/layout/division-context";
 import { Footer } from "./components/layout/Footer";
 import { Header } from "./components/layout/Header";
@@ -96,7 +96,7 @@ export default function App() {
         <Outlet />
       </main>
       <Footer lang={lang} />
-      <ActionBar lang={lang} division={division} />
+      <ContactFab lang={lang} />
       <LangBanner lang={lang} />
     </div>
   );

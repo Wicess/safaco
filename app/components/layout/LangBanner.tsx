@@ -41,7 +41,7 @@ export function LangBanner({ lang }: { lang: Lang }) {
       role="region"
       aria-label={UI.langBanner[lang]}
       lang={target}
-      className="fixed inset-x-3 bottom-[calc(var(--bar-h)+env(safe-area-inset-bottom)+0.75rem)] z-30 flex flex-wrap items-center gap-x-3 gap-y-2 bg-ivory p-3 pl-4 text-ink shadow-[0_12px_40px_-12px_rgb(12_21_28/0.45)] ring-1 ring-ink/10 lg:bottom-6 lg:left-auto lg:right-6 lg:max-w-md"
+      className="fixed inset-x-3 bottom-[calc(env(safe-area-inset-bottom)+5.75rem)] z-30 flex flex-wrap items-center gap-x-3 gap-y-2 bg-ivory p-3 pl-4 text-ink shadow-[0_12px_40px_-12px_rgb(12_21_28/0.45)] ring-1 ring-ink/10 lg:bottom-6 lg:left-auto lg:right-28 lg:max-w-md"
     >
       <p className="min-w-[9rem] flex-1 font-display text-lg leading-tight">{UI.langBanner[lang]}</p>
       <Link

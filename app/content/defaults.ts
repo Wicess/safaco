@@ -14,8 +14,8 @@ export const HOME_HERO = {
   title: { en: "Everything starts with", fr: "Tout commence par" },
   emphasis: { en: "a line.", fr: "un trait." },
   lede: {
-    en: "The builder snaps a chalk line before plastering; the tailor, before cutting. Three houses, one standard of precision.",
-    fr: "Le maçon tend son cordeau avant de crépir ; le tailleur trace à la craie avant de couper. Trois maisons, une même exigence de précision.",
+    en: "Plastering machines for hire, furnished apartments in Meyo, made-to-measure menswear: in Yaoundé, three trades served with the same standard of precision.",
+    fr: "Machines à crépir en location, appartements meublés à Meyo, couture homme sur mesure : à Yaoundé, trois métiers servis avec la même exigence de précision.",
   },
 } satisfies Record<string, T>;
 

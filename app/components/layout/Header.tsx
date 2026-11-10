@@ -98,7 +98,7 @@ export function Header({ lang, tone = "light" }: { lang: Lang; tone?: "light" | 
         "fixed inset-x-0 top-0 z-40 transition-[background-color,box-shadow,color,translate] duration-500 ease-(--ease-out-quart)",
         hidden && !menuOpen && "-translate-y-full",
         menuOpen
-          ? "on-dark bg-navy-950 text-ivory"
+          ? "on-dark bg-transparent text-ivory"
           : dark
             ? "on-dark bg-transparent text-ivory"
             : "bg-ivory/92 text-ink shadow-[0_1px_0_rgb(20_32_42/0.08)] backdrop-blur-md",
@@ -156,7 +156,7 @@ export function Header({ lang, tone = "light" }: { lang: Lang; tone?: "light" | 
                 <span className="absolute inset-x-0 bottom-0 h-px bg-current transition-transform duration-300 group-open:bottom-1.5 group-open:-rotate-45 group-open:bg-ivory" />
               </span>
             </summary>
-            <MobileMenu lang={lang} />
+            <MobileMenu lang={lang} onClose={() => menuRef.current && (menuRef.current.open = false)} />
           </details>
         </div>
       </div>
@@ -164,53 +164,66 @@ export function Header({ lang, tone = "light" }: { lang: Lang; tone?: "light" | 
   );
 }
 
-function MobileMenu({ lang }: { lang: Lang }) {
+/**
+ * Phone menu: a panel from the right that leaves a strip of the page visible
+ * on the left (tap it to close). Sized to the screen height so it never
+ * scrolls: type and spacing scale with svh, from small Androids to large phones.
+ */
+function MobileMenu({ lang, onClose }: { lang: Lang; onClose: () => void }) {
   const groups: { key: PageKey; label: string; children?: readonly { page: string; label: { en: string; fr: string } }[] }[] = [
     { key: "construction", label: NAV.construction.label[lang], children: NAV.construction.children },
     { key: "apartments", label: NAV.apartments.label[lang] },
     { key: "designs", label: NAV.designs.label[lang], children: NAV.designs.children },
   ];
   return (
-    <div className="mobile-menu on-dark fixed inset-0 z-40 overflow-y-auto bg-navy-950 text-ivory">
-      <div className="container-x flex min-h-dvh flex-col pb-10 pt-[calc(var(--header-h)+2rem)]">
-        <p className="eyebrow text-gold-300">{UI.divisions[lang]}</p>
-        <ul className="mt-6 divide-y divide-ivory/10 border-y border-ivory/10">
-          {groups.map((g, i) => (
-            <li key={g.key} className="py-5">
-              <Link to={href(g.key, lang)} className="flex items-baseline justify-between gap-4">
-                <span className="font-display text-[2.5rem] leading-none">{g.label}</span>
-                <span className="tabular text-xs text-ivory/60">0{i + 1}</span>
-              </Link>
-              {g.children && (
-                <ul className="mt-3 space-y-1 pl-0.5">
-                  {g.children.map((c) => (
-                    <li key={c.page}>
-                      <Link to={href(c.page as PageKey, lang)} className="flex min-h-11 items-center gap-2 text-sm text-ivory/70">
-                        <span aria-hidden className="h-px w-4 bg-gold" />
-                        {c.label[lang]}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          ))}
-        </ul>
-        <ul className="mt-8 grid grid-cols-2 gap-x-6 gap-y-1 text-[0.9375rem]">
-          {(["gallery", "about", "faq", "contact"] as const).map((k) => (
-            <li key={k}>
-              <Link to={href(k, lang)} className="flex min-h-11 items-center gap-1 text-ivory/80">
-                {UI[k][lang]}
-                <ArrowUpRight className="size-3.5 opacity-40" aria-hidden />
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <div className="mt-auto flex items-center justify-between pt-10">
-          <LangSwitch lang={lang} className="text-ivory" />
-          <span className="font-display text-sm italic text-ivory/60">{lang === "fr" ? "Yaoundé · Cameroun" : "Yaoundé · Cameroon"}</span>
+    <>
+      <button
+        type="button"
+        aria-label={UI.close[lang]}
+        onClick={onClose}
+        className="mobile-scrim fixed inset-0 z-40 cursor-default bg-navy-950/55 backdrop-blur-[2px]"
+      />
+      <div className="mobile-menu on-dark fixed inset-y-0 right-0 z-40 flex h-dvh w-[min(23rem,84vw)] flex-col overflow-hidden bg-navy-950 text-ivory shadow-[-12px_0_32px_rgb(0_0_0/0.35)]">
+        <div className="flex min-h-0 flex-1 flex-col px-6 pb-[max(env(safe-area-inset-bottom),clamp(1rem,3svh,2rem))] pt-[calc(var(--header-h)+clamp(0.5rem,2svh,1.5rem))]">
+          <p className="eyebrow text-gold-300">{UI.divisions[lang]}</p>
+          <ul className="mt-[clamp(0.5rem,1.6svh,1rem)] divide-y divide-ivory/10 border-y border-ivory/10">
+            {groups.map((g, i) => (
+              <li key={g.key} className="py-[clamp(0.5rem,1.5svh,1rem)]">
+                <Link to={href(g.key, lang)} className="flex min-h-11 items-center justify-between gap-4 [@media(max-height:37.5rem)]:min-h-9">
+                  <span className="font-display text-[clamp(1.625rem,4.6svh,2.25rem)] leading-none">{g.label}</span>
+                  <span className="tabular text-xs text-ivory/60">0{i + 1}</span>
+                </Link>
+                {g.children && (
+                  <ul className="mt-0.5">
+                    {g.children.map((c) => (
+                      <li key={c.page}>
+                        <Link to={href(c.page as PageKey, lang)} className="flex min-h-[clamp(2.25rem,5.4svh,2.75rem)] items-center gap-2 text-sm text-ivory/75 [@media(max-height:37.5rem)]:min-h-8">
+                          <span aria-hidden className="h-px w-4 shrink-0 bg-gold" />
+                          {c.label[lang]}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ul>
+          <ul className="mt-[clamp(0.5rem,2svh,1.5rem)] grid grid-cols-2 gap-x-4 text-[0.9375rem]">
+            {(["gallery", "about", "faq", "contact"] as const).map((k) => (
+              <li key={k}>
+                <Link to={href(k, lang)} className="flex min-h-11 items-center gap-1 text-ivory/80 [@media(max-height:37.5rem)]:min-h-9">
+                  {UI[k][lang]}
+                  <ArrowUpRight className="size-3.5 opacity-40" aria-hidden />
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-auto flex items-center justify-between gap-3 border-t border-ivory/10 pt-[clamp(0.5rem,1.6svh,1rem)]">
+            <LangSwitch lang={lang} className="text-ivory" />
+            <span className="font-display text-sm italic text-ivory/60">{lang === "fr" ? "Yaoundé · Cameroun" : "Yaoundé · Cameroon"}</span>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

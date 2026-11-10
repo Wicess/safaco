@@ -9,7 +9,7 @@ import { PLASTER_RATES } from "~/content/construction";
 import { IMG_DEFAULT, isStock } from "~/content/media-map";
 import { PHOTO_SLOTS } from "~/content/photo-slots";
 import type { DivisionKeyO, GalleryItemO, Overrides, PageHeroKey, TT } from "~/content/overrides";
-import { DIVISIONS, MINEFOP, SITE, isTodo } from "~/content/site";
+import { CONTACT_FAB, DIVISIONS, MINEFOP, SITE, isTodo } from "~/content/site";
 import { cn } from "~/lib/utils";
 import { api, errorText, type Lead, type Status } from "./api";
 import { useContent } from "./store";
@@ -394,6 +394,24 @@ export function ContactEditor() {
           <TextInput label="MINEFOP approval number" value={co.minefop} placeholder={ph(MINEFOP.agrement) || "Not set: hidden"} onChange={(v) => setCo("minefop", v)} />
           <TextInput label="RCCM number" value={co.rccm} placeholder={ph(SITE.rccm) || "Not set: hidden"} onChange={(v) => setCo("rccm", v)} />
           <TextInput label="NIU (tax number)" value={co.niu} placeholder={ph(SITE.niu) || "Not set: hidden"} onChange={(v) => setCo("niu", v)} />
+        </div>
+        <div className="grid gap-5 md:grid-cols-2">
+          <TextInput
+            label="Floating contact button: phone"
+            type="tel"
+            value={co.contactPhone}
+            placeholder={CONTACT_FAB.phone || "+237 6 …"}
+            onChange={(v) => setCo("contactPhone", v)}
+            hint="The round button on every page: “Call us”. As visitors should read it, e.g. +237 6 70 98 66 43"
+          />
+          <TextInput
+            label="Floating contact button: WhatsApp"
+            type="tel"
+            value={co.contactWhatsapp}
+            placeholder={CONTACT_FAB.whatsapp || "2376…"}
+            onChange={(v) => setCo("contactWhatsapp", v)}
+            hint="With country code, e.g. 237670986643. The e-mail option uses the main email above."
+          />
         </div>
         <div className="grid gap-5 md:grid-cols-2">
           {(["facebook", "instagram", "tiktok", "linkedin"] as const).map((s) => (
