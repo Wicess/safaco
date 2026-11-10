@@ -95,6 +95,10 @@ export function Footer({ lang }: { lang: Lang }) {
               <Link to={href("legal", lang)} className="inline-flex min-h-11 items-center underline-offset-4 hover:text-ivory hover:underline">
                 {UI.legal[lang]}
               </Link>
+              {" · "}
+              <Link to={href("sitemap", lang)} className="inline-flex min-h-11 items-center underline-offset-4 hover:text-ivory hover:underline">
+                {lang === "fr" ? "Plan du site" : "Site map"}
+              </Link>
             </p>
             {legalBits.length > 0 && <p className="tabular">{legalBits.join(" · ")}</p>}
           </div>

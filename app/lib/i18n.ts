@@ -22,7 +22,8 @@ export type PageKey =
   | "contact"
   | "thanks"
   | "faq"
-  | "legal";
+  | "legal"
+  | "sitemap";
 
 type PageDef = {
   file: string;
@@ -55,6 +56,7 @@ export const PAGES: Record<PageKey, PageDef> = {
   thanks: { file: "routes/thanks.tsx", path: { en: "/en/contact/thank-you", fr: "/fr/contact/merci" }, noindex: true },
   faq: { file: "routes/faq.tsx", path: { en: "/en/faq", fr: "/fr/questions" } },
   legal: { file: "routes/legal.tsx", path: { en: "/en/legal", fr: "/fr/mentions-legales" } },
+  sitemap: { file: "routes/sitemap.tsx", path: { en: "/en/sitemap", fr: "/fr/plan-du-site" } },
 };
 
 export const PAGE_KEYS = Object.keys(PAGES) as PageKey[];
