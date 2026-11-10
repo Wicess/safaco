@@ -19,7 +19,7 @@ import { PLASTERING_FAQ } from "~/content/faqs";
 const NAME: T = { en: "Automatic plastering machine hire", fr: "Location de machine à crépir automatique" };
 const TRAIL = [
   { key: "construction" as const, name: { en: "SAFA Construction", fr: "SAFA Construction" } },
-  { key: "plastering" as const, name: { en: "Plastering machine hire", fr: "Location machine à crépir" } },
+  { key: "plastering" as const, name: { en: "Plastering machine hire", fr: "Location de machine à crépir" } },
 ];
 
 
@@ -31,7 +31,7 @@ export const meta = pageMeta({
   },
   description: {
     en: "Hire an automatic plastering machine in Yaoundé: faster rendering, even thickness, smaller crew. Set up by SAFA — among the first in Cameroon.",
-    fr: "Machine à crépir automatique à louer à Yaoundé : crépi plus rapide et régulier, équipe réduite. Montée par SAFA, parmi les premiers au Cameroun.",
+    fr: "Machine à crépir automatique à louer à Yaoundé : crépissage rapide, enduit régulier, équipe réduite. Montée par SAFA, parmi les premières au Cameroun.",
   },
   image: "/og/plastering.jpg",
   jsonLd: (lang) => [
@@ -53,27 +53,27 @@ export const meta = pageMeta({
 const HOW: { title: T; body: T }[] = [
   {
     title: { en: "Mast set on the wall", fr: "Le mât contre le mur" },
-    body: { en: "The machine's mast is placed plumb against the wall on level ground.", fr: "Le mât de la machine est posé d'aplomb contre le mur, sur un sol plan." },
+    body: { en: "The machine's mast is placed plumb against the wall on level ground.", fr: "Le mât de la machine est posé d’aplomb contre le mur, sur un sol de niveau." },
   },
   {
     title: { en: "Mortar in the hopper", fr: "Le mortier dans la trémie" },
-    body: { en: "Your plaster or render mix is loaded into the machine's hopper.", fr: "Votre mortier ou enduit est versé dans la trémie de la machine." },
+    body: { en: "Your plaster or render mix is loaded into the machine's hopper.", fr: "Votre mortier ou votre enduit est chargé dans la trémie de la machine." },
   },
   {
     title: { en: "One steady pass", fr: "Une passe régulière" },
-    body: { en: "The machine travels up the mast, pressing an even coat onto the wall.", fr: "La machine monte le long du mât en pressant une couche régulière sur le mur." },
+    body: { en: "The machine travels up the mast, pressing an even coat onto the wall.", fr: "La machine monte le long du mât et presse sur le mur une couche régulière." },
   },
   {
     title: { en: "Move, repeat", fr: "Décaler, recommencer" },
-    body: { en: "The unit shifts along the wall, strip by strip, until the face is done.", fr: "La machine se décale le long du mur, bande après bande, jusqu'à la fin." },
+    body: { en: "The unit shifts along the wall, strip by strip, until the face is done.", fr: "La machine se décale le long du mur, bande après bande, jusqu’à couvrir toute la façade." },
   },
 ];
 
 const COMPARE: { label: T; hand: T; machine: T }[] = [
-  { label: { en: "Coat thickness", fr: "Épaisseur" }, hand: { en: "Varies with each mason", fr: "Varie selon chaque maçon" }, machine: { en: "Constant, top to bottom", fr: "Constante, de haut en bas" } },
-  { label: { en: "Pace", fr: "Cadence" }, hand: { en: "Limited by hand work", fr: "Limitée par le travail manuel" }, machine: { en: "Several times faster on clear walls", fr: "Plusieurs fois plus rapide sur mur dégagé" } },
-  { label: { en: "Crew", fr: "Équipe" }, hand: { en: "Large team for big surfaces", fr: "Grande équipe pour les grandes surfaces" }, machine: { en: "A small crew feeds the machine", fr: "Une petite équipe alimente la machine" } },
-  { label: { en: "Fatigue & height", fr: "Fatigue & hauteur" }, hand: { en: "Hard, repetitive work at height", fr: "Travail pénible et répétitif en hauteur" }, machine: { en: "The machine carries the effort", fr: "La machine porte l'effort" } },
+  { label: { en: "Coat thickness", fr: "Épaisseur" }, hand: { en: "Varies with each mason", fr: "Varie d’un maçon à l’autre" }, machine: { en: "Constant, top to bottom", fr: "Constante, de haut en bas" } },
+  { label: { en: "Pace", fr: "Cadence" }, hand: { en: "Limited by hand work", fr: "Limitée par le geste manuel" }, machine: { en: "Several times faster on clear walls", fr: "Plusieurs fois plus rapide sur mur dégagé" } },
+  { label: { en: "Crew", fr: "Équipe" }, hand: { en: "Large team for big surfaces", fr: "Beaucoup de bras pour les grandes surfaces" }, machine: { en: "A small crew feeds the machine", fr: "Une petite équipe alimente la machine" } },
+  { label: { en: "Fatigue & height", fr: "Pénibilité et hauteur" }, hand: { en: "Hard, repetitive work at height", fr: "Travail pénible et répétitif en hauteur" }, machine: { en: "The machine carries the effort", fr: "La machine fait l’effort" } },
 ];
 
 export default function Plastering() {
@@ -104,7 +104,7 @@ export default function Plastering() {
             <Picture name={IMG.wallRaw} alt="" className="render-raw h-full" sizes="(min-width: 64rem) 45vw, 100vw" />
             <Picture
               name={IMG.wallSmooth}
-              alt={lang === "fr" ? "Mur brut en parpaings devenant un mur crépi et lisse" : "A raw block wall becoming a smooth rendered wall"}
+              alt={lang === "fr" ? "Un mur brut en parpaings qui devient un mur crépi et lisse" : "A raw block wall becoming a smooth rendered wall"}
               className="render-smooth h-full"
               sizes="(min-width: 64rem) 45vw, 100vw"
             />
@@ -136,7 +136,7 @@ export default function Plastering() {
               <Picture name={IMG.controlPanel} alt={lang === "fr" ? "Le pupitre à écran tactile de la machine" : "The machine's touch-screen control panel"} sizes="(min-width: 48rem) 40vw, 100vw" className="hover-zoom grain aspect-[4/3]" />
               <p className="mt-4 text-[0.9375rem] leading-relaxed text-muted">
                 {lang === "fr"
-                  ? "Tout se commande depuis le pupitre : montée, descente et mise à niveau. Au montage, notre équipe le prend en main avec la vôtre."
+                  ? "Tout se commande depuis le pupitre : montée, descente et mise à niveau. Le jour du montage, notre équipe en explique le maniement à la vôtre."
                   : "Everything runs from the control panel: up, down and levelling. On set-up day, our crew walks yours through it."}
               </p>
             </div>
@@ -152,10 +152,10 @@ export default function Plastering() {
               tone="dark"
               index="03"
               eyebrow={lang === "fr" ? "Estimation" : "Estimate"}
-              title={lang === "fr" ? "Combien de jours gagnez-vous ?" : "How many days do you save?"}
+              title={lang === "fr" ? "Combien de jours gagnez-vous ?" : "How many days do you save?"}
               lede={
                 lang === "fr"
-                  ? "Entrez la surface à crépir pour comparer le travail à la main et la machine. Pour le tarif, envoyez-nous votre surface : le devis est gratuit."
+                  ? "Indiquez la surface à crépir pour comparer le travail à la main et à la machine. Pour le tarif, envoyez-nous votre surface : le devis est gratuit."
                   : "Enter the surface to render to compare hand work with the machine. For the rate, send us your surface — quotes are free."
               }
             />
@@ -182,14 +182,14 @@ export default function Plastering() {
                 <p className="flex items-start gap-3 text-muted">
                   <Minus className="mt-1 size-4 shrink-0 opacity-50" aria-hidden />
                   <span>
-                    <span className="sr-only md:hidden">{lang === "fr" ? "À la main : " : "By hand: "}</span>
+                    <span className="sr-only md:hidden">{lang === "fr" ? "À la main : " : "By hand: "}</span>
                     {c.hand[lang]}
                   </span>
                 </p>
                 <p className="flex items-start gap-3">
                   <Check className="mt-1 size-4 shrink-0 text-gold-600" aria-hidden />
                   <span>
-                    <span className="sr-only md:hidden">{lang === "fr" ? "Machine SAFA : " : "SAFA machine: "}</span>
+                    <span className="sr-only md:hidden">{lang === "fr" ? "Machine SAFA : " : "SAFA machine: "}</span>
                     {c.machine[lang]}
                   </span>
                 </p>
@@ -209,9 +209,9 @@ export default function Plastering() {
             <FleetGrid lang={lang} units={FLEET.filter((u) => u.page === "plastering")} link={false} />
           </div>
           <p className="mt-10 text-muted">
-            {lang === "fr" ? "Besoin aussi d'un accès en hauteur ? " : "Need access at height too? "}
+            {lang === "fr" ? "Besoin aussi d’un accès en hauteur ? " : "Need access at height too? "}
             <Link to={href("scaffold", lang)} className="font-medium text-ink underline underline-offset-4">
-              {lang === "fr" ? "Voir les monte-charges et plateformes" : "See mast lifts and scaffold platforms"}
+              {lang === "fr" ? "Voir les monte-charges et plateformes d’échafaudage" : "See mast lifts and scaffold platforms"}
             </Link>
           </p>
         </div>
@@ -227,14 +227,14 @@ export default function Plastering() {
       <CtaBand
         lang={lang}
         division="construction"
-        title={{ en: "Send us your surface. We'll send the quote.", fr: "Envoyez votre surface. Nous envoyons le devis." }}
+        title={{ en: "Send us your surface. We'll send the quote.", fr: "Envoyez la surface, recevez le devis." }}
         body={{
           en: "Site location, m², wall height, interior or exterior, and your dates — photos welcome on WhatsApp.",
-          fr: "Localisation, m², hauteur des murs, intérieur ou extérieur, et vos dates — photos bienvenues sur WhatsApp.",
+          fr: "Lieu du chantier, surface en m², hauteur des murs, intérieur ou extérieur, et vos dates. Les photos sont les bienvenues sur WhatsApp.",
         }}
         waMessage={
           lang === "fr"
-            ? "Bonjour SAFA Construction, je souhaite un devis pour la location d'une machine à crépir automatique. Chantier : … Surface : … m²."
+            ? "Bonjour SAFA Construction, je souhaite un devis pour la location d’une machine à crépir automatique. Chantier : … Surface : … m²."
             : "Hello SAFA Construction, I'd like a quote to hire an automatic plastering machine. Site: … Surface: … m²."
         }
       />

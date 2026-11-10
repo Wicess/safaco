@@ -15,7 +15,7 @@ export const HOME_HERO = {
   emphasis: { en: "a line.", fr: "un trait." },
   lede: {
     en: "The builder snaps a chalk line before plastering; the tailor, before cutting. Three houses, one standard of precision.",
-    fr: "Le maçon trace sa ligne avant de crépir, le tailleur avant de couper. Trois maisons, une même exigence de précision.",
+    fr: "Le maçon tend son cordeau avant de crépir ; le tailleur trace à la craie avant de couper. Trois maisons, une même exigence de précision.",
   },
 } satisfies Record<string, T>;
 
@@ -33,7 +33,7 @@ export const PAGE_HEROES: Record<PageHeroKey, { label: string; title: T; lede: T
     title: { en: "Equipment that moves the site forward.", fr: "Le matériel qui fait avancer le chantier." },
     lede: {
       en: "Automatic plastering machines, mast lifts and scaffold platforms for hire in Yaoundé. We deliver, assemble and collect every unit with our own crew.",
-      fr: "Machines à crépir automatiques, monte-charges et plateformes d'échafaudage, en location à Yaoundé. Nous livrons, montons et reprenons le matériel avec nos propres équipes.",
+      fr: "Machines à crépir automatiques, monte-charges et plateformes d’échafaudage en location à Yaoundé. Livraison, montage et reprise de chaque machine par nos propres équipes.",
     },
   },
   plastering: {
@@ -41,16 +41,16 @@ export const PAGE_HEROES: Record<PageHeroKey, { label: string; title: T; lede: T
     title: { en: "Automatic plastering machine hire in Yaoundé.", fr: "Location de machine à crépir automatique à Yaoundé." },
     lede: {
       en: "SAFA Construction is among the first companies in Cameroon to hire out automatic plastering machines. The machine lays render in one steady pass: walls finished faster, a constant thickness, fewer hands needed.",
-      fr: "SAFA Construction fait partie des premières entreprises au Cameroun à louer des machines à crépir automatiques. La machine applique l'enduit en une passe régulière : un mur plus vite fini, une épaisseur constante, moins de main-d'œuvre.",
+      fr: "SAFA Construction est parmi les premières entreprises au Cameroun à louer des machines à crépir automatiques. La machine projette l’enduit en une passe régulière : des murs finis plus vite, une épaisseur constante, moins de main-d’œuvre.",
     },
     image: IMG.fleetYard,
   },
   apartments: {
     label: "Apartments",
-    title: { en: "A home in Yaoundé, ready to live in.", fr: "Un chez-soi à Yaoundé, prêt à vivre." },
+    title: { en: "A home in Yaoundé, ready to live in.", fr: "Un chez-soi à Yaoundé, prêt à habiter." },
     lede: {
       en: "Furnished, fully equipped apartments in our guest residence in Meyo, Yaoundé IV, for a few nights or several months. Coming from Douala or from abroad? You arrive; everything is ready.",
-      fr: "Des appartements meublés et équipés dans notre résidence de Meyo, Yaoundé IV, pour quelques nuits ou plusieurs mois. Vous venez de Douala ou de l'étranger ? Vous arrivez, tout est prêt.",
+      fr: "Des appartements meublés et entièrement équipés, dans notre résidence de Meyo, Yaoundé IV, pour quelques nuits ou plusieurs mois. Vous venez de Douala ou de l’étranger ? À votre arrivée, tout est prêt.",
     },
     image: IMG.building,
   },
@@ -59,15 +59,15 @@ export const PAGE_HEROES: Record<PageHeroKey, { label: string; title: T; lede: T
     title: { en: "Cut for you. Sewn to last.", fr: "Coupé pour vous. Cousu pour durer." },
     lede: {
       en: "Made-to-measure menswear, from suits to African garments, finished on our specialised machines at Carrefour MEEC, Yaoundé. By appointment, with delivery to Douala, across Cameroon and abroad.",
-      fr: "Tenues homme sur mesure, des costumes aux tenues africaines, réalisées sur nos machines spécialisées au Carrefour MEEC, Yaoundé. Sur rendez-vous, avec livraison à Douala, partout au Cameroun et à l'étranger.",
+      fr: "Couture homme sur mesure, du costume à la tenue africaine, finie sur nos machines spécialisées au Carrefour MEEC, à Yaoundé. Sur rendez-vous, avec livraison à Douala, partout au Cameroun et à l’étranger.",
     },
   },
   gallery: {
     label: "Gallery",
-    title: { en: "Our work, as it is.", fr: "Notre travail, tel qu'il est." },
+    title: { en: "Our work, as it is.", fr: "Notre travail, tel qu’il est." },
     lede: {
       en: "No stock photos here: our own machines, apartments and garments, photographed in Yaoundé.",
-      fr: "Pas de banque d'images ici : nos machines, nos appartements et nos tenues, photographiés à Yaoundé.",
+      fr: "Aucune photo de banque d’images : nos machines, nos appartements et nos tenues, photographiés à Yaoundé.",
     },
   },
 };

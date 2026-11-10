@@ -18,11 +18,11 @@ export const meta = pageMeta({
   key: "gallery",
   title: {
     en: "Gallery: machines, apartments, tailoring, Yaoundé | SAFA",
-    fr: "Galerie : machines, meublés, couture à Yaoundé | SAFA",
+    fr: "Galerie : machines, meublés, couture à Yaoundé | SAFA",
   },
   description: {
     en: "SAFA's own photos and videos: automatic plastering machines at work, the furnished apartments in Meyo and garments made at the Carrefour MEEC atelier.",
-    fr: "Les photos et vidéos de SAFA : machines à crépir en action, appartements meublés à Meyo et tenues confectionnées à l'atelier du Carrefour MEEC.",
+    fr: "Les photos et vidéos de SAFA : machines à crépir en action, appartements meublés à Meyo et tenues confectionnées à l’atelier du Carrefour MEEC.",
   },
   image: "/og/gallery.jpg",
   jsonLd: (lang) => [breadcrumb(lang, TRAIL)],
@@ -91,7 +91,7 @@ export default function Gallery() {
               {hero.title ??
                 (lang === "fr" ? (
                   <>
-                    Notre travail, <em className="italic text-gold-600">tel qu'il est.</em>
+                    Notre travail, <em className="italic text-gold-600">tel qu’il est.</em>
                   </>
                 ) : (
                   <>
@@ -109,7 +109,7 @@ export default function Gallery() {
           {/* Department tabs: the page's rule line, marked in each house's colour */}
           <div
             role="tablist"
-            aria-label={lang === "fr" ? "Galerie par division" : "Gallery by division"}
+            aria-label={lang === "fr" ? "Galerie par activité" : "Gallery by division"}
             onKeyDown={onKey}
             className="sticky-under-header sticky z-20 -mx-(--gutter) grid grid-cols-3 gap-x-2 border-b border-ink/12 bg-ivory/92 px-(--gutter) backdrop-blur-md sm:flex sm:gap-10 md:mx-0 md:gap-12 md:px-0"
           >
@@ -190,10 +190,10 @@ export default function Gallery() {
 
       <CtaBand
         lang={lang}
-        title={{ en: "Seen something you need?", fr: "Vous avez vu ce qu'il vous faut ?" }}
+        title={{ en: "Seen something you need?", fr: "Vous avez vu ce qu’il vous faut ?" }}
         body={{
           en: "A machine for your site, a stay in Meyo or a garment like these: one message and the right team answers.",
-          fr: "Une machine pour votre chantier, un séjour à Meyo ou une tenue comme celles-ci : un message, et la bonne équipe vous répond.",
+          fr: "Une machine pour votre chantier, un séjour à Meyo ou une tenue comme celles-ci : un seul message, et la bonne équipe vous répond.",
         }}
       />
     </>

@@ -127,7 +127,7 @@ function division(k: DivisionKey, lang: Lang): Record<string, unknown> {
       "@type": "EducationalOccupationalCredential",
       credentialCategory: "Agrément MINEFOP",
       identifier: MINEFOP.agrement,
-      recognizedBy: { "@type": "GovernmentOrganization", name: "Ministère de l'Emploi et de la Formation Professionnelle (MINEFOP)" },
+      recognizedBy: { "@type": "GovernmentOrganization", name: "Ministère de l’Emploi et de la Formation professionnelle (MINEFOP)" },
     };
   }
   return node;

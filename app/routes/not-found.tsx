@@ -9,7 +9,7 @@ export default function NotFound() {
     <section className="container-x grid min-h-[70dvh] content-center pb-20 pt-40">
       <p className="eyebrow text-gold-600">404</p>
       <h1 className="mt-5 max-w-3xl text-display-lg">
-        {lang === "fr" ? "Cette page n'existe pas — ou plus." : "This page doesn't exist — or no longer does."}
+        {lang === "fr" ? "Cette page n’existe pas — ou plus." : "This page doesn't exist — or no longer does."}
       </h1>
       <p className="mt-8 flex flex-wrap gap-6 text-sm uppercase tracking-[0.14em]">
         <Link to={href("home", "en")} className="underline underline-offset-8">SAFA &amp; Co — English</Link>

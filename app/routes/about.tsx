@@ -13,10 +13,10 @@ const TRAIL = [{ key: "about" as const, name: { en: "About", fr: "À propos" } }
 
 export const meta = pageMeta({
   key: "about",
-  title: { en: "About SAFA & Co SARL — Three Houses in Yaoundé", fr: "À propos de SAFA & Co SARL — trois maisons, Yaoundé" },
+  title: { en: "About SAFA & Co SARL — Three Houses in Yaoundé", fr: "À propos de SAFA & Co SARL — trois maisons à Yaoundé" },
   description: {
     en: "SAFA & Co SARL is a Cameroonian group in Yaoundé — SAFA Construction, SAFA Apartments and SAFA Designs — with one standard of precision.",
-    fr: "SAFA & Co SARL, groupe camerounais basé à Yaoundé : SAFA Construction, SAFA Apartments et SAFA Designs, avec une même exigence de précision.",
+    fr: "SAFA & Co SARL, groupe camerounais basé à Yaoundé : SAFA Construction, SAFA Apartments et SAFA Designs, avec une même exigence de précision.",
   },
   jsonLd: (lang) => [breadcrumb(lang, TRAIL)],
 });
@@ -26,14 +26,14 @@ const VALUES: { t: T; b: T }[] = [
     t: { en: "Precision", fr: "Précision" },
     b: {
       en: "A straight chalk line, a constant render, a well-cut seam. We measure before we act.",
-      fr: "Un trait de craie droit, un enduit régulier, une couture bien coupée. Nous mesurons avant d'agir.",
+      fr: "Un trait de craie bien droit, un enduit régulier, une coupe nette. Nous mesurons avant d’agir.",
     },
   },
   {
-    t: { en: "Our own hands", fr: "Nos propres mains" },
+    t: { en: "Our own hands", fr: "De nos propres mains" },
     b: {
       en: "Our teams deliver the machines, welcome the guests and cut the cloth themselves.",
-      fr: "Nos équipes livrent les machines, accueillent les hôtes et coupent le tissu elles-mêmes.",
+      fr: "Nos équipes livrent elles-mêmes les machines, accueillent nos hôtes et coupent le tissu.",
     },
   },
   {
@@ -47,7 +47,7 @@ const VALUES: { t: T; b: T }[] = [
     t: { en: "Passing it on", fr: "Transmettre" },
     b: {
       en: "Through our MINEFOP-approved centre, the craft is taught to the next generation.",
-      fr: "Grâce à notre centre agréé MINEFOP, le métier se transmet à la génération suivante.",
+      fr: "Dans notre centre de formation agréé par le MINEFOP, le métier se transmet à la génération suivante.",
     },
   },
 ];
@@ -63,11 +63,11 @@ export default function About() {
         title={lang === "fr" ? "Trois maisons, un même geste." : "Three houses, one gesture."}
         lede={
           lang === "fr"
-            ? "SAFA & Co SARL est un groupe camerounais basé à Yaoundé. Nous équipons les chantiers, accueillons des hôtes et habillons les hommes — avec la même exigence de précision."
+            ? "SAFA & Co SARL est un groupe camerounais basé à Yaoundé. Nous équipons les chantiers, recevons nos hôtes et habillons les hommes — avec la même exigence de précision."
             : "SAFA & Co SARL is a Cameroonian group based in Yaoundé. We equip building sites, host guests and dress men — with the same standard of precision."
         }
         image={IMG.yaoundeModern}
-        imageAlt={lang === "fr" ? "Le centre de Yaoundé vu du monument de la Réunification" : "Central Yaoundé seen from the Reunification Monument"}
+        imageAlt={lang === "fr" ? "Le centre de Yaoundé vu depuis le monument de la Réunification" : "Central Yaoundé seen from the Reunification Monument"}
       />
 
       <section className="py-20 md:py-32">
@@ -76,12 +76,12 @@ export default function About() {
           <div className="space-y-6 text-lede text-muted" data-reveal>
             <p>
               {lang === "fr"
-                ? "Avant de crépir un mur, le maçon tend un cordeau et claque un trait de craie. Avant de couper un tissu, le tailleur trace sa ligne. Avant d'accueillir un hôte, on dessine un lieu où il se sentira chez lui."
+                ? "Avant de crépir un mur, le maçon tend un cordeau enduit de craie et le fait claquer sur la paroi. Avant de couper un tissu, le tailleur trace sa ligne à la craie. Avant d’accueillir un hôte, on pense un lieu où il se sentira chez lui."
                 : "Before rendering a wall, the builder stretches a line and snaps it with chalk. Before cutting cloth, the tailor draws his line. Before welcoming a guest, you design a place where they'll feel at home."}
             </p>
             <p>
               {lang === "fr"
-                ? "C'est ce geste que partagent nos trois maisons. SAFA & Co les réunit sous une même signature : faire juste, du premier trait à la finition."
+                ? "C’est ce geste que partagent nos trois maisons. SAFA & Co les réunit sous une même signature : faire juste, du premier trait à la finition."
                 : "That gesture is what our three houses share. SAFA & Co brings them together under one signature: get it right, from the first line to the finish."}
             </p>
           </div>
@@ -105,7 +105,7 @@ export default function About() {
 
       <section className="py-20 md:py-28">
         <div className="container-x">
-          <SectionHead index="03" eyebrow={lang === "fr" ? "Le groupe" : "The group"} title={lang === "fr" ? "Nos trois divisions." : "Our three divisions."} />
+          <SectionHead index="03" eyebrow={lang === "fr" ? "Le groupe" : "The group"} title={lang === "fr" ? "Nos trois activités." : "Our three divisions."} />
           <ul className="mt-12 divide-y divide-ink/12 border-y border-ink/12">
             {DIVISION_LIST.map((d, i) => (
               <li key={d.key} style={{ ["--accent" as string]: d.accentVar }}>
@@ -126,7 +126,7 @@ export default function About() {
       <CtaBand
         lang={lang}
         title={{ en: "Work with SAFA & Co.", fr: "Travailler avec SAFA & Co." }}
-        body={{ en: "Tell us what you need — we'll put you in touch with the right team.", fr: "Dites-nous ce dont vous avez besoin — nous vous mettons en relation avec la bonne équipe." }}
+        body={{ en: "Tell us what you need — we'll put you in touch with the right team.", fr: "Dites-nous ce dont vous avez besoin : nous vous mettons en relation avec la bonne équipe." }}
       />
     </>
   );

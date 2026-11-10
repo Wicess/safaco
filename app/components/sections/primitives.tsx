@@ -50,7 +50,7 @@ export function SectionHead({
 
 export function Breadcrumbs({ lang, trail }: { lang: Lang; trail: { key: PageKey; name: T }[] }) {
   return (
-    <nav aria-label="Breadcrumb" className="text-xs text-muted">
+    <nav aria-label={lang === "fr" ? "Fil d’Ariane" : "Breadcrumb"} className="text-xs text-muted">
       <ol className="flex flex-wrap items-center gap-1.5">
         <li>
           <Link to={href("home", lang)} className="inline-flex min-h-11 items-center hover:underline">

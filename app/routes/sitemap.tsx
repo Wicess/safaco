@@ -13,7 +13,7 @@ export const meta = pageMeta({
   title: { en: "Site map — SAFA & Co, Yaoundé", fr: "Plan du site — SAFA & Co, Yaoundé" },
   description: {
     en: "Every page of the SAFA & Co website: plastering machine and mast-lift hire, furnished apartments in Meyo, tailoring and training, gallery and contact.",
-    fr: "Toutes les pages du site SAFA & Co : location de machines à crépir et monte-charges, appartements meublés à Meyo, couture et formation, galerie et contact.",
+    fr: "Toutes les pages du site SAFA & Co : location de machines à crépir et monte-charges, appartements meublés à Meyo, couture et formation, galerie et contact.",
   },
   jsonLd: (lang) => [breadcrumb(lang, TRAIL)],
 });
@@ -24,10 +24,10 @@ const GROUPS: { title: T; accent?: string; entries: Entry[] }[] = [
   {
     title: { en: "SAFA & Co", fr: "SAFA & Co" },
     entries: [
-      { page: "home", name: { en: "Home", fr: "Accueil" }, note: { en: "The three houses at a glance", fr: "Les trois maisons en un coup d'œil" } },
+      { page: "home", name: { en: "Home", fr: "Accueil" }, note: { en: "The three houses at a glance", fr: "Les trois maisons en un coup d’œil" } },
       { page: "about", name: { en: "About", fr: "À propos" }, note: { en: "Who we are, in Yaoundé", fr: "Qui nous sommes, à Yaoundé" } },
       { page: "gallery", name: { en: "Gallery", fr: "Galerie" }, note: { en: "Our machines, apartments and garments", fr: "Nos machines, appartements et tenues" } },
-      { page: "faq", name: { en: "Questions", fr: "Questions" }, note: { en: "Answers before you call", fr: "Les réponses avant d'appeler" } },
+      { page: "faq", name: { en: "Questions", fr: "Questions" }, note: { en: "Answers before you call", fr: "Les réponses, avant même d’appeler" } },
       { page: "contact", name: { en: "Contact", fr: "Contact" }, note: { en: "Call, WhatsApp, email or the form", fr: "Appel, WhatsApp, e-mail ou formulaire" } },
     ],
   },
@@ -35,10 +35,10 @@ const GROUPS: { title: T; accent?: string; entries: Entry[] }[] = [
     title: { en: "SAFA Construction", fr: "SAFA Construction" },
     accent: DIVISIONS.construction.accentVar,
     entries: [
-      { page: "construction", name: { en: "Equipment hire", fr: "Location de matériel" }, note: { en: "The fleet, delivered in Yaoundé", fr: "Le parc, livré à Yaoundé" } },
+      { page: "construction", name: { en: "Equipment hire", fr: "Location de matériel" }, note: { en: "The fleet, delivered in Yaoundé", fr: "Notre parc de machines, livré à Yaoundé" } },
       { page: "plastering", name: { en: "Plastering machine hire", fr: "Location de machine à crépir" }, note: { en: "With the surface calculator", fr: "Avec le calculateur de surface" } },
-      { page: "scaffold", name: { en: "Scaffolds & mast lifts", fr: "Échafaudages & monte-charges" }, note: { en: "Access at height", fr: "Accès en hauteur" } },
-      { page: "fabrication", name: { en: "Materials fabrication", fr: "Fabrication de matériaux" }, note: { en: "Machine-made materials", fr: "Matériaux faits à la machine" } },
+      { page: "scaffold", name: { en: "Scaffolds & mast lifts", fr: "Échafaudages et monte-charges" }, note: { en: "Access at height", fr: "Accès en hauteur" } },
+      { page: "fabrication", name: { en: "Materials fabrication", fr: "Fabrication de matériaux" }, note: { en: "Machine-made materials", fr: "Matériaux fabriqués à la machine" } },
     ],
   },
   {
@@ -72,10 +72,10 @@ export default function SitemapPage() {
         lang={lang}
         trail={TRAIL}
         eyebrow={lang === "fr" ? "Plan du site" : "Site map"}
-        title={lang === "fr" ? "Toutes nos pages, en un coup d'œil." : "Every page, at a glance."}
+        title={lang === "fr" ? "Toutes nos pages, en un coup d’œil." : "Every page, at a glance."}
         lede={
           lang === "fr"
-            ? "Trois maisons, une adresse : trouvez directement la page qu'il vous faut."
+            ? "Trois maisons, une seule adresse : allez droit à la page qu’il vous faut."
             : "Three houses, one address: go straight to the page you need."
         }
       />
@@ -105,7 +105,7 @@ export default function SitemapPage() {
           ))}
         </div>
         <p className="container-x mt-14 text-sm text-muted">
-          {lang === "fr" ? "Pour les moteurs de recherche : " : "For search engines: "}
+          {lang === "fr" ? "Pour les moteurs de recherche : " : "For search engines: "}
           <a href="/sitemap.xml" className="inline-flex min-h-11 items-center underline underline-offset-4 hover:text-ink">
             sitemap.xml
           </a>

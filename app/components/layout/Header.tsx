@@ -208,7 +208,7 @@ function MobileMenu({ lang }: { lang: Lang }) {
         </ul>
         <div className="mt-auto flex items-center justify-between pt-10">
           <LangSwitch lang={lang} className="text-ivory" />
-          <span className="font-display text-sm italic text-ivory/60">Yaoundé · Cameroun</span>
+          <span className="font-display text-sm italic text-ivory/60">{lang === "fr" ? "Yaoundé · Cameroun" : "Yaoundé · Cameroon"}</span>
         </div>
       </div>
     </div>

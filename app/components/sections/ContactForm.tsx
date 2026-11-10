@@ -114,7 +114,7 @@ export function ContactForm({ lang }: { lang: Lang }) {
         </label>
         <select id="division" name="division" value={division} onChange={(e) => setDivision(e.target.value)} className={cn(input, "cursor-pointer appearance-none bg-[url('data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2212%22%20height=%2212%22%20viewBox=%220%200%2024%2024%22%20fill=%22none%22%20stroke=%22%2314202a%22%20stroke-width=%222%22%3E%3Cpath%20d=%22m6%209%206%206%206-6%22/%3E%3C/svg%3E')] bg-[right_0.25rem_center] bg-no-repeat pr-8")}>
           <option value="CONSTRUCTION">{lang === "fr" ? "SAFA Construction — location de matériel" : "SAFA Construction — equipment hire"}</option>
-          <option value="APARTMENTS">{lang === "fr" ? "SAFA Apartments — séjour" : "SAFA Apartments — a stay"}</option>
+          <option value="APARTMENTS">{lang === "fr" ? "SAFA Apartments — un séjour" : "SAFA Apartments — a stay"}</option>
           <option value="DESIGNS">{lang === "fr" ? "SAFA Designs — couture ou formation" : "SAFA Designs — tailoring or training"}</option>
           <option value="GROUP">{lang === "fr" ? "Autre / le groupe" : "Other / the group"}</option>
         </select>
@@ -152,7 +152,7 @@ export function ContactForm({ lang }: { lang: Lang }) {
           required
           placeholder={
             lang === "fr"
-              ? "Ex. : chantier à Odza, environ 800 m² à crépir, à partir du 15 du mois prochain."
+              ? "Ex. : chantier à Odza, environ 800 m² à crépir, à partir du 15 du mois prochain."
               : "E.g. site in Odza, about 800 m² to render, from the 15th of next month."
           }
           className={cn(input, "resize-y")}
@@ -166,7 +166,7 @@ export function ContactForm({ lang }: { lang: Lang }) {
       {status === "failed" && (
         <div role="alert" className="border-l-2 border-[#a1301d] bg-[#a1301d]/5 p-5 text-[0.9375rem]">
           <p className="font-medium">
-            {lang === "fr" ? "Le message n'a pas pu partir. Écrivez-nous directement sur WhatsApp :" : "Your message couldn't be sent. Message us directly on WhatsApp instead:"}
+            {lang === "fr" ? "Votre message n’a pas pu être envoyé. Écrivez-nous directement sur WhatsApp :" : "Your message couldn't be sent. Message us directly on WhatsApp instead:"}
           </p>
           {wa ? (
             <a href={waLink(wa, greeting(divKey ?? "group", lang))} rel="noopener" className="mt-3 inline-flex min-h-11 items-center gap-2 font-semibold text-[#1f7a4d] underline underline-offset-4">
@@ -187,7 +187,7 @@ export function ContactForm({ lang }: { lang: Lang }) {
           className="inline-flex min-h-14 items-center justify-center gap-3 bg-navy-900 px-8 text-[0.8125rem] font-semibold uppercase tracking-[0.14em] text-ivory transition-colors hover:bg-navy-700 disabled:opacity-60"
         >
           {status === "sending" ? <LoaderCircle className="size-4 animate-spin" aria-hidden /> : null}
-          {status === "sending" ? (lang === "fr" ? "Envoi…" : "Sending…") : lang === "fr" ? "Envoyer la demande" : "Send enquiry"}
+          {status === "sending" ? (lang === "fr" ? "Envoi en cours…" : "Sending…") : lang === "fr" ? "Envoyer la demande" : "Send enquiry"}
           {status !== "sending" && <ArrowRight className="size-4" aria-hidden />}
         </button>
         <p className="max-w-xs text-xs leading-relaxed text-muted">

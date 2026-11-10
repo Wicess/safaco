@@ -6,7 +6,7 @@ export const UI = {
   menu: { en: "Menu", fr: "Menu" },
   close: { en: "Close", fr: "Fermer" },
   home: { en: "Home", fr: "Accueil" },
-  divisions: { en: "Our divisions", fr: "Nos divisions" },
+  divisions: { en: "Our divisions", fr: "Nos activités" },
   about: { en: "About", fr: "À propos" },
   gallery: { en: "Gallery", fr: "Galerie" },
   faq: { en: "Questions", fr: "Questions" },
@@ -24,7 +24,7 @@ export const UI = {
   switchToShort: { en: "FR", fr: "EN" },
   switchLabel: { en: "Voir le site en français", fr: "View the site in English" },
   langBanner: {
-    en: "Voir cette page en français ?",
+    en: "Voir cette page en français ?",
     fr: "View this page in English?",
   },
   langBannerYes: { en: "Oui, en français", fr: "Yes, in English" },
@@ -36,7 +36,7 @@ export const UI = {
   legal: { en: "Legal notice", fr: "Mentions légales" },
   developedBy: { en: "Developed by", fr: "Developed by" },
   group: { en: "The group", fr: "Le groupe" },
-  followUs: { en: "Follow", fr: "Suivre" },
+  followUs: { en: "Follow", fr: "Nous suivre" },
   breadcrumbHome: { en: "Home", fr: "Accueil" },
 } satisfies Record<string, T>;
 
@@ -44,8 +44,8 @@ export const NAV = {
   construction: {
     label: { en: "Construction", fr: "Construction" },
     children: [
-      { page: "plastering", label: { en: "Plastering machine hire", fr: "Location machine à crépir" } },
-      { page: "scaffold", label: { en: "Scaffolds & mast lifts", fr: "Échafaudages & monte-charges" } },
+      { page: "plastering", label: { en: "Plastering machine hire", fr: "Location de machines à crépir" } },
+      { page: "scaffold", label: { en: "Scaffolds & mast lifts", fr: "Échafaudages et monte-charges" } },
       { page: "fabrication", label: { en: "Materials fabrication", fr: "Fabrication de matériaux" } },
     ],
   },

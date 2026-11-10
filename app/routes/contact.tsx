@@ -14,7 +14,7 @@ export const meta = pageMeta({
   title: { en: "Contact SAFA & Co, Yaoundé — WhatsApp, Phone, Enquiry", fr: "Contacter SAFA & Co, Yaoundé — WhatsApp, téléphone" },
   description: {
     en: "Reach SAFA Construction, SAFA Apartments or SAFA Designs in Yaoundé by WhatsApp, phone or the enquiry form. Addresses and opening hours for each division.",
-    fr: "Joignez SAFA Construction, SAFA Apartments ou SAFA Designs à Yaoundé par WhatsApp, téléphone ou formulaire. Adresses et horaires de chaque division.",
+    fr: "Contactez SAFA Construction, SAFA Apartments ou SAFA Designs à Yaoundé par WhatsApp, téléphone ou formulaire. Adresses et horaires de chaque activité.",
   },
   jsonLd: (lang) => [breadcrumb(lang, TRAIL)],
 });
@@ -42,7 +42,7 @@ export default function Contact() {
             </h1>
             <p className="mx-auto mt-5 max-w-xl text-lede text-muted [text-wrap:balance]">
               {lang === "fr"
-                ? "Un appel, un message WhatsApp ou une demande écrite : la bonne division vous répond."
+                ? "Un appel, un message WhatsApp ou une demande écrite : le bon interlocuteur vous répond."
                 : "A call, a WhatsApp message or a written enquiry: the right division answers you."}
             </p>
             <a
@@ -91,7 +91,7 @@ export default function Contact() {
                 )}
                 {d.email && (
                   <li className="flex gap-3">
-                    <Mail className="mt-1 size-4 shrink-0 text-muted" aria-label="Email" />
+                    <Mail className="mt-1 size-4 shrink-0 text-muted" aria-label={lang === "fr" ? "E-mail" : "Email"} />
                     <span className="min-w-0">
                       <a
                         href={`mailto:${d.email}?subject=${encodeURIComponent(d.name)}`}
@@ -117,7 +117,7 @@ export default function Contact() {
                   href="#enquiry"
                   className="mt-6 inline-flex min-h-12 items-center gap-3 bg-navy-900 px-5 text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-ivory hover:bg-navy-700"
                 >
-                  {lang === "fr" ? "Écrire via le formulaire" : "Write via the form"}
+                  {lang === "fr" ? "Passer par le formulaire" : "Write via the form"}
                 </a>
               )}
             </article>

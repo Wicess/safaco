@@ -87,7 +87,7 @@ export const DIVISIONS: Record<DivisionKey, Division> = {
     accentVar: "var(--color-construction)",
     tagline: {
       en: "Automatic plastering machines, mast lifts and scaffold platforms for hire.",
-      fr: "Location de machines à crépir automatiques, de monte-charges et de plateformes d'échafaudage.",
+      fr: "Location de machines à crépir automatiques, de monte-charges et de plateformes d’échafaudage.",
     },
     short: { en: "Build", fr: "Bâtir" },
     whatsapp: "237600000001", // CLIENT_TODO
@@ -107,7 +107,7 @@ export const DIVISIONS: Record<DivisionKey, Division> = {
     accentVar: "var(--color-apartments)",
     tagline: {
       en: "Furnished, serviced apartments for short and extended stays in Yaoundé.",
-      fr: "Appartements meublés et équipés pour courts et longs séjours à Yaoundé.",
+      fr: "Appartements meublés avec services, pour courts et longs séjours à Yaoundé.",
     },
     short: { en: "Stay", fr: "Séjourner" },
     whatsapp: "237600000002", // CLIENT_TODO
@@ -127,9 +127,9 @@ export const DIVISIONS: Record<DivisionKey, Division> = {
     accentVar: "var(--color-designs)",
     tagline: {
       en: "Made-to-measure menswear, specialised sewing machines and a MINEFOP-approved training centre.",
-      fr: "Tenues homme sur mesure, machines à coudre spécialisées et centre de formation agréé MINEFOP.",
+      fr: "Couture homme sur mesure, machines à coudre spécialisées et centre de formation agréé par le MINEFOP.",
     },
-    short: { en: "Wear", fr: "S'habiller" },
+    short: { en: "Wear", fr: "S’habiller" },
     // From SAFA Designs' own flyer (2026-10-30): "670986643 / 695356742".
     // CLIENT_TODO: confirm 670 98 66 43 is the WhatsApp line.
     whatsapp: "237670986643",
@@ -222,10 +222,10 @@ export function isTodo(v: string | undefined): boolean {
 }
 
 export const WA_GREETING: Record<DivisionKey | "group", T> = {
-  group: { en: "Hello SAFA & Co, I found you on your website and I'd like some information.", fr: "Bonjour SAFA & Co, je vous ai trouvés sur votre site et j'aimerais des informations." },
-  construction: { en: "Hello SAFA Construction, I'd like a quote for machine hire.", fr: "Bonjour SAFA Construction, j'aimerais un devis pour une location de machine." },
-  apartments: { en: "Hello SAFA Apartments, I'd like to check availability.", fr: "Bonjour SAFA Apartments, j'aimerais vérifier les disponibilités." },
-  designs: { en: "Hello SAFA Designs, I'd like to book a fitting.", fr: "Bonjour SAFA Designs, j'aimerais prendre rendez-vous pour une prise de mesures." },
+  group: { en: "Hello SAFA & Co, I found you on your website and I'd like some information.", fr: "Bonjour SAFA & Co, j’ai découvert votre site et je souhaiterais quelques renseignements." },
+  construction: { en: "Hello SAFA Construction, I'd like a quote for machine hire.", fr: "Bonjour SAFA Construction, je souhaiterais un devis pour la location d’une machine." },
+  apartments: { en: "Hello SAFA Apartments, I'd like to check availability.", fr: "Bonjour SAFA Apartments, je souhaiterais connaître vos disponibilités." },
+  designs: { en: "Hello SAFA Designs, I'd like to book a fitting.", fr: "Bonjour SAFA Designs, je souhaiterais prendre rendez-vous pour une prise de mesures." },
 };
 
 export function greeting(key: DivisionKey | "group", lang: Lang): string {

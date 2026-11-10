@@ -36,7 +36,7 @@ export function FleetGrid({ lang, units, link = true }: { lang: Lang; units: Uni
                 {/* Stock photo of this KIND of unit, never presented as SAFA's own */}
                 {isStock(u.img) && (
                   <span className="absolute bottom-3 right-3 bg-navy-950/75 px-2 py-1 text-[0.6875rem] tracking-[0.04em] text-ivory/90">
-                    {lang === "fr" ? "Photo d'illustration" : "Illustrative photo"}
+                    {lang === "fr" ? "Photo d’illustration" : "Illustrative photo"}
                   </span>
                 )}
               </div>

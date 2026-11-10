@@ -6,7 +6,7 @@ import { Picture } from "../ui/Picture";
 import { Breadcrumbs, TraceLine } from "./primitives";
 
 function StockNote({ lang }: { lang: Lang }) {
-  return <p className="mt-2 text-[0.6875rem] text-muted">{lang === "fr" ? "Photo d'illustration" : "Illustrative photo"}</p>;
+  return <p className="mt-2 text-[0.6875rem] text-muted">{lang === "fr" ? "Photo d’illustration" : "Illustrative photo"}</p>;
 }
 
 /**

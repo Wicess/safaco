@@ -14,7 +14,7 @@ const L = {
   close: { en: "Close", fr: "Fermer" },
   prev: { en: "Previous", fr: "Précédent" },
   next: { en: "Next", fr: "Suivant" },
-  viewer: { en: "Photo viewer", fr: "Visionneuse" },
+  viewer: { en: "Photo viewer", fr: "Visionneuse photo" },
 };
 
 /* ───────────────────────── Lightbox ─────────────────────────
@@ -221,7 +221,7 @@ export function GalleryTile({
     <button
       type="button"
       onClick={onOpen}
-      aria-label={`${L.open[lang]}${lang === "fr" ? " : " : ": "}${item.alt[lang]}`}
+      aria-label={`${L.open[lang]}${lang === "fr" ? " : " : ": "}${item.alt[lang]}`}
       className={cn("group/tile relative block w-full overflow-hidden bg-stone text-left", className)}
     >
       <Picture

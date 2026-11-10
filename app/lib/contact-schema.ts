@@ -34,7 +34,7 @@ export type ContactInput = z.infer<typeof ContactSchema>;
 
 export const FIELD_ERRORS = {
   name: { en: "Please enter your name.", fr: "Veuillez indiquer votre nom." },
-  phone: { en: "Please enter a phone number we can reach you on (e.g. +237 6XX XX XX XX).", fr: "Veuillez indiquer un numéro joignable (ex. +237 6XX XX XX XX)." },
-  email: { en: "This email address doesn't look right.", fr: "Cette adresse e-mail semble incorrecte." },
+  phone: { en: "Please enter a phone number we can reach you on (e.g. +237 6XX XX XX XX).", fr: "Veuillez indiquer un numéro où vous joindre (ex. +237 6XX XX XX XX)." },
+  email: { en: "This email address doesn't look right.", fr: "Cette adresse e-mail ne semble pas valide." },
   message: { en: "Please tell us a little about your request.", fr: "Dites-nous en quelques mots ce dont vous avez besoin." },
 } as const;

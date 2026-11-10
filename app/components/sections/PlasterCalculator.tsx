@@ -26,7 +26,7 @@ export function PlasterCalculator({ lang }: { lang: Lang }) {
   const max = Math.max(e.manualDays, e.machineDays, 1);
   const msg =
     lang === "fr"
-      ? `Bonjour SAFA Construction, j'ai environ ${m2} m² à crépir. Pouvez-vous m'envoyer un devis pour la machine à crépir automatique ?`
+      ? `Bonjour SAFA Construction, j’ai environ ${m2} m² à crépir. Pouvez-vous m’envoyer un devis pour la machine à crépir automatique ?`
       : `Hello SAFA Construction, I have about ${m2} m² to render. Could you send me a quote for the automatic plastering machine?`;
 
   return (
@@ -91,7 +91,7 @@ export function PlasterCalculator({ lang }: { lang: Lang }) {
       <p className="mt-8 border-t border-ink/10 pt-6 font-display text-2xl leading-snug">
         {lang === "fr" ? (
           <>
-            Environ <strong className="font-semibold text-gold-600">{fmt(e.saved, lang)} jours</strong> de chantier gagnés.
+            Environ <strong className="font-semibold text-gold-600">{fmt(e.saved, lang)} jours</strong> de chantier gagnés.
           </>
         ) : (
           <>
@@ -101,7 +101,7 @@ export function PlasterCalculator({ lang }: { lang: Lang }) {
       </p>
       <p className="mt-3 text-xs leading-relaxed text-muted">
         {lang === "fr"
-          ? `Estimation indicative : ${r.manualPerMasonDay} m²/jour par maçon, ${r.machinePerDay} m²/jour pour la machine. Le rendement réel dépend du support, de l'enduit et de l'accès ; nous l'évaluons lors de la visite.`
+          ? `Estimation indicative : ${r.manualPerMasonDay} m²/jour par maçon, ${r.machinePerDay} m²/jour pour la machine. Le rendement réel dépend du support, de l’enduit et de l’accès au chantier ; nous l’évaluons lors de la visite.`
           : `Indicative estimate: ${r.manualPerMasonDay} m²/day per mason, ${r.machinePerDay} m²/day for the machine. Real output depends on the wall, the render and site access; we assess it during the site visit.`}
       </p>
       {DIVISIONS.construction.whatsapp ? (
@@ -111,14 +111,14 @@ export function PlasterCalculator({ lang }: { lang: Lang }) {
           className="mt-8 inline-flex min-h-12 w-full items-center justify-center gap-3 bg-[#1f7a4d] px-6 text-[0.8125rem] font-semibold uppercase tracking-[0.14em] text-white hover:bg-[#186540]"
         >
           <WhatsAppIcon className="size-5" />
-          {lang === "fr" ? `Devis pour ${m2} m²` : `Quote for ${m2} m²`}
+          {lang === "fr" ? `Devis pour ${m2} m²` : `Quote for ${m2} m²`}
         </a>
       ) : (
         <Link
           to={enquiryHref(href("contact", lang), "construction", msg)}
           className="mt-8 inline-flex min-h-12 w-full items-center justify-center gap-3 bg-navy-900 px-6 text-[0.8125rem] font-semibold uppercase tracking-[0.14em] text-ivory hover:bg-navy-700"
         >
-          {lang === "fr" ? `Devis pour ${m2} m²` : `Quote for ${m2} m²`}
+          {lang === "fr" ? `Devis pour ${m2} m²` : `Quote for ${m2} m²`}
         </Link>
       )}
     </div>
@@ -130,7 +130,7 @@ export function PlasterTable({ lang }: { lang: Lang }) {
   const rows = [200, 500, 1000, 2000];
   return (
     <table className="w-full text-left text-sm">
-      <caption className="sr-only">{lang === "fr" ? "Durée indicative : main vs machine" : "Indicative duration: by hand vs machine"}</caption>
+      <caption className="sr-only">{lang === "fr" ? "Durée indicative : à la main ou à la machine" : "Indicative duration: by hand vs machine"}</caption>
       <thead>
         <tr className="border-b border-ink/15 text-muted">
           <th scope="col" className="py-3 font-medium">m²</th>

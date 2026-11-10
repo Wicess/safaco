@@ -24,11 +24,11 @@ export const meta = pageMeta({
   key: "construction",
   title: {
     en: "Plastering Machine & Mast Lift Hire, Yaoundé | SAFA",
-    fr: "Machine à crépir & monte-charge à louer, Yaoundé | SAFA",
+    fr: "Location machine à crépir et monte-charge, Yaoundé | SAFA",
   },
   description: {
     en: "Hire automatic wall-plastering machines, mast lifts and scaffold platforms in Yaoundé. Delivered, set up and collected by SAFA's own crew. Quote on request.",
-    fr: "Machines à crépir automatiques, monte-charges et échafaudages à louer à Yaoundé. Livrés, montés et repris par l'équipe SAFA. Devis sur demande.",
+    fr: "Location de machines à crépir automatiques, monte-charges et plateformes d’échafaudage à Yaoundé. Livrés, montés et repris par SAFA. Devis sur demande.",
   },
   image: "/og/construction.jpg",
   jsonLd: (lang) => [breadcrumb(lang, TRAIL), faqPage(lang, CONSTRUCTION_FAQ)],
@@ -43,13 +43,13 @@ const SERVICES: { page: PageKey; title: T; body: T; img: string }[] = [
     title: { en: "Automatic plastering machine hire", fr: "Location de machines à crépir" },
     body: {
       en: "Render walls faster, with an even thickness, using fewer hands.",
-      fr: "Crépissez plus vite, avec une épaisseur régulière, et moins de main-d'œuvre.",
+      fr: "Crépissez plus vite, d’une épaisseur régulière, avec moins de main-d’œuvre.",
     },
     img: IMG.greenMast,
   },
   {
     page: "scaffold",
-    title: { en: "Mast lifts & scaffold platforms", fr: "Monte-charges & échafaudages" },
+    title: { en: "Mast lifts & scaffold platforms", fr: "Monte-charges et échafaudages" },
     body: {
       en: "Safe access to the façade for crews and materials, at the height you need.",
       fr: "Un accès sûr à la façade pour les équipes et les matériaux, à la hauteur voulue.",
@@ -61,7 +61,7 @@ const SERVICES: { page: PageKey; title: T; body: T; img: string }[] = [
     title: { en: "Materials fabrication", fr: "Fabrication de matériaux" },
     body: {
       en: "Construction materials produced by machine, for consistent dimensions.",
-      fr: "Des matériaux de construction produits à la machine, pour des dimensions régulières.",
+      fr: "Des matériaux de construction fabriqués à la machine, aux dimensions régulières.",
     },
     img: IMG.blocks,
   },
@@ -109,7 +109,7 @@ export default function Construction() {
                 <div className="relative">
                   <Picture name={s.img} alt="" sizes="(min-width: 48rem) 30vw, 100vw" className="grain aspect-[4/5]" imgClassName="transition-transform duration-[1.4s] ease-(--ease-out-quart) group-hover:scale-[1.04]" />
                   {isStock(s.img) && (
-                    <span className="absolute bottom-2 left-2 bg-ivory/85 px-1.5 py-0.5 text-[0.6875rem] text-ink/70">{lang === "fr" ? "Photo d'illustration" : "Illustrative photo"}</span>
+                    <span className="absolute bottom-2 left-2 bg-ivory/85 px-1.5 py-0.5 text-[0.6875rem] text-ink/70">{lang === "fr" ? "Photo d’illustration" : "Illustrative photo"}</span>
                   )}
                 </div>
                 <h3 className="mt-6 text-[1.75rem] leading-tight">{s.title[lang]}</h3>
@@ -133,7 +133,7 @@ export default function Construction() {
               title={lang === "fr" ? "Nos machines, filmées chez nous." : "Our machines, filmed at our yard."}
               lede={
                 lang === "fr"
-                  ? "Le mât se déploie, la machine monte et applique l'enduit en une passe. Ce sont les unités que nous livrons et montons sur votre chantier."
+                  ? "Le mât se déploie, la machine y grimpe et applique l’enduit en une seule passe. Ce sont ces machines que nous livrons et montons sur votre chantier."
                   : "The mast goes up, the machine climbs it and lays the render in one pass. These are the units we deliver and set up on your site."
               }
             />
@@ -145,7 +145,7 @@ export default function Construction() {
           </div>
           <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:col-span-7">
             <AmbientVideo lang={lang} video="mastBlue" label={lang === "fr" ? "Un opérateur déploie le mât de la machine bleue" : "An operator raising the mast of the blue unit"} className="grain aspect-[9/16]" />
-            <AmbientVideo lang={lang} video="mastGreen" label={lang === "fr" ? "La machine verte pilotée depuis son pupitre" : "The green unit operated from its control panel"} className="grain aspect-[9/16] translate-y-8 md:translate-y-14" />
+            <AmbientVideo lang={lang} video="mastGreen" label={lang === "fr" ? "La machine verte, pilotée depuis son pupitre" : "The green unit operated from its control panel"} className="grain aspect-[9/16] translate-y-8 md:translate-y-14" />
           </div>
         </div>
       </section>
@@ -156,7 +156,7 @@ export default function Construction() {
             index="02"
             eyebrow={lang === "fr" ? "Le parc" : "The fleet"}
             title={lang === "fr" ? "Matériel disponible à la location." : "Equipment available for hire."}
-            lede={lang === "fr" ? "Chaque machine est contrôlée avant de partir sur chantier." : "Every unit is inspected before it leaves for your site."}
+            lede={lang === "fr" ? "Chaque machine est contrôlée avant de partir sur votre chantier." : "Every unit is inspected before it leaves for your site."}
           />
           <div className="mt-12">
             <FleetGrid lang={lang} units={FLEET} />
@@ -166,7 +166,7 @@ export default function Construction() {
 
       <section className="py-20 md:py-28">
         <div className="container-x">
-          <SectionHead eyebrow={lang === "fr" ? "Le dépôt" : "The yard"} title={lang === "fr" ? "Le matériel, tel qu'il part sur chantier." : "The equipment, as it leaves for site."} />
+          <SectionHead eyebrow={lang === "fr" ? "Le dépôt" : "The yard"} title={lang === "fr" ? "Le matériel, tel qu’il part sur chantier." : "The equipment, as it leaves for site."} />
           <div className="mt-12">
             <GalleryStrip lang={lang} division="construction" items={STRIP} />
           </div>
@@ -175,16 +175,16 @@ export default function Construction() {
 
       <section className="bg-ivory-2 py-20 md:py-28">
         <div className="container-x">
-          <SectionHead index="03" eyebrow={lang === "fr" ? "La location, étape par étape" : "Hire, step by step"} title={lang === "fr" ? "Vous construisez. Nous gérons le matériel." : "You build. We handle the equipment."} />
+          <SectionHead index="03" eyebrow={lang === "fr" ? "La location, étape par étape" : "Hire, step by step"} title={lang === "fr" ? "Vous bâtissez. Nous nous occupons du matériel." : "You build. We handle the equipment."} />
           <div className="mt-12">
             <Steps lang={lang} items={HIRE_STEPS} />
           </div>
           <ul className="mt-12 grid gap-4 text-[0.9375rem] sm:grid-cols-2">
             {[
-              { en: "Delivered and assembled on site by our own team", fr: "Livré et monté sur site par notre propre équipe" },
-              { en: "Flexible hire periods matched to your schedule", fr: "Durées de location adaptées à votre calendrier" },
-              { en: "Well-maintained equipment, inspected before every job", fr: "Matériel entretenu, contrôlé avant chaque mission" },
-              { en: "Serving construction sites across Yaoundé", fr: "Au service des chantiers de tout Yaoundé" },
+              { en: "Delivered and assembled on site by our own team", fr: "Livré et monté sur chantier par notre propre équipe" },
+              { en: "Flexible hire periods matched to your schedule", fr: "Des durées de location calées sur votre calendrier" },
+              { en: "Well-maintained equipment, inspected before every job", fr: "Matériel bien entretenu, contrôlé avant chaque chantier" },
+              { en: "Serving construction sites across Yaoundé", fr: "Pour les chantiers dans tout Yaoundé" },
             ].map((b) => (
               <li key={b.en} className="flex items-start gap-3" data-reveal>
                 <Check className="mt-1 size-4 shrink-0 text-gold-600" aria-hidden />
@@ -205,10 +205,10 @@ export default function Construction() {
       <CtaBand
         lang={lang}
         division="construction"
-        title={{ en: "Planning the finishing phase?", fr: "Vous préparez la phase de finition ?" }}
+        title={{ en: "Planning the finishing phase?", fr: "Vous préparez les finitions ?" }}
         body={{
           en: "Send the site location, surface and dates. We'll recommend the right machine and reply with a quote.",
-          fr: "Envoyez la localisation, la surface et les dates du chantier. Nous vous conseillons la bonne machine et répondons avec un devis.",
+          fr: "Indiquez-nous le lieu du chantier, la surface et vos dates. Nous vous conseillons la machine adaptée et vous répondons avec un devis.",
         }}
       />
     </>

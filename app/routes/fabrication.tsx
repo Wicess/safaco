@@ -22,14 +22,14 @@ const PRODUCTS: { name: T; body: T }[] = [
     name: { en: "Concrete blocks", fr: "Parpaings" },
     body: {
       en: "Machine-moulded blocks for walls, with regular dimensions from one batch to the next.",
-      fr: "Parpaings moulés à la machine pour vos murs, aux dimensions régulières d'un lot à l'autre.",
+      fr: "Parpaings moulés à la machine pour vos murs, aux dimensions régulières d’un lot à l’autre.",
     },
   },
   {
     name: { en: "Other formats on request", fr: "Autres formats sur demande" },
     body: {
       en: "Tell us what your project needs — format, quantity and timing — and we'll tell you what we can produce.",
-      fr: "Dites-nous ce dont votre projet a besoin — format, quantité et délai — et nous vous dirons ce que nous pouvons produire.",
+      fr: "Dites-nous ce dont votre projet a besoin (format, quantité, date souhaitée) et nous vous dirons ce que nous pouvons produire.",
     },
   },
 ];
@@ -39,11 +39,11 @@ export const meta = pageMeta({
   key: "fabrication",
   title: {
     en: "Machine-Made Construction Materials, Yaoundé | SAFA",
-    fr: "Fabrication mécanisée de matériaux, Yaoundé | SAFA",
+    fr: "Fabrication de matériaux à la machine, Yaoundé | SAFA",
   },
   description: {
     en: "SAFA Construction produces construction materials by machine in Yaoundé for consistent dimensions. Tell us the product, quantity and site — quote on request.",
-    fr: "Matériaux de construction fabriqués à la machine à Yaoundé, aux dimensions régulières. Indiquez produit, quantité et chantier : devis sur demande.",
+    fr: "SAFA Construction fabrique à la machine, à Yaoundé, des matériaux aux dimensions régulières. Indiquez produit, quantité et chantier : devis sur demande.",
   },
   image: "/og/fabrication.jpg",
   jsonLd: (lang) => [
@@ -73,7 +73,7 @@ export default function Fabrication() {
         title={lang === "fr" ? "Des matériaux réguliers, faits à la machine." : "Consistent materials, made by machine."}
         lede={
           lang === "fr"
-            ? "Nous produisons des matériaux de construction à la machine : des dimensions régulières d'une pièce à l'autre, pour des murs plus droits et plus rapides à monter."
+            ? "Nous fabriquons des matériaux de construction à la machine : des dimensions identiques d’une pièce à l’autre, pour des murs plus droits, montés plus vite."
             : "We produce construction materials by machine: the same dimensions from one piece to the next, for walls that go up straighter and faster."
         }
         image={IMG.blocks}
@@ -88,7 +88,7 @@ export default function Fabrication() {
 
       <section className="py-20 md:py-28">
         <div className="container-x grid gap-12 lg:grid-cols-2">
-          <SectionHead index="01" eyebrow={lang === "fr" ? "Production" : "Products"} title={lang === "fr" ? "Ce que nous fabriquons." : "What we make."} />
+          <SectionHead index="01" eyebrow={lang === "fr" ? "Produits" : "Products"} title={lang === "fr" ? "Ce que nous fabriquons." : "What we make."} />
           <ul className="divide-y divide-ink/12 border-y border-ink/12">
             {PRODUCTS.map((p) => (
               <li key={p.name.en} className="py-8" data-reveal>
@@ -107,7 +107,7 @@ export default function Fabrication() {
             <TraceLine className="mb-8 w-16" />
             <p className="font-display text-[1.75rem] leading-snug md:text-[2.25rem]">
               {lang === "fr"
-                ? "Un parpaing régulier, c'est un mur plus droit, moins de mortier de rattrapage et un crépi plus facile."
+                ? "Un parpaing régulier, c’est un mur plus droit, moins de mortier de rattrapage et un crépissage plus facile."
                 : "A regular block means a straighter wall, less corrective mortar, and an easier render."}
             </p>
             <Link to={href("plastering", lang)} className="mt-8 inline-flex min-h-11 items-center gap-2 text-sm font-semibold uppercase tracking-[0.14em]">
@@ -128,7 +128,7 @@ export default function Fabrication() {
         lang={lang}
         division="construction"
         title={{ en: "Tell us the quantity and the date.", fr: "Indiquez la quantité et la date." }}
-        body={{ en: "We reply with availability and a quote.", fr: "Nous répondons avec la disponibilité et un devis." }}
+        body={{ en: "We reply with availability and a quote.", fr: "Nous vous répondons avec nos disponibilités et un devis." }}
       />
     </>
   );

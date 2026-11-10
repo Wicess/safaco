@@ -21,7 +21,7 @@ export const AMENITY_LIST: { key: AmenityKey; label: T; seen?: boolean }[] = [
   { key: "hotWater", label: { en: "Hot water", fr: "Eau chaude" } },
   { key: "parking", label: { en: "Secure parking", fr: "Parking sécurisé" } },
   { key: "security", label: { en: "Security guard", fr: "Gardiennage" } },
-  { key: "checkin", label: { en: "Flexible check-in", fr: "Arrivée flexible" } },
+  { key: "checkin", label: { en: "Flexible check-in", fr: "Heure d’arrivée souple" } },
 ];
 
 export const DEFAULT_AMENITIES: AmenityKey[] = AMENITY_LIST.filter((a) => a.seen).map((a) => a.key);

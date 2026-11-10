@@ -19,17 +19,17 @@ export const FLEET: Unit[] = [
     name: { en: "Automatic plastering unit", fr: "Machine à crépir automatique" },
     body: {
       en: "Mast-mounted rendering machine that lays plaster in one even vertical pass.",
-      fr: "Machine montée sur mât qui applique l'enduit en une passe verticale régulière.",
+      fr: "Montée sur mât, elle applique l’enduit en une seule passe verticale, d’épaisseur régulière.",
     },
     img: IMG.greenMast,
     page: "plastering",
   },
   {
     code: "02",
-    name: { en: "Render spray machine", fr: "Machine à projeter l'enduit" },
+    name: { en: "Render spray machine", fr: "Machine à projeter l’enduit" },
     body: {
       en: "Pumps and sprays mortar through a hose for walls and ceilings.",
-      fr: "Pompe et projette le mortier par flexible, pour murs et plafonds.",
+      fr: "Elle pompe le mortier et le projette par un flexible, sur murs et plafonds.",
     },
     img: IMG.sprayPumps,
     page: "plastering",
@@ -39,17 +39,17 @@ export const FLEET: Unit[] = [
     name: { en: "Dual-mast site lift", fr: "Monte-charge bi-mât" },
     body: {
       en: "Twin-mast platform that carries crew and materials up the façade.",
-      fr: "Plateforme sur deux mâts qui monte équipe et matériaux le long de la façade.",
+      fr: "Plateforme sur deux mâts qui monte l’équipe et les matériaux le long de la façade.",
     },
     img: IMG.dualMastLift,
     page: "scaffold",
   },
   {
     code: "04",
-    name: { en: "Scaffold platform", fr: "Plateforme d'échafaudage" },
+    name: { en: "Scaffold platform", fr: "Plateforme d’échafaudage" },
     body: {
       en: "A stable, railed working deck for façade and finishing work at height.",
-      fr: "Un plancher de travail stable, avec garde-corps, pour les façades et finitions en hauteur.",
+      fr: "Plancher de travail stable, avec garde-corps, pour les travaux de façade et de finition en hauteur.",
     },
     img: IMG.scaffoldPlatform,
     page: "scaffold",
@@ -59,7 +59,7 @@ export const FLEET: Unit[] = [
     name: { en: "Mast sections", fr: "Éléments de mât" },
     body: {
       en: "Delivery-ready mast sections, assembled on site to the height you need.",
-      fr: "Éléments de mât prêts à livrer, assemblés sur place à la hauteur voulue.",
+      fr: "Livrés prêts à monter, ils s’assemblent sur place jusqu’à la hauteur voulue.",
     },
     img: IMG.mastSections,
     page: "scaffold",
@@ -69,7 +69,7 @@ export const FLEET: Unit[] = [
     name: { en: "Mobile lift base", fr: "Base mobile de levage" },
     body: {
       en: "A movable base so the lift follows the work around the building.",
-      fr: "Une base mobile pour que le levage suive le chantier autour du bâtiment.",
+      fr: "Une base mobile : le monte-charge suit l’avancement des travaux tout autour du bâtiment.",
     },
     img: IMG.liftBase || undefined,
     page: "scaffold",
@@ -98,31 +98,31 @@ function posNum(n: unknown): number | undefined {
 
 export const HIRE_STEPS: { title: T; body: T }[] = [
   {
-    title: { en: "Tell us about the site", fr: "Parlez-nous du chantier" },
+    title: { en: "Tell us about the site", fr: "Décrivez-nous votre chantier" },
     body: {
       en: "Surface, height, location and dates — on WhatsApp, by phone or through the form.",
-      fr: "Surface, hauteur, localisation et dates — sur WhatsApp, par téléphone ou via le formulaire.",
+      fr: "Surface, hauteur, lieu et dates : sur WhatsApp, par téléphone ou par le formulaire.",
     },
   },
   {
-    title: { en: "Site visit & quote", fr: "Visite & devis" },
+    title: { en: "Site visit & quote", fr: "Visite et devis" },
     body: {
       en: "We check access and ground, recommend the right unit and send a clear quote.",
-      fr: "Nous vérifions l'accès et le sol, recommandons la bonne machine et envoyons un devis clair.",
+      fr: "Nous vérifions l’accès et le sol, vous conseillons la machine adaptée et vous envoyons un devis clair.",
     },
   },
   {
-    title: { en: "Delivery & set-up", fr: "Livraison & montage" },
+    title: { en: "Delivery & set-up", fr: "Livraison et montage" },
     body: {
       en: "Our own crew delivers, assembles and checks the machine on your site.",
-      fr: "Notre équipe livre, monte et vérifie la machine sur votre chantier.",
+      fr: "Notre propre équipe livre, monte et vérifie la machine sur votre chantier.",
     },
   },
   {
     title: { en: "Work, then pickup", fr: "Travaux, puis reprise" },
     body: {
       en: "Hire runs to your schedule. When the job is done, we dismantle and collect.",
-      fr: "La location suit votre calendrier. Une fois le travail fini, nous démontons et reprenons.",
+      fr: "La location suit votre calendrier. Une fois les travaux terminés, nous démontons et reprenons le matériel.",
     },
   },
 ];

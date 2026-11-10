@@ -15,7 +15,7 @@ import { SCAFFOLD_FAQ } from "~/content/faqs";
 
 const TRAIL = [
   { key: "construction" as const, name: { en: "SAFA Construction", fr: "SAFA Construction" } },
-  { key: "scaffold" as const, name: { en: "Scaffolds & mast lifts", fr: "Échafaudages & monte-charges" } },
+  { key: "scaffold" as const, name: { en: "Scaffolds & mast lifts", fr: "Échafaudages et monte-charges" } },
 ];
 
 
@@ -23,21 +23,21 @@ export const meta = pageMeta({
   key: "scaffold",
   title: {
     en: "Mast Lift & Scaffold Platform Hire, Yaoundé | SAFA",
-    fr: "Location monte-charge & échafaudage, Yaoundé | SAFA",
+    fr: "Location monte-charge et échafaudage, Yaoundé | SAFA",
   },
   description: {
     en: "Hire dual-mast site lifts, scaffold platforms and mast sections in Yaoundé. Assembled on site to the height you need and collected at the end of the job.",
-    fr: "Monte-charges bi-mâts, plateformes d'échafaudage et éléments de mât à louer à Yaoundé. Montés à la bonne hauteur, repris en fin de chantier.",
+    fr: "Location de monte-charges bi-mâts, plateformes d’échafaudage et éléments de mât à Yaoundé. Montés à la hauteur voulue, repris en fin de chantier.",
   },
   image: "/og/scaffold.jpg",
   jsonLd: (lang) => [
     breadcrumb(lang, TRAIL),
     service(lang, {
       key: "scaffold",
-      name: { en: "Mast lift and scaffold platform hire", fr: "Location de monte-charges et plateformes d'échafaudage" },
+      name: { en: "Mast lift and scaffold platform hire", fr: "Location de monte-charges et de plateformes d’échafaudage" },
       description: {
         en: "Hire of dual-mast site lifts, scaffold platforms, mast sections and mobile lift bases, assembled and collected by SAFA Construction.",
-        fr: "Location de monte-charges bi-mâts, plateformes d'échafaudage, éléments de mât et bases mobiles, montés et repris par SAFA Construction.",
+        fr: "Location de monte-charges bi-mâts, plateformes d’échafaudage, éléments de mât et bases mobiles, montés et repris par SAFA Construction.",
       },
       division: "construction",
       fn: "LeaseOut",
@@ -55,14 +55,14 @@ export default function Scaffold() {
         lang={lang}
         trail={TRAIL}
         eyebrow={lang === "fr" ? "Accès en hauteur" : "Access at height"}
-        title={lang === "fr" ? "Monte-charges & plateformes d'échafaudage." : "Mast lifts & scaffold platforms."}
+        title={lang === "fr" ? "Monte-charges & plateformes d’échafaudage." : "Mast lifts & scaffold platforms."}
         lede={
           lang === "fr"
-            ? "Des plateformes sur mâts et des planchers de travail pour monter équipes et matériaux le long de la façade, en toute stabilité. Livrés, montés et repris par notre équipe."
+            ? "Des plateformes sur mâts et des planchers de travail qui montent équipes et matériaux le long de la façade, en toute stabilité. Livraison, montage et reprise par notre équipe."
             : "Mast platforms and working decks that carry crews and materials up the façade, steadily. Delivered, assembled and collected by our crew."
         }
         image={IMG.scaffold}
-        imageAlt={lang === "fr" ? "Échafaudage installé sur la façade d'un immeuble" : "Scaffolding set up on a building façade"}
+        imageAlt={lang === "fr" ? "Échafaudage installé sur la façade d’un immeuble" : "Scaffolding set up on a building façade"}
       >
         <Button asChild variant="primary">
           <Link to={`${href("contact", lang)}?d=construction`}>
@@ -77,7 +77,7 @@ export default function Scaffold() {
             <SectionHead index="01" eyebrow={lang === "fr" ? "Le principe" : "The idea"} title={lang === "fr" ? "La bonne hauteur, sans improviser." : "The right height, without improvising."} lede={SCAFFOLD_FAQ[0]!.a[lang]} />
             <ul className="mt-10 space-y-4">
               {[
-                { en: "Carries crew and materials together", fr: "Monte équipe et matériaux ensemble" },
+                { en: "Carries crew and materials together", fr: "Monte l’équipe et les matériaux ensemble" },
                 { en: "Railed, stable working deck", fr: "Plancher stable, avec garde-corps" },
                 { en: "Moves along the façade as work progresses", fr: "Se déplace le long de la façade au fil des travaux" },
                 { en: "Pairs with our automatic plastering machines", fr: "Se combine avec nos machines à crépir automatiques" },
@@ -123,10 +123,10 @@ export default function Scaffold() {
       <CtaBand
         lang={lang}
         division="construction"
-        title={{ en: "How high, how long, where?", fr: "Quelle hauteur, combien de temps, où ?" }}
+        title={{ en: "How high, how long, where?", fr: "Quelle hauteur, quelle durée, où ?" }}
         body={{
           en: "Send us the building height, the site location and your dates — we'll recommend the setup and quote it.",
-          fr: "Envoyez-nous la hauteur du bâtiment, la localisation et vos dates : nous vous conseillons l'installation et vous envoyons un devis.",
+          fr: "Indiquez-nous la hauteur du bâtiment, le lieu du chantier et vos dates : nous vous conseillons l’installation adaptée et vous envoyons un devis.",
         }}
       />
     </>

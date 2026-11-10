@@ -8,10 +8,10 @@ const TRAIL = [{ key: "legal" as const, name: { en: "Legal notice", fr: "Mention
 
 export const meta = pageMeta({
   key: "legal",
-  title: { en: "Legal notice & privacy — SAFA & Co SARL", fr: "Mentions légales & confidentialité — SAFA & Co SARL" },
+  title: { en: "Legal notice & privacy — SAFA & Co SARL", fr: "Mentions légales et confidentialité — SAFA & Co SARL" },
   description: {
     en: "Company details, hosting, image credits and how SAFA & Co SARL handles the information you send through the contact form.",
-    fr: "Informations sur la société, l'hébergement, les crédits photo et le traitement des informations envoyées via le formulaire de contact.",
+    fr: "Informations sur la société, hébergement, crédits photo et traitement des données que vous envoyez à SAFA & Co SARL par le formulaire de contact.",
   },
 });
 
@@ -38,7 +38,7 @@ export default function Legal() {
           {fr ? "Centre de formation SAFA Designs — agrément MINEFOP n°" : "SAFA Designs training centre — MINEFOP approval no."} {MINEFOP.agrement}
         </p>
         <p>
-          {fr ? "Contact : " : "Contact: "}
+          {fr ? "Contact : " : "Contact: "}
           <a className="underline underline-offset-4" href={`mailto:${SITE.email}`}>
             {SITE.email}
           </a>
@@ -50,19 +50,19 @@ export default function Legal() {
         <h2 className={h2}>{fr ? "Vos données" : "Your data"}</h2>
         <p>
           {fr
-            ? "Lorsque vous envoyez le formulaire de contact, nous recevons votre nom, votre numéro de téléphone, votre e-mail s'il est indiqué et votre message, ainsi que le pays et la ville approximatifs associés à votre connexion. Ces informations servent uniquement à répondre à votre demande ; elles ne sont ni vendues ni cédées. Pour les consulter, les corriger ou les faire supprimer, écrivez-nous."
+            ? "Lorsque vous envoyez le formulaire de contact, nous recevons votre nom, votre numéro de téléphone, votre adresse e-mail si vous l’indiquez et votre message, ainsi que le pays et la ville approximatifs de votre connexion. Ces informations servent uniquement à répondre à votre demande ; elles ne sont ni vendues ni cédées. Pour les consulter, les corriger ou les faire supprimer, écrivez-nous."
             : "When you send the contact form we receive your name, phone number, email if given, and your message, plus the approximate country and city of your connection. We use this only to answer your enquiry; it is never sold or passed on. To see, correct or delete it, write to us."}
         </p>
         <p>
           {fr
-            ? "Ce site n'utilise pas de cookies publicitaires. Un seul cookie technique mémorise la langue que vous avez choisie. Pour compter les visites, votre navigateur garde un identifiant aléatoire (sans nom ni contact) ; nous enregistrons les pages vues, la ville et le pays approximatifs et le type d'appareil, uniquement pour nos statistiques, jamais revendus ni partagés."
+            ? "Ce site n’utilise aucun cookie publicitaire. Un seul cookie technique mémorise la langue que vous avez choisie. Pour compter les visites, votre navigateur conserve un identifiant aléatoire (sans nom ni coordonnées) ; nous enregistrons les pages vues, la ville et le pays approximatifs et le type d’appareil, uniquement pour nos propres statistiques. Ces données ne sont jamais vendues ni partagées."
             : "This site uses no advertising cookies. A single technical cookie remembers the language you chose. To count visits, your browser keeps a random ID (no name or contact details); we record the pages viewed, approximate city and country, and device type, for our own statistics only, never sold or shared."}
         </p>
 
         <h2 className={h2}>{fr ? "Photographies" : "Photography"}</h2>
         <p>
           {fr
-            ? "Les photos et vidéos des machines, des appartements et des tenues (dont toute la galerie) appartiennent à SAFA & Co. Les autres photos, signalées « Photo d'illustration », proviennent de banques d'images libres (Wikimedia Commons, WordPress Photo Directory) ; les personnes qui y figurent ne sont ni des employés ni des clients de SAFA & Co."
+            ? "Les photos et vidéos des machines, des appartements et des tenues (dont toute la galerie) appartiennent à SAFA & Co. Les autres photos, signalées « Photo d’illustration », proviennent de banques d’images libres (Wikimedia Commons, WordPress Photo Directory) ; les personnes qui y figurent ne sont ni des employés ni des clients de SAFA & Co."
             : "The photos and videos of the machines, apartments and garments (including the whole gallery) belong to SAFA & Co. Other photos, marked “Illustrative photo”, come from free image libraries (Wikimedia Commons, WordPress Photo Directory); the people shown are not SAFA & Co staff or clients."}
         </p>
         {credits.length > 0 && (
@@ -85,7 +85,7 @@ export default function Legal() {
           </ul>
         )}
 
-        <h2 className={h2}>{fr ? "Conception" : "Design & development"}</h2>
+        <h2 className={h2}>{fr ? "Conception et développement" : "Design & development"}</h2>
         <p>
           {fr ? "Site conçu et développé par " : "Designed and developed by "}
           <a className="underline underline-offset-4" href="mailto:kenj52974@gmail.com">

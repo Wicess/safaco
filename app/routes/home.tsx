@@ -29,7 +29,7 @@ export const meta = pageMeta({
   },
   description: {
     en: "Yaoundé group: automatic plastering machine and mast-lift hire, furnished apartments in Meyo, made-to-measure menswear and a MINEFOP-approved sewing school.",
-    fr: "Groupe à Yaoundé : location de machines à crépir et de monte-charges, appartements meublés à Meyo, couture homme sur mesure, formation agréée MINEFOP.",
+    fr: "Groupe à Yaoundé : location de machines à crépir et de monte-charges, appartements meublés à Meyo, couture homme sur mesure, formation agréée MINEFOP.",
   },
   image: "/og/home.jpg",
   jsonLd: (lang) => [faqPage(lang, GROUP_FAQ)],
@@ -47,28 +47,28 @@ const HOUSES: { key: HouseKey; img: string; alt: T; inset: string; insetAlt: T; 
     insetAlt: { en: "The machine's touch-screen control panel", fr: "Le pupitre à écran tactile de la machine" },
     offers: [
       { label: { en: "Automatic plastering machines", fr: "Machines à crépir automatiques" }, page: "plastering" },
-      { label: { en: "Mast lifts & scaffold platforms", fr: "Monte-charges & plateformes" }, page: "scaffold" },
+      { label: { en: "Mast lifts & scaffold platforms", fr: "Monte-charges et plateformes d’échafaudage" }, page: "scaffold" },
       { label: { en: "Materials fabrication", fr: "Fabrication de matériaux" }, page: "fabrication" },
     ],
   },
   {
     key: "apartments",
     img: houseImage("apartments"),
-    alt: { en: "The SAFA Apartments building in Meyo, with arched balconies on three floors", fr: "L'immeuble SAFA Apartments à Meyo, balcons à arcades sur trois niveaux" },
+    alt: { en: "The SAFA Apartments building in Meyo, with arched balconies on three floors", fr: "L’immeuble SAFA Apartments à Meyo, balcons en arcades sur trois niveaux" },
     inset: IMG.bedroomTeal,
-    insetAlt: { en: "A bedroom with fresh linen", fr: "Une chambre au linge frais" },
+    insetAlt: { en: "A bedroom with fresh linen", fr: "Une chambre au linge de lit frais" },
     offers: [
       { label: { en: "Furnished guest apartments", fr: "Appartements meublés" } },
-      { label: { en: "Short & extended stays", fr: "Courts & longs séjours" } },
+      { label: { en: "Short & extended stays", fr: "Courts et longs séjours" } },
       { label: { en: "Meyo, Yaoundé IV", fr: "Meyo, Yaoundé IV" } },
     ],
   },
   {
     key: "designs",
     img: houseImage("designs"),
-    alt: { en: "A maroon four-pocket jacket made at the SAFA Designs atelier", fr: "Une veste bordeaux à quatre poches réalisée à l'atelier SAFA Designs" },
+    alt: { en: "A maroon four-pocket jacket made at the SAFA Designs atelier", fr: "Une veste bordeaux à quatre poches, réalisée à l’atelier SAFA Designs" },
     inset: IMG.printShirt,
-    insetAlt: { en: "A print-panel shirt in the showroom", fr: "Une chemise à empiècement imprimé au showroom" },
+    insetAlt: { en: "A print-panel shirt in the showroom", fr: "Une chemise à empiècement imprimé, en salle d’exposition" },
     offers: [
       { label: { en: "Made-to-measure menswear", fr: "Tenues homme sur mesure" } },
       { label: { en: "Specialised machines", fr: "Machines spécialisées" } },
@@ -92,7 +92,7 @@ export default function Home() {
           <SectionHead
             index="05"
             eyebrow={lang === "fr" ? "Questions fréquentes" : "Common questions"}
-            title={lang === "fr" ? "L'essentiel, en bref." : "The essentials, briefly."}
+            title={lang === "fr" ? "L’essentiel, en bref." : "The essentials, briefly."}
           />
           <div>
             <FaqList lang={lang} items={GROUP_FAQ} />
@@ -107,7 +107,7 @@ export default function Home() {
         title={{ en: "Tell us what you're planning.", fr: "Parlez-nous de votre projet." }}
         body={{
           en: "A site to render, a stay in Yaoundé, a suit for an occasion — one message and the right team answers.",
-          fr: "Un chantier à crépir, un séjour à Yaoundé, une tenue pour une cérémonie : un message, et la bonne équipe vous répond.",
+          fr: "Un chantier à crépir, un séjour à Yaoundé, une tenue pour une cérémonie : un seul message, et la bonne équipe vous répond.",
         }}
       />
     </>
@@ -350,7 +350,7 @@ function Statement({ lang }: { lang: Lang }) {
         <p data-reveal className="mt-8 max-w-5xl font-display text-[1.875rem] leading-[1.18] md:text-[3.25rem]">
           {lang === "fr" ? (
             <>
-              SAFA &amp; Co réunit trois métiers qui ont le même geste de départ : <span className="text-gold-600 italic">mesurer juste</span>. Nous
+              SAFA &amp; Co réunit trois métiers qui partent du même geste : <span className="text-gold-600 italic">mesurer juste</span>. Nous
               équipons les chantiers, nous accueillons nos hôtes, nous habillons les hommes — à Yaoundé, avec nos propres équipes.
             </>
           ) : (
@@ -435,7 +435,7 @@ function PlasteringSpotlight({ lang }: { lang: Lang }) {
           <AmbientVideo
             lang={lang}
             video="mastBlue"
-            label={lang === "fr" ? "Un opérateur SAFA déploie le mât d'une machine à crépir automatique" : "A SAFA operator raising the mast of an automatic plastering machine"}
+            label={lang === "fr" ? "Un opérateur SAFA déploie le mât d’une machine à crépir automatique" : "A SAFA operator raising the mast of an automatic plastering machine"}
             className="grain aspect-[4/5]"
           />
           <p className="mt-3 flex items-center gap-3 text-xs text-ivory/60">
@@ -449,17 +449,17 @@ function PlasteringSpotlight({ lang }: { lang: Lang }) {
             index="04"
             eyebrow={lang === "fr" ? "Crépissage automatique" : "Automatic plastering"}
             title={
-              lang === "fr" ? "Parmi les premiers au Cameroun à louer des machines à crépir automatiques." : "Among the first in Cameroon to hire out automatic plastering machines."
+              lang === "fr" ? "Parmi les premières au Cameroun à louer des machines à crépir automatiques." : "Among the first in Cameroon to hire out automatic plastering machines."
             }
             lede={
               lang === "fr"
-                ? "La machine monte et descend le long de son mât et applique l'enduit en une passe régulière : une épaisseur constante, un chantier qui avance plus vite, une équipe réduite. Nous la livrons, l'installons et la reprenons."
+                ? "La machine monte le long de son mât et projette l’enduit en une passe régulière : épaisseur constante, chantier plus rapide, équipe réduite. Nous assurons la livraison, le montage et la reprise."
                 : "The machine climbs its mast and lays the render in one steady pass: constant thickness, faster progress, a smaller crew. We deliver it, set it up and collect it."
             }
           />
           <Button asChild variant="gold" size="lg" className="mt-10">
             <Link to={href("plastering", lang)} viewTransition>
-              {lang === "fr" ? "Comment ça marche" : "How it works"} <ArrowRight aria-hidden />
+              {lang === "fr" ? "Voir comment elle fonctionne" : "How it works"} <ArrowRight aria-hidden />
             </Link>
           </Button>
         </div>
@@ -474,28 +474,28 @@ function Principles({ lang }: { lang: Lang }) {
       t: { en: "Our own teams", fr: "Nos propres équipes" },
       b: {
         en: "Machines are delivered and assembled on site by SAFA's crew — not a subcontractor.",
-        fr: "Les machines sont livrées et montées sur site par l'équipe SAFA, pas par un sous-traitant.",
+        fr: "Les machines sont livrées et montées sur chantier par l’équipe SAFA, et non par un sous-traitant.",
       },
     },
     {
-      t: { en: "Inspected before every job", fr: "Contrôlé avant chaque mission" },
+      t: { en: "Inspected before every job", fr: "Vérifié avant chaque chantier" },
       b: {
         en: "Equipment is maintained and checked before it leaves for your site.",
-        fr: "Le matériel est entretenu et vérifié avant chaque départ sur chantier.",
+        fr: "Le matériel est entretenu et contrôlé avant chaque départ sur chantier.",
       },
     },
     {
-      t: { en: "Flexible terms", fr: "Des durées flexibles" },
+      t: { en: "Flexible terms", fr: "Des durées à votre mesure" },
       b: {
         en: "Hire periods and stays are arranged around your schedule, not ours.",
-        fr: "Durées de location et de séjour organisées selon votre calendrier, pas le nôtre.",
+        fr: "La durée de location ou de séjour se cale sur votre calendrier, pas sur le nôtre.",
       },
     },
     {
       t: { en: "One conversation", fr: "Un seul interlocuteur" },
       b: {
         en: "Message us on WhatsApp and the right division answers you directly.",
-        fr: "Écrivez-nous sur WhatsApp : la bonne division vous répond directement.",
+        fr: "Écrivez-nous sur WhatsApp : la maison concernée vous répond directement.",
       },
     },
   ];
@@ -536,11 +536,11 @@ function SeenOnSite({ lang }: { lang: Lang }) {
                 {lang === "fr" ? "Nos machines, nos murs, nos coutures." : "Our machines, our walls, our seams."}
               </span>
             }
-            lede={lang === "fr" ? "Aucune image de banque ici : tout a été photographié chez SAFA." : "No stock imagery here: all of it photographed at SAFA."}
+            lede={lang === "fr" ? "Aucune photo de banque d’images : tout a été photographié chez SAFA." : "No stock imagery here: all of it photographed at SAFA."}
           />
           <Button asChild variant="outline">
             <Link to={href("gallery", lang)} viewTransition>
-              {lang === "fr" ? "Toute la galerie" : "The full gallery"} <ArrowRight aria-hidden />
+              {lang === "fr" ? "Voir toute la galerie" : "The full gallery"} <ArrowRight aria-hidden />
             </Link>
           </Button>
         </div>

@@ -40,10 +40,10 @@ const GROUPS: { id: string; title: T; page: PageKey; items: Faq[] }[] = [
 
 export const meta = pageMeta({
   key: "faq",
-  title: { en: "Questions & answers — SAFA & Co, Yaoundé", fr: "Questions & réponses — SAFA & Co, Yaoundé" },
+  title: { en: "Questions & answers — SAFA & Co, Yaoundé", fr: "Questions fréquentes — SAFA & Co, Yaoundé" },
   description: {
     en: "Answers on hiring plastering machines and mast lifts, furnished apartments in Meyo, and made-to-measure tailoring and training at SAFA Designs.",
-    fr: "Location de machines à crépir et monte-charges, appartements meublés à Meyo, couture sur mesure et formation chez SAFA Designs : nos réponses.",
+    fr: "Location de machines à crépir et monte-charges, appartements meublés à Meyo, couture homme sur mesure et formation agréée MINEFOP à Yaoundé : nos réponses.",
   },
   // FAQPage markup lives on each division page (one instance per question, per
   // Google's guidance); this hub repeats the answers for people, not markup.
@@ -58,10 +58,10 @@ export default function FaqPage() {
         lang={lang}
         trail={TRAIL}
         eyebrow={lang === "fr" ? "Questions fréquentes" : "Common questions"}
-        title={lang === "fr" ? "Des réponses claires, avant même d'appeler." : "Clear answers, before you even call."}
+        title={lang === "fr" ? "Des réponses claires, avant même d’appeler." : "Clear answers, before you even call."}
         lede={
           lang === "fr"
-            ? "Location de matériel, séjours, couture et formation : l'essentiel de ce que l'on nous demande."
+            ? "Location de matériel, séjours, couture, formation : les questions que l’on nous pose le plus souvent."
             : "Equipment hire, stays, tailoring and training: the essentials of what people ask us."
         }
       >
@@ -90,8 +90,8 @@ export default function FaqPage() {
 
       <CtaBand
         lang={lang}
-        title={{ en: "Didn't find your answer?", fr: "Vous n'avez pas trouvé votre réponse ?" }}
-        body={{ en: "Ask us directly — we reply on WhatsApp.", fr: "Posez-nous la question directement — nous répondons sur WhatsApp." }}
+        title={{ en: "Didn't find your answer?", fr: "Vous n’avez pas trouvé votre réponse ?" }}
+        body={{ en: "Ask us directly — we reply on WhatsApp.", fr: "Posez-nous directement votre question : nous vous répondons sur WhatsApp." }}
       />
     </>
   );

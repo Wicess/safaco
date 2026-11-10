@@ -20,16 +20,16 @@ const TRAIL = [{ key: "designs" as const, name: { en: "SAFA Designs", fr: "SAFA 
 /** CLIENT_TODO: confirm the garment categories with the atelier. */
 const GARMENTS: { name: T; body: T }[] = [
   {
-    name: { en: "Suits & ceremony wear", fr: "Costumes & tenues de cérémonie" },
-    body: { en: "Cut to your measurements for weddings, work and official occasions.", fr: "Coupés à vos mesures pour les mariages, le travail et les cérémonies officielles." },
+    name: { en: "Suits & ceremony wear", fr: "Costumes et tenues de cérémonie" },
+    body: { en: "Cut to your measurements for weddings, work and official occasions.", fr: "Coupés à vos mesures, pour un mariage, le bureau ou une cérémonie officielle." },
   },
   {
-    name: { en: "Traditional & modern African wear", fr: "Tenues africaines, traditionnelles & modernes" },
+    name: { en: "Traditional & modern African wear", fr: "Tenues africaines, traditionnelles et modernes" },
     body: { en: "Tunics, boubous and shirts in the fabric you choose.", fr: "Tuniques, boubous et chemises dans le tissu de votre choix." },
   },
   {
-    name: { en: "Shirts & everyday pieces", fr: "Chemises & pièces du quotidien" },
-    body: { en: "Well-fitting shirts and trousers that last, made to measure.", fr: "Des chemises et pantalons bien ajustés, faits pour durer, sur mesure." },
+    name: { en: "Shirts & everyday pieces", fr: "Chemises et pièces du quotidien" },
+    body: { en: "Well-fitting shirts and trousers that last, made to measure.", fr: "Chemises et pantalons sur mesure, bien ajustés et faits pour durer." },
   },
 ];
 
@@ -40,15 +40,15 @@ const LOOK_NAME: Record<string, T> = {
   "navy-tunic": { en: "Navy tunic, gold stitch", fr: "Tunique marine, surpiqûre or" },
   "chambray-tunic": { en: "Chambray tunic", fr: "Tunique chambray" },
   "white-tunic": { en: "White tunic", fr: "Tunique blanche" },
-  "striped-shirt": { en: "Striped-sleeve shirt", fr: "Chemise manches rayées" },
+  "striped-shirt": { en: "Striped-sleeve shirt", fr: "Chemise à manches rayées" },
 };
 const LOOKS = galleryFor("designs").filter((g) => !g.video);
 
 const PROCESS: { title: T; body: T }[] = [
-  { title: { en: "Measure", fr: "Mesurer" }, body: { en: "We take your measurements at the atelier, by appointment.", fr: "Nous prenons vos mesures à l'atelier, sur rendez-vous." } },
-  { title: { en: "Choose", fr: "Choisir" }, body: { en: "Cut, fabric, details — bring your fabric or choose with us.", fr: "Coupe, tissu, finitions — apportez votre tissu ou choisissez avec nous." } },
-  { title: { en: "Fit", fr: "Essayer" }, body: { en: "A fitting to adjust the garment on you before finishing.", fr: "Un essayage pour ajuster la pièce sur vous avant la finition." } },
-  { title: { en: "Finish", fr: "Finir" }, body: { en: "Clean seams and pressing on our specialised machines.", fr: "Coutures nettes et repassage sur nos machines spécialisées." } },
+  { title: { en: "Measure", fr: "Mesures" }, body: { en: "We take your measurements at the atelier, by appointment.", fr: "Nous prenons vos mesures à l’atelier, sur rendez-vous." } },
+  { title: { en: "Choose", fr: "Choix" }, body: { en: "Cut, fabric, details — bring your fabric or choose with us.", fr: "Coupe, tissu, finitions : apportez votre tissu ou choisissez-le avec nous." } },
+  { title: { en: "Fit", fr: "Essayage" }, body: { en: "A fitting to adjust the garment on you before finishing.", fr: "Un essayage pour ajuster la tenue sur vous avant les finitions." } },
+  { title: { en: "Finish", fr: "Finitions" }, body: { en: "Clean seams and pressing on our specialised machines.", fr: "Coutures nettes et repassage, sur nos machines spécialisées." } },
 ];
 
 
@@ -60,7 +60,7 @@ export const meta = pageMeta({
   },
   description: {
     en: "Made-to-measure suits, ceremony and African menswear at Carrefour MEEC, Yaoundé. Delivered to Douala, across Cameroon and abroad. By appointment.",
-    fr: "Costumes, tenues de cérémonie et tenues africaines sur mesure au Carrefour MEEC, Yaoundé. Livraison à Douala, au Cameroun et à l'étranger.",
+    fr: "Couture homme sur mesure au Carrefour MEEC, Yaoundé : costumes, tenues de cérémonie et africaines. Sur rendez-vous, livraison à Douala et à l’étranger.",
   },
   image: "/og/designs.jpg",
   jsonLd: (lang) => [breadcrumb(lang, TRAIL), faqPage(lang, DESIGNS_FAQ)],
@@ -92,7 +92,7 @@ export default function Designs() {
           <AmbientVideo
             lang={lang}
             video="atelier"
-            label={lang === "fr" ? "Visite du showroom SAFA Designs : chemises, tuniques et pantalons sur les portants" : "A walk through the SAFA Designs showroom: shirts, tunics and trousers on the rails"}
+            label={lang === "fr" ? "Visite de la salle d’exposition SAFA Designs : chemises, tuniques et pantalons sur les portants" : "A walk through the SAFA Designs showroom: shirts, tunics and trousers on the rails"}
             className="grain aspect-[4/3] sm:aspect-[5/4] lg:aspect-[4/5]"
           />
         )}
@@ -115,7 +115,7 @@ export default function Designs() {
           <SectionHead
             className="mt-10"
             index="01"
-            eyebrow={lang === "fr" ? "L'atelier" : "The atelier"}
+            eyebrow={lang === "fr" ? "L’atelier" : "The atelier"}
             title={lang === "fr" ? "Ce que nous confectionnons." : "What we make."}
           />
           <ul className="mt-12 grid gap-px border-y border-ink/12 bg-ink/12 md:grid-cols-3">
@@ -140,7 +140,7 @@ export default function Designs() {
             title={lang === "fr" ? "La précision de la main, la régularité de la machine." : "The precision of the hand, the consistency of the machine."}
             lede={
               lang === "fr"
-                ? "Notre atelier travaille sur des machines spécialisées pour des coutures nettes, des boutonnières précises et des finitions soignées — les mêmes sur lesquelles se forment nos apprentis."
+                ? "L’atelier travaille sur des machines spécialisées : coutures nettes, boutonnières précises, finitions soignées. Ce sont les mêmes machines sur lesquelles se forment nos apprentis."
                 : "Our atelier works on specialised machines for clean seams, precise buttonholes and careful finishing — the same machines our apprentices train on."
             }
           />
@@ -149,7 +149,7 @@ export default function Designs() {
 
       <section className="py-20 md:py-28">
         <div className="container-x">
-          <SectionHead index="03" eyebrow={lang === "fr" ? "Le sur-mesure" : "Made to measure"} title={lang === "fr" ? "De la mesure à la dernière couture." : "From the first measure to the last stitch."} />
+          <SectionHead index="03" eyebrow={lang === "fr" ? "Le sur-mesure" : "Made to measure"} title={lang === "fr" ? "De la prise de mesures à la dernière couture." : "From the first measure to the last stitch."} />
           <div className="mt-12">
             <Steps lang={lang} items={PROCESS} />
           </div>
@@ -161,10 +161,10 @@ export default function Designs() {
         <div className="container-x grid gap-10 md:grid-cols-12 md:items-center">
           <div className="md:col-span-6" data-reveal>
             <p className="eyebrow text-designs">{lang === "fr" ? "Centre de formation agréé MINEFOP" : "MINEFOP-approved training centre"}</p>
-            <h2 className="mt-5 text-display-md">{lang === "fr" ? "Apprendre la couture à l'atelier." : "Learn tailoring in the atelier."}</h2>
+            <h2 className="mt-5 text-display-md">{lang === "fr" ? "Apprendre la couture à l’atelier." : "Learn tailoring in the atelier."}</h2>
             <p className="mt-6 text-lede text-muted">
               {lang === "fr"
-                ? "Formation et apprentissage en couture, dans un centre agréé par le Ministère de l'Emploi et de la Formation Professionnelle."
+                ? "Formation et apprentissage en couture, dans un centre agréé par le MINEFOP, le Ministère de l’Emploi et de la Formation professionnelle."
                 : "Tailoring training and apprenticeship in a centre approved by Cameroon's Ministry of Employment and Vocational Training."}
             </p>
             <Button asChild variant="outline" className="mt-8">
@@ -176,7 +176,7 @@ export default function Designs() {
           <div className="md:col-span-6">
             <Picture
               name={IMG.atelierArch}
-              alt={lang === "fr" ? "Une veste en lin sur mannequin, dans l'atelier SAFA Designs" : "A linen jacket on a mannequin in the SAFA Designs atelier"}
+              alt={lang === "fr" ? "Une veste en lin sur mannequin, dans l’atelier SAFA Designs" : "A linen jacket on a mannequin in the SAFA Designs atelier"}
               sizes="(min-width: 48rem) 28rem, 100vw"
               className="hover-zoom grain mx-auto aspect-[4/5] max-w-md md:mr-0"
             />
@@ -194,8 +194,8 @@ export default function Designs() {
       <CtaBand
         lang={lang}
         division="designs"
-        title={{ en: "Have an occasion coming up?", fr: "Un événement approche ?" }}
-        body={{ en: "Book a measuring appointment at the atelier — tell us the date you need it by.", fr: "Réservez une prise de mesures à l'atelier — indiquez-nous la date souhaitée." }}
+        title={{ en: "Have an occasion coming up?", fr: "Un événement approche ?" }}
+        body={{ en: "Book a measuring appointment at the atelier — tell us the date you need it by.", fr: "Prenez rendez-vous pour une prise de mesures à l’atelier, et indiquez-nous la date à laquelle vous en avez besoin." }}
       />
     </>
   );
@@ -206,7 +206,7 @@ function Lookbook({ lang }: { lang: Lang }) {
   return (
     <div className="mt-16 md:mt-20">
       <div className="flex flex-wrap items-baseline justify-between gap-4">
-        <h3 className="text-display-sm">{lang === "fr" ? "Sorti de l'atelier" : "Out of the atelier"}</h3>
+        <h3 className="text-display-sm">{lang === "fr" ? "Sorti de l’atelier" : "Out of the atelier"}</h3>
         <Link to={`${href("gallery", lang)}?c=designs`} className="group inline-flex min-h-11 items-center gap-2 text-sm font-semibold uppercase tracking-[0.14em]">
           {lang === "fr" ? "Voir la galerie" : "View the gallery"}
           <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden />
