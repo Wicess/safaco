@@ -79,6 +79,11 @@ export type Overrides = {
     machinePerDay?: number;
     manualPerMasonDay?: number;
   };
+  settings?: {
+    /** Language for visitors whose device is neither French nor English (or
+     *  sends no language). French and English devices always get their own. */
+    defaultLang?: "en" | "fr";
+  };
   /** Photo slots (media-map IMG keys) the owner replaced in admin → Photos. */
   images?: Record<string, string>;
   /** The whole gallery, once edited in the admin (order = display order). */

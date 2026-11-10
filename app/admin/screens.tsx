@@ -139,7 +139,38 @@ export function HomeEditor() {
   const em = h.heroEmphasis?.en || HOME_HERO.emphasis.en;
   return (
     <div className="space-y-6">
-      <PageTitle title="Home page" intro="The first screen visitors see, and the photo used for each of the three businesses." />
+      <PageTitle title="Home page" intro="The first screen visitors see, the photo used for each of the three businesses, and the default language." />
+      <Panel
+        title="Language"
+        intro="Phones set to French open the French site, and phones set to English open the English site, automatically. Choose the language for everyone else (phones in another language, or that don't say)."
+      >
+        <div role="radiogroup" aria-label="Default language" className="flex flex-wrap gap-2">
+          {(
+            [
+              ["fr", "Français"],
+              ["en", "English"],
+            ] as const
+          ).map(([k, label]) => {
+            const on = (content.settings?.defaultLang ?? "en") === k;
+            return (
+              <button
+                key={k}
+                type="button"
+                role="radio"
+                aria-checked={on}
+                onClick={() => update((c) => ({ ...c, settings: { ...(c.settings ?? {}), defaultLang: k } }))}
+                className={cn(
+                  "min-h-11 rounded-full border px-5 text-sm font-medium transition-colors pointer-fine:min-h-10",
+                  on ? "border-navy-900 bg-navy-900 text-ivory" : "border-ink/15 bg-white text-ink/80 hover:border-ink/40",
+                )}
+              >
+                {label}
+              </button>
+            );
+          })}
+        </div>
+        <p className="mt-3 text-xs text-muted">A visitor who switches language on the site keeps their choice on later visits.</p>
+      </Panel>
       <div className="grid gap-6 xl:grid-cols-[1fr_22rem]">
         <div className="space-y-6">
           <Panel title="Hero section" intro="The big headline is written in two parts: the normal words, then the gold italic ending.">

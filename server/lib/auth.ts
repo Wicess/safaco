@@ -12,7 +12,12 @@ import type { NextFunction, Request, Response } from "express";
 const scrypt = promisify(scryptCb) as (pw: string, salt: Buffer, len: number) => Promise<Buffer>;
 
 export const COOKIE = "safa_admin";
-const MAX_AGE_S = 60 * 60 * 24 * 14; // 14 days
+// Owner request (2026-11-10): stay signed in on a device until "Sign out".
+// One year, renewed whenever the admin is opened (see renewSession), so a
+// device in regular use never expires; an unused one lapses after a year.
+const MAX_AGE_S = 60 * 60 * 24 * 365;
+/** Re-issue the cookie when less than this much life is left. */
+const RENEW_BELOW_S = MAX_AGE_S - 60 * 60 * 24;
 
 export async function hashPassword(pw: string): Promise<string> {
   const salt = randomBytes(16);
@@ -54,6 +59,11 @@ export function issueSession(res: Response, req: Request, user: { id: string; em
     path: "/",
     maxAge: MAX_AGE_S * 1000,
   });
+}
+
+/** Sliding renewal: called when the admin loads (GET /me). At most once a day. */
+export function renewSession(res: Response, req: Request, s: Session) {
+  if (s.exp - Date.now() / 1000 < RENEW_BELOW_S) issueSession(res, req, { id: s.uid, email: s.email, name: s.name });
 }
 
 export function clearSession(res: Response) {

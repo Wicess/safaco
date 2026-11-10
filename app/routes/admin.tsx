@@ -1,8 +1,9 @@
-import { BarChart3, ExternalLink, Home, Image as ImageIcon, Images, Inbox, LayoutTemplate, Loader2, Menu, Phone, UserRound, X } from "lucide-react";
+import { BarChart3, ExternalLink, Home, Image as ImageIcon, Images, Inbox, Users, LayoutTemplate, Loader2, Menu, Phone, UserRound, X } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
-import { api, errorText, type User } from "~/admin/api";
+import { ApiError, api, errorText, type User } from "~/admin/api";
 import { Dashboard } from "~/admin/Dashboard";
+import { VisitorDetail, Visitors } from "~/admin/Visitors";
 import { Account, ContactEditor, Enquiries, GalleryEditor, HomeEditor, PagesEditor, PhotosEditor } from "~/admin/screens";
 import { ContentProvider, useContent } from "~/admin/store";
 import { Btn } from "~/admin/ui";
@@ -13,6 +14,7 @@ export const meta = () => [{ title: "Admin · SAFA & Co" }, { name: "robots", co
 
 const NAV = [
   { path: "", label: "Dashboard", icon: BarChart3, group: "Overview" },
+  { path: "visitors", label: "Visitors", icon: Users, group: "Overview" },
   { path: "enquiries", label: "Enquiries", icon: Inbox, group: "Overview" },
   { path: "home", label: "Home page", icon: Home, group: "Website" },
   { path: "pages", label: "Page headers", icon: LayoutTemplate, group: "Website" },
@@ -31,15 +33,32 @@ function flagAdmin(on: boolean) {
 
 export default function Admin() {
   const [user, setUser] = useState<User | null | undefined>(undefined);
-  useEffect(() => {
+  // Only a real "not signed in" (401) shows the sign-in form. A dropped
+  // connection or a server hiccup keeps the session and offers a retry, so a
+  // phone on a weak network is never pushed back to the login screen.
+  const [offline, setOffline] = useState(false);
+  const check = () => {
+    setOffline(false);
     api.me().then(
       (r) => {
         flagAdmin(true);
         setUser(r.user);
       },
-      () => setUser(null),
+      (e) => (e instanceof ApiError && e.status === 401 ? setUser(null) : setOffline(true)),
     );
-  }, []);
+  };
+  useEffect(check, []);
+  if (offline && user === undefined)
+    return (
+      <div className="grid min-h-dvh place-items-center bg-ivory p-6 text-center">
+        <div>
+          <p className="text-[0.9375rem]">Couldn't reach the server. Check your connection.</p>
+          <button type="button" onClick={check} className="mt-4 inline-flex min-h-11 items-center rounded-md bg-navy-900 px-5 text-sm font-medium text-ivory">
+            Try again
+          </button>
+        </div>
+      </div>
+    );
   if (user === undefined)
     return (
       <div className="grid min-h-dvh place-items-center bg-ivory">
@@ -106,14 +125,14 @@ function Login({ onIn }: { onIn: (u: User) => void }) {
 
 function Shell({ user, onUser, onLogout }: { user: User; onUser: (u: User) => void; onLogout: () => void }) {
   const { pathname, hash } = useLocation();
-  const section = pathname.replace(/^\/admin\/?/, "").split("/")[0] ?? "";
+  const [section = "", sub] = pathname.replace(/^\/admin\/?/, "").split("/");
   const [drawer, setDrawer] = useState(false);
   const main = useRef<HTMLElement>(null);
   useEffect(() => {
     setDrawer(false);
     main.current?.focus({ preventScroll: true });
     if (!hash) window.scrollTo(0, 0);
-  }, [section, hash]);
+  }, [section, sub, hash]);
   // Deep links (e.g. from the dashboard checklist): the editor loads its
   // content first, so wait a moment for the target panel to exist.
   useEffect(() => {
@@ -131,6 +150,7 @@ function Shell({ user, onUser, onLogout }: { user: User; onUser: (u: User) => vo
 
   const screen: Record<string, ReactNode> = {
     "": <Dashboard />,
+    visitors: sub ? <VisitorDetail id={sub} /> : <Visitors />,
     enquiries: <Enquiries />,
     home: <HomeEditor />,
     pages: <PagesEditor />,

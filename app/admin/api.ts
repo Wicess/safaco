@@ -27,6 +27,20 @@ async function call<T>(path: string, init?: RequestInit & { json?: unknown }): P
 }
 
 export type User = { email: string; name: string };
+export type VisitorRow = {
+  id: string; visits: number; views: number; first: string; last: string; returning: boolean;
+  country: string | null; region: string | null; city: string | null; device: string | null; lang: string | null; referrer: string | null; landing: string | null;
+};
+export type VisitorsResult = {
+  days: number; page: number; pages: number; total: number;
+  summary: { visitors: number; returning: number; visits: number; views: number; today: number };
+  visitors: VisitorRow[];
+};
+export type VisitRow = {
+  id: string; createdAt: string; updatedAt: string; returning: boolean; landing: string; pages: string[]; views: number;
+  lang: string | null; referrer: string | null; device: string | null; country: string | null; region: string | null; city: string | null;
+};
+
 export type Status = { storage: boolean; database: boolean; deployHook: boolean; analytics: boolean; email?: boolean };
 export type Stat = { label: string; n: number };
 export type Stats = {
@@ -71,6 +85,9 @@ export const api = {
   save: (content: Overrides) => call<{ updatedAt: string }>("/content", { method: "PUT", json: { content } }),
   publish: () => call<{ publishedAt: string; deploying: boolean; removed: number }>("/publish", { method: "POST", json: {} }),
   discard: () => call("/discard", { method: "POST", json: {} }),
+  visitors: (f: { days: number; kind: string; device: string; lang: string; q: string; page: number }) =>
+    call<VisitorsResult>(`/visitors?${new URLSearchParams(Object.entries(f).filter(([, v]) => v !== "" && v != null).map(([k, v]) => [k, String(v)]))}`),
+  visitor: (id: string) => call<{ visits: VisitRow[] }>(`/visitors/${encodeURIComponent(id)}`),
   stats: (days: number) => call<Stats>(`/stats?days=${days}`),
   leads: () => call<{ leads: Lead[] }>("/leads?take=200"),
   upload: (file: Blob, name: string) =>

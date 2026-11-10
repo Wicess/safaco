@@ -1,6 +1,6 @@
 import express, { type Request, type Response } from "express";
 import type { MediaEntry, Overrides } from "../app/content/overrides";
-import { clearSession, hashPassword, issueSession, loginLimited, readSession, requireAdmin, sessionConfigured, verifyPassword, type Session } from "./lib/auth";
+import { clearSession, hashPassword, issueSession, loginLimited, readSession, renewSession, requireAdmin, sessionConfigured, verifyPassword, type Session } from "./lib/auth";
 import { db } from "./lib/db";
 import { deleteMedia, newMediaName, processUpload } from "./lib/images";
 import { sendTestEmail } from "./lib/mail";
@@ -54,6 +54,7 @@ admin.post("/api/admin/logout", (_req, res) => {
 admin.get("/api/admin/me", (req, res) => {
   const s = readSession(req);
   if (!s) return fail(res, 401, "unauthorized");
+  renewSession(res, req, s);
   res.json({ ok: true, user: { email: s.email, name: s.name } });
 });
 
@@ -217,6 +218,107 @@ admin.get("/api/admin/leads", async (req, res) => {
 // ── Statistics (Neon, on demand: only when the dashboard is opened) ─────
 type Row = Record<string, unknown>;
 const num = (v: unknown) => Number(v ?? 0);
+
+/**
+ * Visitors directory: one row per browser (the beacon's random id), newest
+ * first, 40 per page. Reads only when the page is opened or refreshed: no
+ * polling, so Neon can sleep. Filters are bound as parameters ($1…), never
+ * concatenated into the SQL.
+ */
+admin.get("/api/admin/visitors", async (req, res) => {
+  const prisma = db();
+  if (!prisma) return fail(res, 503, "database_not_configured");
+  const days = [1, 7, 30, 90, 365].includes(Number(req.query.days)) ? Number(req.query.days) : 30;
+  const page = Math.max(1, Math.min(500, Math.floor(Number(req.query.page) || 1)));
+  const PER = 40;
+  const params: unknown[] = [new Date(Date.now() - days * 86_400_000)];
+  const where = [`"updatedAt" >= $1`];
+  const bind = (v: unknown) => (params.push(v), `$${params.length}`);
+  const device = String(req.query.device ?? "");
+  if (["mobile", "tablet", "desktop"].includes(device)) where.push(`device = ${bind(device)}`);
+  const lang = String(req.query.lang ?? "");
+  if (["en", "fr"].includes(lang)) where.push(`lang = ${bind(lang)}`);
+  const country = String(req.query.country ?? "").toUpperCase();
+  if (/^[A-Z]{2}$/.test(country)) where.push(`country = ${bind(country)}`);
+  const q = String(req.query.q ?? "").trim().replace(/[%_]/g, "").slice(0, 60);
+  if (q) {
+    const ph = bind(`%${q}%`);
+    where.push(`(city ILIKE ${ph} OR region ILIKE ${ph} OR landing ILIKE ${ph})`);
+  }
+  const kind = String(req.query.kind ?? "");
+  const having =
+    kind === "new" ? `HAVING NOT bool_or("returning") AND count(*) = 1` : kind === "returning" ? `HAVING bool_or("returning") OR count(*) > 1` : "";
+  const base = `SELECT visitor,
+      count(*)::int AS visits, coalesce(sum(views),0)::int AS views,
+      min("createdAt") AS first, max("updatedAt") AS last,
+      (bool_or("returning") OR count(*) > 1) AS "returning",
+      (array_agg(country ORDER BY "updatedAt" DESC))[1] AS country,
+      (array_agg(region ORDER BY "updatedAt" DESC))[1] AS region,
+      (array_agg(city ORDER BY "updatedAt" DESC))[1] AS city,
+      (array_agg(device ORDER BY "updatedAt" DESC))[1] AS device,
+      (array_agg(lang ORDER BY "updatedAt" DESC))[1] AS lang,
+      (array_agg(referrer ORDER BY "createdAt" ASC))[1] AS referrer,
+      (array_agg(landing ORDER BY "createdAt" ASC))[1] AS landing
+    FROM "Visit" WHERE ${where.join(" AND ")} GROUP BY visitor ${having}`;
+  try {
+    const [rows, summary] = await Promise.all([
+      prisma.$queryRawUnsafe<Row[]>(`${base} ORDER BY last DESC LIMIT ${PER} OFFSET ${(page - 1) * PER}`, ...params),
+      prisma.$queryRawUnsafe<Row[]>(
+        `SELECT count(*)::int AS visitors,
+                count(*) FILTER (WHERE "returning")::int AS "returning",
+                coalesce(sum(visits),0)::int AS visits, coalesce(sum(views),0)::int AS views,
+                count(*) FILTER (WHERE last >= now() - interval '24 hours')::int AS today
+           FROM (${base}) t`,
+        ...params,
+      ),
+    ]);
+    const sm = summary[0] ?? {};
+    const total = num(sm.visitors);
+    const str = (v: unknown) => (v == null ? null : String(v));
+    res.json({
+      ok: true,
+      days,
+      page,
+      pages: Math.max(1, Math.ceil(total / PER)),
+      total,
+      summary: { visitors: total, returning: num(sm.returning), visits: num(sm.visits), views: num(sm.views), today: num(sm.today) },
+      visitors: rows.map((r) => ({
+        id: String(r.visitor),
+        visits: num(r.visits),
+        views: num(r.views),
+        first: new Date(String(r.first)).toISOString(),
+        last: new Date(String(r.last)).toISOString(),
+        returning: Boolean(r.returning),
+        country: str(r.country),
+        region: str(r.region),
+        city: str(r.city),
+        device: str(r.device),
+        lang: str(r.lang),
+        referrer: str(r.referrer),
+        landing: str(r.landing),
+      })),
+    });
+  } catch (err) {
+    console.error("[visitors]", err);
+    fail(res, 500, "server_error");
+  }
+});
+
+/** One visitor: every visit of that browser (newest first, up to 100). */
+admin.get("/api/admin/visitors/:id", async (req, res) => {
+  const prisma = db();
+  if (!prisma) return fail(res, 503, "database_not_configured");
+  const id = String(req.params.id ?? "");
+  if (!/^[A-Za-z0-9_-]{6,32}$/.test(id)) return fail(res, 400, "invalid_id");
+  const visits = await prisma.visit.findMany({
+    where: { visitor: id },
+    orderBy: { createdAt: "desc" },
+    take: 100,
+    select: { id: true, createdAt: true, updatedAt: true, returning: true, landing: true, pages: true, views: true, lang: true, referrer: true, device: true, country: true, region: true, city: true },
+  });
+  if (!visits.length) return fail(res, 404, "not_found");
+  res.json({ ok: true, id, visits });
+});
 
 admin.get("/api/admin/stats", async (req, res) => {
   const prisma = db();

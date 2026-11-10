@@ -1,12 +1,14 @@
+import { O } from "~/content/overrides";
 import { SITE } from "~/content/site";
 import { LANGS, PAGES } from "~/lib/i18n";
 import { HREFLANG } from "~/lib/seo";
 
 /**
- * "/" — the x-default. On Vercel, vercel.json redirects visitors before this
- * page is ever served (cookie → device language → English, 307, zero cost).
- * This prerendered page is the fallback: a tiny script does the same choice
- * in the browser, and without JS it's a plain two-link language picker.
+ * "/" — the x-default. On Vercel, vercel.json redirects the clear cases before
+ * this page is served (cookie → French device → English device, 307, zero
+ * cost). Everyone else (other device languages, no header) gets this page: a
+ * tiny script picks cookie → device language → the default chosen in the admin
+ * (Home page → Language). Without JS it's a plain two-link language picker.
  */
 export const meta = () => [
   { title: "SAFA & Co — Yaoundé, Cameroun" },
@@ -20,7 +22,8 @@ export const meta = () => [
   { tagName: "link", rel: "alternate", hrefLang: "x-default", href: `${SITE.url}/` },
 ];
 
-const PICK = `(function(){try{var m=document.cookie.match(/(?:^|;\\s*)lang=(en|fr)/);var l=m?m[1]:((navigator.languages&&navigator.languages[0])||navigator.language||'en').toLowerCase().indexOf('fr')===0?'fr':'en';location.replace('/'+l)}catch(e){}})()`;
+const FALLBACK: "en" | "fr" = O.settings?.defaultLang === "fr" ? "fr" : "en";
+const PICK = `(function(){try{var m=document.cookie.match(/(?:^|;\\s*)lang=(en|fr)/);var d=((navigator.languages&&navigator.languages[0])||navigator.language||'').toLowerCase();var l=m?m[1]:d.indexOf('fr')===0?'fr':d.indexOf('en')===0?'en':'${FALLBACK}';location.replace('/'+l)}catch(e){location.replace('/${FALLBACK}')}})()`;
 
 export default function LanguageRoot() {
   return (

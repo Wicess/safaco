@@ -16,9 +16,12 @@ const site = express();
 site.use(compression()); // Vercel serves brotli/gzip; measure like production
 
 // Mirror vercel.json: cookie → Accept-Language → English (307).
-site.get("/", (req, res) => {
+site.get("/", (req, res, next) => {
   const cookie = /(?:^|;\s*)lang=(en|fr)/.exec(req.headers.cookie ?? "")?.[1];
-  const lang = cookie ?? ((req.headers["accept-language"] ?? "").toLowerCase().startsWith("fr") ? "fr" : "en");
+  const al = (req.headers["accept-language"] ?? "").toLowerCase();
+  const lang = cookie ?? (al.startsWith("fr") ? "fr" : al.startsWith("en") ? "en" : undefined);
+  // Other languages / no header: the prerendered root page picks the admin default.
+  if (!lang) return next();
   res.redirect(307, `/${lang}`);
 });
 
