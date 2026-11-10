@@ -40,7 +40,7 @@ export function SectionHead({
   as?: "h1" | "h2" | "h3";
 }) {
   return (
-    <div className={cn("max-w-3xl", className)} data-reveal>
+    <div className={cn("section-head max-w-3xl", className)} data-reveal>
       {eyebrow && <Eyebrow index={index} className={tone === "dark" ? "text-gold-300 [&_.tabular]:text-ivory/60" : undefined}>{eyebrow}</Eyebrow>}
       <H className={cn("mt-5 text-display-md", tone === "dark" && "text-ivory")}>{title}</H>
       {lede && <p className={cn("mt-6 text-lede", tone === "dark" ? "text-ivory/70" : "text-muted")}>{lede}</p>}
@@ -80,8 +80,8 @@ export function FaqList({ lang, items, tone = "light" }: { lang: Lang; items: { 
   return (
     <div className={cn("divide-y border-y", tone === "dark" ? "divide-ivory/12 border-ivory/12" : "divide-ink/12 border-ink/12")}>
       {items.map((it) => (
-        <details key={it.q.en} className="group py-1">
-          <summary className="flex min-h-16 items-center justify-between gap-6 py-4">
+        <details key={it.q.en} className="faq-item group py-1">
+          <summary className="press flex min-h-16 cursor-pointer items-center justify-between gap-6 py-4">
             <h3 className={cn("font-display text-[1.375rem] leading-snug md:text-[1.625rem]", tone === "dark" && "text-ivory")}>{it.q[lang]}</h3>
             <Plus className="size-5 shrink-0 text-gold-600 transition-transform duration-300 group-open:rotate-45" aria-hidden />
           </summary>

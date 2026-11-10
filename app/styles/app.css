@@ -499,6 +499,128 @@ html { -webkit-tap-highlight-color: transparent; }
 @media (prefers-reduced-motion: reduce) {
   .fab-glow::before { animation: none; }
 }
-@keyframes fab-ring { 0% { transform: scale(1); opacity: 0.3; } 100% { transform: scale(16); opacity: 0; } }
+@keyframes fab-ring { 0% { transform: scale(1); opacity: 0.45; } 100% { transform: scale(2.6); opacity: 0; } }
 @keyframes fab-in { from { transform: translateY(20px) scale(0); opacity: 0; } to { transform: none; opacity: 1; } }
 @keyframes fab-panel { from { opacity: 0; transform: translateY(8px) scale(0.96); } to { opacity: 1; transform: none; } }
+
+/* ═════════════ Premium motion layer (mobile first) ═════════════
+   Every effect is transform / opacity / clip-path, so it stays on the GPU on
+   mid-range Android. Scroll-driven parts run off the main thread where the
+   browser supports them (Chrome on Android) and simply don't run elsewhere.
+   Everything here is skipped under prefers-reduced-motion. */
+
+html { -webkit-tap-highlight-color: transparent; }
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+/* 1. Reading progress: a gold hairline under the header fills as you read. */
+.read-progress { display: none; }
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .read-progress {
+      display: block;
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 45;
+      height: 2px;
+      background: linear-gradient(90deg, var(--color-gold-600), var(--color-gold-300));
+      transform-origin: 0 50%;
+      pointer-events: none;
+      animation: read-progress linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+}
+@keyframes read-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* 2. Section heads arrive in three beats: eyebrow, title, lede. */
+  .js .section-head[data-reveal] { transform: none; }
+  .js .section-head[data-reveal] > * { opacity: 0; transform: translateY(18px); transition: opacity 1s var(--ease-out-quart), transform 1.1s var(--ease-out-quart); }
+  .js .section-head[data-reveal].is-in > * { opacity: 1; transform: none; }
+  .js .section-head[data-reveal].is-in > :nth-child(2) { transition-delay: 0.1s; }
+  .js .section-head[data-reveal].is-in > :nth-child(3) { transition-delay: 0.2s; }
+
+  /* 3. Siblings in a list or grid enter in turn, not all at once. */
+  .js :is(ul, ol, div) > [data-reveal]:nth-child(2) { transition-delay: 0.07s; }
+  .js :is(ul, ol, div) > [data-reveal]:nth-child(3) { transition-delay: 0.14s; }
+  .js :is(ul, ol, div) > [data-reveal]:nth-child(4) { transition-delay: 0.21s; }
+  .js :is(ul, ol, div) > [data-reveal]:nth-child(5) { transition-delay: 0.28s; }
+  .js :is(ul, ol, div) > [data-reveal]:nth-child(n + 6) { transition-delay: 0.32s; }
+
+  /* 4. Press feedback: cards and rows answer the thumb instantly. */
+  .press { transition: transform 0.18s var(--ease-out-quart), background-color 0.25s; }
+  .press:active { transform: scale(0.985); }
+
+  /* 5. FAQ answers glide open instead of jumping (Chrome 131+; others snap). */
+  .faq-item { interpolate-size: allow-keywords; }
+  .faq-item::details-content { height: 0; overflow: clip; opacity: 0; transition: height 0.45s var(--ease-out-quart), opacity 0.35s, content-visibility 0.45s allow-discrete; }
+  .faq-item[open]::details-content { height: auto; opacity: 1; }
+}
+
+/* 6. Photos unveil as they scroll in: the frame opens from the bottom and the
+      picture settles from a slight push-in — slow, like a camera easing back.
+      Hero photos (first section) are never hidden. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    main section:not(:first-child) picture.grain:not(.fade-x picture, .reel picture, dialog picture) {
+      animation: photo-unveil linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 38%;
+    }
+    main section:not(:first-child) picture.grain:not(.fade-x picture, .reel picture, dialog picture, .hover-zoom) img {
+      animation: photo-settle linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 60%;
+    }
+
+    /* 7. Swipe strips on phones: the card in view grows into focus, its
+          neighbours wait slightly smaller and softer. */
+    @media (max-width: 47.99rem) {
+      .fade-x > * {
+        animation: strip-focus linear both;
+        animation-timeline: view(inline);
+        animation-range: entry 0% contain 35%;
+      }
+    }
+  }
+}
+@keyframes photo-unveil { from { clip-path: inset(14% 0 0 0); opacity: 0.35; } to { clip-path: inset(0 0 0 0); opacity: 1; } }
+@keyframes photo-settle { from { transform: scale(1.12); } to { transform: none; } }
+@keyframes strip-focus { from { scale: 0.92; opacity: 0.55; } to { scale: 1; opacity: 1; } }
+
+/* 8. Desktop nav: a gold underline draws in from the left. */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0.15rem 0;
+  height: 1px;
+  background: var(--color-gold);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.45s var(--ease-out-quart);
+}
+.nav-link:hover::after, .nav-link[aria-current="page"]::after { transform: scaleX(1); transform-origin: left; }
+
+/* 9. Buttons: a soft band of light crosses on hover (pointer devices only). */
+.btn-sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(110deg, transparent 30%, rgb(255 255 255 / 0.16) 50%, transparent 70%);
+  transform: translateX(-120%);
+  pointer-events: none;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .btn-sheen:hover::after { transform: translateX(120%); transition: transform 0.9s var(--ease-out-quart); }
+}
+
+/* 10. Page changes: the old page lifts away, the new one rises in. */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) { animation: vt-out 0.28s var(--ease-out-quart) both; }
+  ::view-transition-new(root) { animation: vt-in 0.42s var(--ease-out-quart) both; }
+}
+@keyframes vt-out { to { opacity: 0; transform: translateY(-10px); } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(14px); } }

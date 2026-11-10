@@ -54,7 +54,7 @@ export function FleetGrid({ lang, units, link = true }: { lang: Lang; units: Uni
         return (
           <li key={u.code} className="w-[80%] shrink-0 snap-start md:w-auto" data-reveal>
             {link ? (
-              <Link to={href(u.page, lang)} className="group block">
+              <Link to={href(u.page, lang)} className="press group block">
                 {inner}
               </Link>
             ) : (

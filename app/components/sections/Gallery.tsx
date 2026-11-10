@@ -230,7 +230,7 @@ export function GalleryTile({
       type="button"
       onClick={onOpen}
       aria-label={tileLabel(item.alt[lang], lang)}
-      className={cn("group/tile relative block w-full overflow-hidden bg-stone text-left", className)}
+      className={cn("press group/tile relative block w-full overflow-hidden bg-stone text-left", className)}
     >
       <Picture
         name={item.image}

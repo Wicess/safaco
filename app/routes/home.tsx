@@ -154,7 +154,7 @@ function Hero({ lang }: { lang: Lang }) {
                       viewTransition
                       onMouseEnter={() => setActive(i)}
                       onFocus={() => setActive(i)}
-                      className="group flex min-h-(--row-h) items-center justify-between gap-4 border-b border-ivory/10"
+                      className="press group flex min-h-(--row-h) items-center justify-between gap-4 border-b border-ivory/10"
                     >
                       <span className="flex min-w-0 items-baseline gap-3 sm:gap-4">
                         <span className="tabular text-[0.6875rem] text-ivory/60">0{i + 1}</span>
@@ -403,7 +403,7 @@ function Houses({ lang }: { lang: Lang }) {
                   {h.offers.map((o) => (
                     <li key={o.label.en}>
                       {o.page ? (
-                        <Link to={href(o.page, lang)} className="group flex min-h-11 items-center justify-between gap-4 text-[0.9375rem]">
+                        <Link to={href(o.page, lang)} className="press group flex min-h-11 items-center justify-between gap-4 text-[0.9375rem]">
                           {o.label[lang]}
                           <ArrowRight className="size-4 opacity-40 transition-transform group-hover:translate-x-1 group-hover:opacity-100" aria-hidden />
                         </Link>

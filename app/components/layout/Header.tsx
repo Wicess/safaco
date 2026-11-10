@@ -35,7 +35,7 @@ export function LangSwitch({ lang, className }: { lang: Lang; className?: string
   );
 }
 
-const navLink = "relative py-2 text-[0.8125rem] font-medium tracking-[0.06em] text-ink/75 transition-colors hover:text-ink aria-[current=page]:text-ink";
+const navLink = "nav-link relative py-2 text-[0.8125rem] font-medium tracking-[0.06em] text-ink/75 transition-colors hover:text-ink aria-[current=page]:text-ink";
 
 export function Header({ lang, tone = "light" }: { lang: Lang; tone?: "light" | "dark" }) {
   const { pathname } = useLocation();

@@ -91,7 +91,7 @@ export default function SitemapPage() {
               <ul className="mt-5 border-t border-ink/12">
                 {g.entries.map((e) => (
                   <li key={e.page} className="border-b border-ink/12">
-                    <Link to={href(e.page, lang)} className="group flex min-h-16 items-center justify-between gap-4 py-3">
+                    <Link to={href(e.page, lang)} className="press group flex min-h-16 items-center justify-between gap-4 py-3">
                       <span>
                         <span className="block font-display text-[1.375rem] leading-tight transition-colors group-hover:text-gold-600">{e.name[lang]}</span>
                         <span className="mt-0.5 block text-sm text-muted">{e.note[lang]}</span>

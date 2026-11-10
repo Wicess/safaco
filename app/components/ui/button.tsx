@@ -6,7 +6,7 @@ import { cn } from "~/lib/utils";
 // shadcn/ui Button, restyled to the SAFA system: square-shouldered, quiet,
 // one clear primary per screen.
 const buttonVariants = cva(
-  "group/btn relative inline-flex min-h-12 max-w-full shrink-0 cursor-pointer items-center justify-center gap-2.5 px-6 py-2 text-center leading-snug [text-wrap:balance] text-[0.8125rem] font-semibold uppercase tracking-[0.14em] transition-[background-color,color,border-color,transform] duration-300 ease-(--ease-out-quart) active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
+  "btn-sheen group/btn relative isolate inline-flex min-h-12 overflow-hidden max-w-full shrink-0 cursor-pointer items-center justify-center gap-2.5 px-6 py-2 text-center leading-snug [text-wrap:balance] text-[0.8125rem] font-semibold uppercase tracking-[0.14em] transition-[background-color,color,border-color,transform] duration-300 ease-(--ease-out-quart) active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0 [&_svg:last-child]:transition-transform [&_svg:last-child]:duration-300 hover:[&_svg:last-child]:translate-x-0.5",
   {
     variants: {
       variant: {
@@ -14,7 +14,7 @@ const buttonVariants = cva(
         gold: "bg-gold text-navy-950 hover:bg-gold-300",
         outline: "border border-ink/25 text-ink hover:border-ink hover:bg-ink hover:text-ivory",
         "outline-light": "border border-ivory/30 text-ivory hover:border-ivory hover:bg-ivory hover:text-navy-950",
-        link: "min-h-0 px-0 text-ink underline-offset-8 hover:underline",
+        link: "min-h-0 overflow-visible px-0 text-ink underline-offset-8 after:hidden hover:underline",
         whatsapp: "bg-[#1f7a4d] text-white hover:bg-[#186540]",
       },
       size: {

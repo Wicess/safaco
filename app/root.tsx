@@ -97,6 +97,7 @@ export default function App() {
       </main>
       <Footer lang={lang} />
       <ContactFab lang={lang} />
+      <span aria-hidden className="read-progress" />
       <LangBanner lang={lang} />
     </div>
   );
