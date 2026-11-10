@@ -44,6 +44,10 @@ export function Layout({ children }: { children: ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <meta name="theme-color" content="#14202a" />
         <meta name="format-detection" content="telephone=no" />
+        {/* Search-engine ownership proofs. Keep them: removing either one
+            un-verifies the site in Google Search Console / Bing Webmaster Tools. */}
+        <meta name="google-site-verification" content="jw7sruY-DdeXhWLZFOPWSYhgGAcEPUH_ePPmu3p5AYI" />
+        <meta name="msvalidate.01" content="A8C9495020F192A25CD68B7F02D73D38" />
         {/* Motion is opt-in: only when JS runs do we hide elements awaiting reveal. */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
         <Meta />
