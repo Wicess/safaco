@@ -27,7 +27,7 @@ async function call<T>(path: string, init?: RequestInit & { json?: unknown }): P
 }
 
 export type User = { email: string; name: string };
-export type Status = { storage: boolean; database: boolean; deployHook: boolean; analytics: boolean };
+export type Status = { storage: boolean; database: boolean; deployHook: boolean; analytics: boolean; email?: boolean };
 export type Stat = { label: string; n: number };
 export type Stats = {
   days: number;
@@ -64,6 +64,7 @@ export const api = {
   login: (email: string, password: string) => call<{ user: User }>("/login", { method: "POST", json: { email, password } }),
   logout: () => call("/logout", { method: "POST", json: {} }),
   password: (current: string, next: string) => call("/password", { method: "POST", json: { current, next } }),
+  account: (name: string, email: string, current: string) => call<{ user: User }>("/account", { method: "POST", json: { name, email, current } }),
   status: () => call<Status>("/status"),
   content: () => call<{ content: Overrides; publishedAt: string | null; unpublished: boolean }>("/content"),
   save: (content: Overrides) => call<{ updatedAt: string }>("/content", { method: "PUT", json: { content } }),
@@ -104,5 +105,11 @@ export const ERRORS: Record<string, string> = {
   unreadable_image: "That file couldn't be read as a photo. Try a JPEG or PNG.",
   unauthorized: "Your session has ended. Sign in again.",
   nothing_to_publish: "There are no changes to publish.",
+  session_not_configured: "Sign-in isn't set up on the server: SESSION_SECRET is missing in Vercel (Settings → Environment Variables), or is shorter than 32 characters. Add it and redeploy.",
+  login_failed: "Sign-in failed on the server. Try again in a moment.",
+  server_error: "The server hit an error. Try again in a moment.",
+  name_required: "Enter a name.",
+  invalid_email: "Enter a valid email address.",
+  email_taken: "Another admin account already uses that email.",
 };
 export const errorText = (e: unknown) => (e instanceof ApiError ? (ERRORS[e.code] ?? `Something went wrong (${e.code}).`) : "Network error. Check your connection.");

@@ -30,6 +30,11 @@ export async function verifyPassword(pw: string, stored: string): Promise<boolea
 
 export type Session = { uid: string; email: string; name: string; exp: number };
 
+/** True when sessions can be signed (SESSION_SECRET set, ≥ 32 characters). */
+export function sessionConfigured(): boolean {
+  return (process.env.SESSION_SECRET ?? "").length >= 32;
+}
+
 function secret(): string {
   const s = process.env.SESSION_SECRET;
   if (!s || s.length < 32) throw new Error("SESSION_SECRET must be set (≥ 32 chars)");

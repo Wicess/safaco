@@ -1,6 +1,6 @@
 import express, { type Request, type Response } from "express";
 import type { MediaEntry, Overrides } from "../app/content/overrides";
-import { clearSession, hashPassword, issueSession, loginLimited, readSession, requireAdmin, verifyPassword, type Session } from "./lib/auth";
+import { clearSession, hashPassword, issueSession, loginLimited, readSession, requireAdmin, sessionConfigured, verifyPassword, type Session } from "./lib/auth";
 import { db } from "./lib/db";
 import { deleteMedia, newMediaName, processUpload } from "./lib/images";
 import { deleteKeys, getJson, putJson, putObject, r2Configured } from "./lib/r2";
@@ -24,16 +24,25 @@ admin.post("/api/admin/login", express.json({ limit: "4kb" }), async (req, res) 
   const email = String(req.body?.email ?? "").trim().toLowerCase();
   const password = String(req.body?.password ?? "");
   if (!email || !password) return fail(res, 400, "missing");
+  // Checked first, so a missing setting reads as a clear message rather than
+  // a 500 after a correct password.
+  if (!sessionConfigured()) return fail(res, 503, "session_not_configured");
   if (loginLimited(`ip:${ip(req)}`, 8) || loginLimited(`em:${email}`, 5)) return fail(res, 429, "too_many_attempts");
   const prisma = db();
   if (!prisma) return fail(res, 503, "database_not_configured");
-  const user = await prisma.adminUser.findUnique({ where: { email } });
-  // Verify against a dummy hash when the user is unknown: same timing either way.
-  const ok = await verifyPassword(password, user?.passwordHash ?? "scrypt$AAAAAAAAAAAAAAAAAAAAAA==$" + "A".repeat(86));
-  if (!user || !ok) return fail(res, 401, "invalid_credentials");
-  await prisma.adminUser.update({ where: { id: user.id }, data: { lastLoginAt: new Date() } });
-  issueSession(res, req, user);
-  res.json({ ok: true, user: { email: user.email, name: user.name } });
+  try {
+    const user = await prisma.adminUser.findUnique({ where: { email } });
+    // Verify against a dummy hash when the user is unknown: same timing either way.
+    const ok = await verifyPassword(password, user?.passwordHash ?? "scrypt$AAAAAAAAAAAAAAAAAAAAAA==$" + "A".repeat(86));
+    if (!user || !ok) return fail(res, 401, "invalid_credentials");
+    // Bookkeeping only: never block a correct sign-in on it.
+    await prisma.adminUser.update({ where: { id: user.id }, data: { lastLoginAt: new Date() } }).catch((e) => console.error("[login] lastLoginAt", e));
+    issueSession(res, req, user);
+    res.json({ ok: true, user: { email: user.email, name: user.name } });
+  } catch (err) {
+    console.error("[login] failed", err);
+    fail(res, 500, "login_failed");
+  }
 });
 
 admin.post("/api/admin/logout", (_req, res) => {
@@ -63,12 +72,34 @@ admin.post("/api/admin/password", express.json({ limit: "4kb" }), async (req, re
   res.json({ ok: true });
 });
 
+/** Change the sign-in email (the username) and/or the display name. The
+ *  current password is required, so an unattended open session can't be
+ *  used to take the account over. */
+admin.post("/api/admin/account", express.json({ limit: "4kb" }), async (req, res) => {
+  const s = res.locals.session as Session;
+  const name = String(req.body?.name ?? "").trim().slice(0, 80);
+  const email = String(req.body?.email ?? "").trim().toLowerCase();
+  const current = String(req.body?.current ?? "");
+  if (!name) return fail(res, 400, "name_required");
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email) || email.length > 120) return fail(res, 400, "invalid_email");
+  const prisma = db();
+  if (!prisma) return fail(res, 503, "database_not_configured");
+  const user = await prisma.adminUser.findUnique({ where: { id: s.uid } });
+  if (!user || !(await verifyPassword(current, user.passwordHash))) return fail(res, 401, "wrong_password");
+  if (email !== user.email && (await prisma.adminUser.findUnique({ where: { email } }))) return fail(res, 409, "email_taken");
+  const updated = await prisma.adminUser.update({ where: { id: user.id }, data: { name, email } });
+  // The session carries the email and name: re-issue it with the new ones.
+  issueSession(res, req, updated);
+  res.json({ ok: true, user: { email: updated.email, name: updated.name } });
+});
+
 admin.get("/api/admin/status", (_req, res) => {
   res.json({
     ok: true,
     storage: r2Configured(),
     database: Boolean(process.env.DATABASE_URL),
     deployHook: Boolean(process.env.VERCEL_DEPLOY_HOOK_URL),
+    email: Boolean(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS),
     analytics: (process.env.ANALYTICS_STORE ?? "on").toLowerCase() !== "off",
   });
 });

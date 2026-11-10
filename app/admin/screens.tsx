@@ -556,7 +556,49 @@ export function GalleryEditor() {
 
 /* ───────────────────────── Account ───────────────────────── */
 
-export function Account({ user, onLogout }: { user: { email: string; name: string }; onLogout: () => void }) {
+/** Name + sign-in email (the username). Saving needs the current password. */
+function SignInDetails({ user, onUser }: { user: { email: string; name: string }; onUser: (u: { email: string; name: string }) => void }) {
+  const [name, setName] = useState(user.name);
+  const [email, setEmail] = useState(user.email);
+  const [current, setCurrent] = useState("");
+  const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
+  const [busy, setBusy] = useState(false);
+  const changed = name.trim() !== user.name || email.trim().toLowerCase() !== user.email;
+  return (
+    <Panel title="Sign-in details" intro="The email is what you type to sign in (your username). Changing it takes effect immediately.">
+      <form
+        className="grid max-w-md gap-4"
+        onSubmit={async (e) => {
+          e.preventDefault();
+          setBusy(true);
+          setMsg(null);
+          try {
+            const r = await api.account(name.trim(), email.trim(), current);
+            onUser(r.user);
+            setCurrent("");
+            setMsg({ ok: true, text: `Saved. From now on, sign in with ${r.user.email}.` });
+          } catch (err) {
+            setMsg({ ok: false, text: errorText(err) });
+          } finally {
+            setBusy(false);
+          }
+        }}
+      >
+        <TextInput label="Your name" value={name} onChange={setName} autoComplete="name" />
+        <TextInput label="Sign-in email (username)" type="email" value={email} onChange={setEmail} autoComplete="username" />
+        <TextInput label="Current password" type="password" autoComplete="current-password" value={current} onChange={setCurrent} hint="Required to confirm it's you." />
+        {msg && <p className={cn("text-sm", msg.ok ? "text-emerald-800" : "text-red-800")} role="status">{msg.text}</p>}
+        <div>
+          <Btn variant="primary" type="submit" loading={busy} disabled={!changed || !current || !name.trim() || !email.trim()}>
+            Save sign-in details
+          </Btn>
+        </div>
+      </form>
+    </Panel>
+  );
+}
+
+export function Account({ user, onUser, onLogout }: { user: { email: string; name: string }; onUser: (u: { email: string; name: string }) => void; onLogout: () => void }) {
   const [current, setCurrent] = useState("");
   const [next, setNext] = useState("");
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
@@ -568,7 +610,8 @@ export function Account({ user, onLogout }: { user: { email: string; name: strin
   return (
     <div className="space-y-6">
       <PageTitle title="Account" intro={`Signed in as ${user.name} (${user.email}).`} actions={<Btn type="button" onClick={onLogout}>Sign out</Btn>} />
-      <Panel title="Change password">
+      <SignInDetails user={user} onUser={onUser} />
+      <Panel title="Change password" intro="Choose a password only you know. You stay signed in on this device.">
         <form
           className="grid max-w-md gap-4"
           onSubmit={async (e) => {
@@ -606,6 +649,7 @@ export function Account({ user, onLogout }: { user: { email: string; name: strin
               [status.storage, "Photo & content storage (Cloudflare R2)"],
               [status.database, "Database (Neon): enquiries and visit statistics"],
               [status.deployHook, "Automatic publishing (Vercel deploy hook)"],
+              [status.email, "Email notifications for enquiries (SMTP)"],
               [status.analytics, "Visit statistics recording"],
             ].map(([ok, label]) => (
               <li key={String(label)} className="flex items-center gap-2">

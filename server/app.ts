@@ -57,8 +57,19 @@ app.use(admin);
 app.use(express.json({ limit: "20kb" }));
 app.use(express.urlencoded({ extended: false, limit: "20kb" }));
 
+// Which services are configured (yes/no only, never values), so a broken
+// setting can be diagnosed from outside without signing in. No DB query.
 app.get("/api/health", (_req, res) => {
-  res.json({ ok: true });
+  res.json({
+    ok: true,
+    config: {
+      database: Boolean(process.env.DATABASE_URL),
+      session: (process.env.SESSION_SECRET ?? "").length >= 32,
+      storage: Boolean(process.env.R2_BUCKET && process.env.R2_ACCESS_KEY_ID && process.env.R2_SECRET_ACCESS_KEY),
+      email: Boolean(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS),
+      publishHook: Boolean(process.env.VERCEL_DEPLOY_HOOK_URL),
+    },
+  });
 });
 
 app.post("/api/contact", async (req: Request, res: Response) => {
@@ -141,5 +152,5 @@ app.use((_req, res) => {
 // Explicit error handler: never leak stack traces, always answer.
 app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
   console.error("[api] unhandled", err);
-  res.status(500).json({ ok: false });
+  res.status(500).json({ ok: false, error: "server_error" });
 });

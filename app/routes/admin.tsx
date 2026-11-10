@@ -49,7 +49,7 @@ export default function Admin() {
   if (!user) return <Login onIn={(u) => (flagAdmin(true), setUser(u))} />;
   return (
     <ContentProvider>
-      <Shell user={user} onLogout={async () => (await api.logout().catch(() => {}), setUser(null))} />
+      <Shell user={user} onUser={setUser} onLogout={async () => (await api.logout().catch(() => {}), setUser(null))} />
     </ContentProvider>
   );
 }
@@ -104,7 +104,7 @@ function Login({ onIn }: { onIn: (u: User) => void }) {
   );
 }
 
-function Shell({ user, onLogout }: { user: User; onLogout: () => void }) {
+function Shell({ user, onUser, onLogout }: { user: User; onUser: (u: User) => void; onLogout: () => void }) {
   const { pathname, hash } = useLocation();
   const section = pathname.replace(/^\/admin\/?/, "").split("/")[0] ?? "";
   const [drawer, setDrawer] = useState(false);
@@ -137,7 +137,7 @@ function Shell({ user, onLogout }: { user: User; onLogout: () => void }) {
     contact: <ContactEditor />,
     gallery: <GalleryEditor />,
     photos: <PhotosEditor />,
-    account: <Account user={user} onLogout={onLogout} />,
+    account: <Account user={user} onUser={onUser} onLogout={onLogout} />,
   };
 
   return (
