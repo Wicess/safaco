@@ -44,7 +44,7 @@ Publishing in the admin now saves the content and rebuilds the site (1–3 min).
 ## 3. Connect safaandcosarl.com (10 min + DNS wait)
 
 1. Project → **Settings → Domains** → add `safaandcosarl.com` and
-   `www.safaandcosarl.com` (set `www` to redirect to the bare domain).
+   `www.safaandcosarl.com`. **`www` is the primary domain** (the bare domain redirects to it); the site's canonical URLs, sitemap and Search Console property all use `https://www.safaandcosarl.com`.
 2. Vercel shows the exact DNS records to create. In **Hostinger → Domains →
    DNS / Nameservers → DNS records**, add them:
    - `A` record, name `@`, to the IP Vercel shows (e.g. `76.76.21.21`); delete

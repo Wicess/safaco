@@ -21,6 +21,16 @@ function env(key: string): string | undefined {
   return vite || node || undefined;
 }
 
+/**
+ * The live site is served on www: it is the Vercel primary domain (the bare
+ * domain 308-redirects to it) and the Google Search Console property. Canonical
+ * URLs, hreflang, the sitemap and structured data must all use that exact
+ * origin, so an older bare-domain setting is upgraded here.
+ */
+function canonicalOrigin(u: string): string {
+  return u.replace(/\/$/, "").replace(/^https?:\/\/safaandcosarl\.com$/, "https://www.safaandcosarl.com");
+}
+
 /** Public contact address (owner, 2026-09-30). Mail is sent over SMTP from this mailbox. */
 const EMAIL = val(O.company?.email) ?? env("VITE_CONTACT_EMAIL") ?? "sales@safaandcosarl.com";
 
@@ -28,7 +38,7 @@ export const SITE = {
   name: "SAFA & Co",
   legalName: "SAFA & Co SARL",
   // Canonical origin for SEO (canonical, hreflang, sitemap). Set VITE_SITE_URL per environment.
-  url: (env("VITE_SITE_URL") ?? "https://safaandcosarl.com").replace(/\/$/, ""),
+  url: canonicalOrigin(env("VITE_SITE_URL") ?? "https://www.safaandcosarl.com"),
   city: "Yaoundé",
   country: "Cameroon",
   countryCode: "CM",
