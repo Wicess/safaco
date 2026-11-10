@@ -1,4 +1,4 @@
-import { O, val } from "./overrides";
+import { O, val, type ClipEntry } from "./overrides";
 /**
  * Semantic image slots → media file base names (see scripts/media.ts).
  *
@@ -57,6 +57,7 @@ const BASE_IMG = {
   posterMastBlue: "safa-video-mast-blue",
   posterMastGreen: "safa-video-mast-green",
   posterFleet: "safa-video-fleet",
+  posterRendering: "safa-video-rendering",
 
   // ── Stock placeholders (see CREDITS.md) ──
   wallRaw: "construction-concrete-blocks-stacked-01",
@@ -93,13 +94,51 @@ export const IMG_OVERRIDDEN = new Set(
 );
 
 
+export type VideoInfo = { src: string; poster: string; w: number; h: number };
+
 /** SAFA's own videos, served next to the images (public/media, or R2). Silent:
  *  the audio was stripped (site noise and a licensed music track). */
-export const VIDEO = {
-  atelier: { src: "safa-designs-atelier.mp4", poster: IMG.posterAtelier, w: 540, h: 802 },
-  mastBlue: { src: "safa-construction-mast-blue.mp4", poster: IMG.posterMastBlue, w: 540, h: 960 },
-  mastGreen: { src: "safa-construction-mast-green.mp4", poster: IMG.posterMastGreen, w: 540, h: 960 },
-  fleet: { src: "safa-construction-fleet.mp4", poster: IMG.posterFleet, w: 960, h: 540 },
+const BASE_VIDEO = {
+  atelier: { src: "safa-designs-atelier.mp4", poster: BASE_IMG.posterAtelier, w: 540, h: 802 },
+  mastBlue: { src: "safa-construction-mast-blue.mp4", poster: BASE_IMG.posterMastBlue, w: 540, h: 960 },
+  mastGreen: { src: "safa-construction-mast-green.mp4", poster: BASE_IMG.posterMastGreen, w: 540, h: 960 },
+  fleet: { src: "safa-construction-fleet.mp4", poster: BASE_IMG.posterFleet, w: 960, h: 540 },
+  // Owner, 2026-11-10 (audio track removed, index moved to the front for a fast start).
+  rendering: { src: "safa-construction-rendering.mp4", poster: BASE_IMG.posterRendering, w: 576, h: 1024 },
 } as const;
 
-export type VideoKey = keyof typeof VIDEO;
+export type VideoKey = keyof typeof BASE_VIDEO;
+export const VIDEO_KEYS = Object.keys(BASE_VIDEO) as VideoKey[];
+/** The cover-photo slot of each built-in video (admin can change it). */
+export const VIDEO_POSTER_SLOT: Record<VideoKey, ImgKey> = { atelier: "posterAtelier", mastBlue: "posterMastBlue", mastGreen: "posterMastGreen", fleet: "posterFleet", rendering: "posterRendering" };
+export const VIDEO_DEFAULT: Record<VideoKey, VideoInfo> = BASE_VIDEO;
+
+/** Videos uploaded in the admin. `registerClip` lets the admin preview an
+ *  upload before it is published. */
+const CLIPS: Record<string, ClipEntry> = { ...(O.clips ?? {}) };
+export function registerClip(name: string, clip: ClipEntry) {
+  CLIPS[name] = clip;
+}
+export function clipEntry(name: string): ClipEntry | undefined {
+  return CLIPS[name];
+}
+
+const chosenVideo = (O.videos ?? {}) as Partial<Record<VideoKey, string>>;
+/** Each built-in video slot, with the admin's choices applied: an uploaded
+ *  clip in place of the original, and a chosen cover photo. */
+export const VIDEO: Record<VideoKey, VideoInfo> = Object.fromEntries(
+  VIDEO_KEYS.map((k) => {
+    const clip = CLIPS[val(chosenVideo[k]) ?? ""];
+    const cover = val(chosen[VIDEO_POSTER_SLOT[k]]);
+    const v: VideoInfo = clip ? { src: clip.src, poster: clip.poster, w: clip.w, h: clip.h } : { ...BASE_VIDEO[k] };
+    if (cover) v.poster = cover;
+    return [k, v];
+  }),
+) as Record<VideoKey, VideoInfo>;
+
+/** A gallery item's `video`: a built-in key or an uploaded clip name. */
+export function videoInfo(ref: string): VideoInfo | undefined {
+  if (ref in VIDEO) return VIDEO[ref as VideoKey];
+  const c = CLIPS[ref];
+  return c && { src: c.src, poster: c.poster, w: c.w, h: c.h };
+}

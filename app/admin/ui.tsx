@@ -1,10 +1,11 @@
-import { Check, ImagePlus, Loader2, Upload, X } from "lucide-react";
+import { Check, Film, ImagePlus, Loader2, Upload, X } from "lucide-react";
 import { useEffect, useId, useMemo, useRef, useState, type ButtonHTMLAttributes, type ReactNode } from "react";
 import { Picture, allMediaNames, registerMedia } from "~/components/ui/Picture";
 import { DEFAULT_GALLERY } from "~/content/gallery";
-import type { TT } from "~/content/overrides";
+import { registerClip } from "~/content/media-map";
+import type { ClipEntry, TT } from "~/content/overrides";
 import { cn } from "~/lib/utils";
-import { api, errorText, shrinkImage } from "./api";
+import { ERRORS, MAX_VIDEO_MB, api, errorText, isHevc, probeVideo, sendVideo, shrinkImage, videoType } from "./api";
 import { useContent } from "./store";
 
 /* ── Basic building blocks: one vocabulary across every admin screen ── */
@@ -226,6 +227,93 @@ export function UploadButton({ onUploaded, label = "Upload photos", multiple = t
   );
 }
 
+/**
+ * One video at a time: checked in this browser (it must play), its cover
+ * taken from a frame, then sent in pieces with a visible percentage.
+ */
+export function useVideoUploader() {
+  const { update, notify } = useContent();
+  const [stage, setStage] = useState<null | "check" | number>(null);
+  const uploadVideo = async (file: File): Promise<{ name: string; clip: ClipEntry } | null> => {
+    const type = videoType(file);
+    if (!type) return notify("error", `${file.name}: ${ERRORS.unreadable_video}`), null;
+    if (file.size > MAX_VIDEO_MB * 1024 * 1024) return notify("error", `${file.name}: ${ERRORS.video_too_large}`), null;
+    try {
+      setStage("check");
+      if (
+        (await isHevc(file)) &&
+        !confirm(
+          "This video uses the iPhone “High Efficiency” format. It plays on iPhones and most recent Android phones, but not on some older phones and computers.\n\nFor the widest reach: on the iPhone, Settings → Camera → Formats → Most Compatible, then film again (or export the clip as MP4).\n\nUpload it anyway?",
+        )
+      )
+        return null;
+      const p = await probeVideo(file);
+      const hint = file.name.replace(/\.[^.]+$/, "");
+      const cover = await api.upload(p.cover, `${hint}-cover`);
+      registerMedia(cover.name, cover.entry);
+      update((c) => ({ ...c, media: { ...(c.media ?? {}), [cover.name]: cover.entry } }));
+      setStage(0);
+      const r = await sendVideo(file, { type, name: hint, w: p.w, h: p.h, duration: p.duration, poster: cover.name }, (f) => setStage(f));
+      registerClip(r.name, r.clip);
+      update((c) => ({ ...c, clips: { ...(c.clips ?? {}), [r.name]: r.clip } }));
+      notify("ok", "Video uploaded. Publish to put it on the website.");
+      return r;
+    } catch (e) {
+      notify("error", `${file.name}: ${errorText(e)}`);
+      return null;
+    } finally {
+      setStage(null);
+    }
+  };
+  return { uploadVideo, stage };
+}
+
+export function VideoUploadButton({
+  onUploaded,
+  label = "Upload a video",
+  size = "md",
+  variant = "primary",
+}: {
+  onUploaded: (name: string, clip: ClipEntry) => void;
+  label?: string;
+  size?: "sm" | "md";
+  variant?: "primary" | "outline";
+}) {
+  const ref = useRef<HTMLInputElement>(null);
+  const { uploadVideo, stage } = useVideoUploader();
+  return (
+    <>
+      <input
+        ref={ref}
+        type="file"
+        accept="video/mp4,video/quicktime,video/webm,.mp4,.m4v,.mov,.webm"
+        className="sr-only"
+        tabIndex={-1}
+        onChange={async (e) => {
+          const f = e.target.files?.[0];
+          e.target.value = "";
+          if (!f) return;
+          const r = await uploadVideo(f);
+          if (r) onUploaded(r.name, r.clip);
+        }}
+      />
+      <Btn variant={variant} size={size} type="button" loading={stage !== null} onClick={() => ref.current?.click()}>
+        <span aria-live="polite">
+          {stage === null ? (
+            <span className="inline-flex items-center gap-2">
+              <Film aria-hidden className="size-4" /> {label}
+            </span>
+          ) : stage === "check" ? (
+            "Checking video…"
+          ) : (
+            `Uploading ${Math.round(stage * 100)} %`
+          )}
+        </span>
+      </Btn>
+    </>
+  );
+}
+
 /** Thumbnail + "Change photo" opening the library (all site photos + uploads). */
 export function ImagePicker({ label, hint, value, fallback, onChange, empty = "Video" }: { label: string; hint?: ReactNode; value?: string; fallback?: string; onChange: (name: string | undefined) => void; empty?: string }) {
   const [open, setOpen] = useState(false);
@@ -252,7 +340,7 @@ export function ImagePicker({ label, hint, value, fallback, onChange, empty = "V
   );
 }
 
-function MediaLibrary({ current, onPick, onClose }: { current?: string; onPick: (n: string) => void; onClose: () => void }) {
+export function MediaLibrary({ current, onPick, onClose }: { current?: string; onPick: (n: string) => void; onClose: () => void }) {
   const ref = useRef<HTMLDialogElement>(null);
   const { content } = useContent();
   const [, force] = useState(0);

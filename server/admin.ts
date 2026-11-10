@@ -1,10 +1,10 @@
 import express, { type Request, type Response } from "express";
-import type { MediaEntry, Overrides } from "../app/content/overrides";
+import type { ClipEntry, MediaEntry, Overrides } from "../app/content/overrides";
 import { clearSession, hashPassword, issueSession, loginLimited, readSession, renewSession, requireAdmin, sessionConfigured, verifyPassword, type Session } from "./lib/auth";
 import { db } from "./lib/db";
-import { deleteMedia, newMediaName, processUpload } from "./lib/images";
+import { deleteMedia, newClipName, newMediaName, processUpload } from "./lib/images";
 import { sendTestEmail } from "./lib/mail";
-import { deleteKeys, getJson, putJson, putObject, r2Configured } from "./lib/r2";
+import { deleteKeys, getBuffer, getJson, listKeys, mediaBase, putJson, putObject, r2Configured } from "./lib/r2";
 
 /**
  * /api/admin/*. Everything here runs only when the owner acts in the admin
@@ -132,16 +132,25 @@ admin.put("/api/admin/content", express.json({ limit: "2mb" }), async (req, res)
   const current = (await getJson<Overrides>(DRAFT)) ?? (await getJson<Overrides>(LIVE)) ?? {};
   // The browser never drops uploaded media from the map; only Publish cleans
   // up files nothing uses any more.
-  const next: Overrides = { ...incoming, media: { ...(current.media ?? {}), ...(incoming.media ?? {}) }, updatedAt: new Date().toISOString() };
+  const next: Overrides = {
+    ...incoming,
+    media: { ...(current.media ?? {}), ...(incoming.media ?? {}) },
+    clips: { ...(current.clips ?? {}), ...(incoming.clips ?? {}) },
+    updatedAt: new Date().toISOString(),
+  };
   delete next.publishedAt;
   await putJson(DRAFT, next);
   res.json({ ok: true, updatedAt: next.updatedAt });
 });
 
-/** Names of uploaded media still referenced anywhere in the content. */
-function referenced(c: Overrides): Set<string> {
-  const text = JSON.stringify({ ...c, media: undefined });
-  return new Set(Object.keys(c.media ?? {}).filter((n) => text.includes(`"${n}"`)));
+/** Uploaded videos and photos still referenced anywhere in the content. A
+ *  video's cover counts as used only while the video itself is used. */
+function referenced(c: Overrides): { media: Set<string>; clips: Set<string> } {
+  const outer = JSON.stringify({ ...c, media: undefined, clips: undefined });
+  const clips = new Set(Object.keys(c.clips ?? {}).filter((n) => outer.includes(`"${n}"`)));
+  const kept = Object.fromEntries(Object.entries(c.clips ?? {}).filter(([n]) => clips.has(n)));
+  const text = JSON.stringify({ ...c, media: undefined, clips: kept });
+  return { media: new Set(Object.keys(c.media ?? {}).filter((n) => text.includes(`"${n}"`))), clips };
 }
 
 admin.post("/api/admin/publish", async (_req, res) => {
@@ -152,18 +161,29 @@ admin.post("/api/admin/publish", async (_req, res) => {
   // Delete uploads used neither now nor by the version that is still live
   // until the rebuild finishes (those go on the next publish).
   const now = referenced(draft);
-  const before = prev ? referenced(prev) : new Set<string>();
+  const before = prev ? referenced(prev) : { media: new Set<string>(), clips: new Set<string>() };
   const media: Record<string, MediaEntry> = {};
   const orphans: [string, MediaEntry][] = [];
   for (const [name, entry] of Object.entries(draft.media ?? {})) {
-    if (now.has(name) || before.has(name)) media[name] = entry;
+    if (now.media.has(name) || before.media.has(name)) media[name] = entry;
     else orphans.push([name, entry]);
   }
+  const clips: Record<string, ClipEntry> = {};
+  const orphanClips: string[] = [];
+  for (const [name, entry] of Object.entries(draft.clips ?? {})) {
+    if (now.clips.has(name) || before.clips.has(name)) clips[name] = entry;
+    else orphanClips.push(entry.key);
+  }
   const publishedAt = new Date().toISOString();
-  const live: Overrides = { ...draft, media, publishedAt, updatedAt: draft.updatedAt ?? publishedAt };
+  const live: Overrides = { ...draft, media, clips, publishedAt, updatedAt: draft.updatedAt ?? publishedAt };
   await putJson(LIVE, live);
   await putJson(DRAFT, { ...live, publishedAt: undefined });
   for (const [name, entry] of orphans) await deleteMedia(name, entry).catch((e) => console.error("[publish] cleanup", name, e));
+  if (orphanClips.length) await deleteKeys(orphanClips).catch((e) => console.error("[publish] clip cleanup", e));
+  // Pieces of video uploads that never finished (older than a day).
+  await listKeys(CHUNKS)
+    .then((ks) => deleteKeys(ks.filter((k) => Date.now() - k.modified.getTime() > 86_400_000).map((k) => k.key)))
+    .catch((e) => console.error("[publish] chunk cleanup", e));
 
   // Local development: write the published copy straight into the app so the
   // dev server shows it immediately (on Vercel the rebuild does this).
@@ -179,7 +199,7 @@ admin.post("/api/admin/publish", async (_req, res) => {
     await putObject(PENDING, publishedAt, "text/plain", "no-store");
     deploying = (await fetch(hook, { method: "POST" }).catch(() => null))?.ok ?? false;
   }
-  res.json({ ok: true, publishedAt, deploying, removed: orphans.length });
+  res.json({ ok: true, publishedAt, deploying, removed: orphans.length + orphanClips.length });
 });
 
 admin.post("/api/admin/discard", async (_req, res) => {
@@ -204,6 +224,68 @@ admin.post("/api/admin/upload", express.raw({ type: "image/*", limit: "4mb" }), 
   const draft = (await getJson<Overrides>(DRAFT)) ?? (await getJson<Overrides>(LIVE)) ?? {};
   await putJson(DRAFT, { ...draft, media: { ...(draft.media ?? {}), [name]: entry }, updatedAt: new Date().toISOString(), publishedAt: undefined });
   res.json({ ok: true, name, entry });
+});
+
+// ── Video upload ────────────────────────────────────────────────────────
+// A Vercel function accepts at most 4.5 MB per request, so the admin sends a
+// video in pieces of ≤ 3.5 MB; "finish" joins them into one file on R2. The
+// file is stored as sent (no re-encoding): the browser has already checked
+// that it plays and taken its cover image (uploaded as a normal photo).
+const CHUNKS = "tmp/video/";
+const MAX_VIDEO = 60 * 1024 * 1024;
+const MAX_PARTS = 20;
+const VIDEO_TYPES: Record<string, string> = { "video/mp4": "mp4", "video/quicktime": "mov", "video/webm": "webm" };
+const uploadId = (v: unknown) => (typeof v === "string" && /^[a-f0-9]{16,32}$/.test(v) ? v : null);
+
+admin.post("/api/admin/video/chunk", express.raw({ type: "application/octet-stream", limit: "4mb" }), async (req, res) => {
+  if (!r2Configured()) return fail(res, 503, "storage_not_configured");
+  const id = uploadId(req.query.id);
+  const i = Number(req.query.i);
+  if (!id || !Number.isInteger(i) || i < 0 || i >= MAX_PARTS) return fail(res, 400, "invalid");
+  if (!Buffer.isBuffer(req.body) || !req.body.length) return fail(res, 400, "no_video");
+  await putObject(`${CHUNKS}${id}/${i}`, req.body, "application/octet-stream", "no-store");
+  res.json({ ok: true });
+});
+
+admin.post("/api/admin/video/finish", express.json({ limit: "8kb" }), async (req, res) => {
+  if (!r2Configured()) return fail(res, 503, "storage_not_configured");
+  const b = req.body ?? {};
+  const id = uploadId(b.id);
+  const parts = Number(b.parts);
+  const ext = VIDEO_TYPES[String(b.type)];
+  const poster = String(b.poster ?? "");
+  if (!id || !Number.isInteger(parts) || parts < 1 || parts > MAX_PARTS || !ext || !/^up-[a-z0-9-]+$/.test(poster)) return fail(res, 400, "invalid");
+  const keys = Array.from({ length: parts }, (_, i) => `${CHUNKS}${id}/${i}`);
+  const bufs = await Promise.all(keys.map(getBuffer));
+  if (bufs.some((x) => !x)) return fail(res, 400, "upload_incomplete");
+  const file = Buffer.concat(bufs as Buffer[]);
+  if (file.length > MAX_VIDEO) {
+    await deleteKeys(keys).catch(() => {});
+    return fail(res, 413, "video_too_large");
+  }
+  // MP4/MOV start with an "ftyp" box; WebM with the EBML magic number.
+  const looksRight = ext === "webm" ? file.readUInt32BE(0) === 0x1a45dfa3 : file.subarray(4, 8).toString("latin1") === "ftyp";
+  if (!looksRight) {
+    await deleteKeys(keys).catch(() => {});
+    return fail(res, 422, "unreadable_video");
+  }
+  const name = newClipName(String(b.name ?? "video"));
+  const key = `media/${name}.${ext}`;
+  await putObject(key, file, String(b.type));
+  await deleteKeys(keys).catch((e) => console.error("[video] chunk cleanup", e));
+  const clip: ClipEntry = {
+    src: `${mediaBase()}/${name}.${ext}`,
+    key,
+    type: String(b.type),
+    w: Math.max(1, Math.round(Number(b.w) || 0)),
+    h: Math.max(1, Math.round(Number(b.h) || 0)),
+    bytes: file.length,
+    duration: Math.round((Number(b.duration) || 0) * 10) / 10,
+    poster,
+  };
+  const draft = (await getJson<Overrides>(DRAFT)) ?? (await getJson<Overrides>(LIVE)) ?? {};
+  await putJson(DRAFT, { ...draft, clips: { ...(draft.clips ?? {}), [name]: clip }, updatedAt: new Date().toISOString(), publishedAt: undefined });
+  res.json({ ok: true, name, clip });
 });
 
 // ── Enquiries (Neon, on demand) ─────────────────────────────────────────

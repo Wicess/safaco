@@ -1,19 +1,20 @@
-import { ArrowDown, ArrowUp, Eye, EyeOff, Mail, MapPin, Phone, Play, RefreshCw, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowUp, Eye, EyeOff, ImagePlus, Mail, MapPin, Phone, Play, RefreshCw, Trash2 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { WhatsAppIcon } from "~/components/ui/icons";
 import { Picture } from "~/components/ui/Picture";
+import { jpegUrl, videoSrc } from "~/components/ui/Video";
 import { HOME_HERO, HOUSE_IMAGES, PAGE_HEROES } from "~/content/defaults";
 import { DEFAULT_GALLERY } from "~/content/gallery";
 import { AMENITY_LIST, DEFAULT_AMENITIES } from "~/content/amenities";
 import { PLASTER_RATES } from "~/content/construction";
-import { IMG_DEFAULT, isStock } from "~/content/media-map";
+import { IMG_DEFAULT, VIDEO_DEFAULT, VIDEO_POSTER_SLOT, clipEntry, isStock, type VideoKey } from "~/content/media-map";
 import { PHOTO_SLOTS } from "~/content/photo-slots";
 import type { DivisionKeyO, GalleryItemO, Overrides, PageHeroKey, TT } from "~/content/overrides";
 import { CONTACT_FAB, DIVISIONS, MINEFOP, SITE, isTodo } from "~/content/site";
 import { cn } from "~/lib/utils";
 import { api, errorText, type Lead, type Status } from "./api";
 import { useContent } from "./store";
-import { Badge, BiField, Btn, ImagePicker, PageTitle, Panel, Skeleton, TextInput, UploadButton } from "./ui";
+import { Badge, BiField, Btn, ImagePicker, MediaLibrary, PageTitle, Panel, Skeleton, TextInput, UploadButton, VideoUploadButton } from "./ui";
 
 const DIVS: DivisionKeyO[] = ["construction", "apartments", "designs"];
 const NAME: Record<DivisionKeyO, string> = { construction: "SAFA Construction", apartments: "SAFA Apartments", designs: "SAFA Designs" };
@@ -237,7 +238,7 @@ export function PagesEditor() {
             {k !== "gallery" && (
               <ImagePicker
                 label="Main photo"
-                hint={video ? "This page shows a video by default. Choose a photo to replace it, or reset to bring the video back." : undefined}
+                hint={video ? "This page shows a video by default (change the video itself in Photos & videos). Choose a photo here to show a photo instead, or reset to bring the video back." : undefined}
                 value={o?.image}
                 fallback={d.image}
                 onChange={(n) => set(k, "image", n)}
@@ -322,16 +323,34 @@ export function PhotosEditor() {
   return (
     <div className="space-y-6">
       <PageTitle
-        title="Photos"
-        intro="Every other photo on the website, page by page. Upload your own or pick one from the library; “Reset” brings back the original. Photos marked Illustrative are stock images, so replacing them with your own is the best upgrade."
+        title="Photos & videos"
+        intro="Every other photo and the videos on the website, page by page. Upload your own or pick one from the library; “Reset” brings back the original. Photos marked Illustrative are stock images, so replacing them with your own is the best upgrade."
       />
       <nav aria-label="Pages" className="flex flex-wrap gap-2">
+        <a href="#videos" className="rounded-full border border-ink/15 bg-white px-3.5 py-1.5 text-[0.8125rem] font-medium text-ink/75 hover:border-ink/35">
+          Videos
+        </a>
         {PHOTO_SLOTS.map((g, i) => (
           <a key={g.group} href={`#photos-${i}`} className="rounded-full border border-ink/15 bg-white px-3.5 py-1.5 text-[0.8125rem] font-medium text-ink/75 hover:border-ink/35">
             {g.group}
           </a>
         ))}
       </nav>
+      <Panel
+        id="videos"
+        title="Videos"
+        intro={
+          <>
+            Replace any video with your own: MP4 or MOV from your phone, up to 60 MB (short clips under 20 MB load best on mobile data). Videos play silently, and on phones only when the visitor taps play. The cover is the still shown before playing: it is taken from the video automatically, and “Change cover” lets you pick a better photo.
+          </>
+        }
+      >
+        <div className="grid grid-cols-1 gap-x-6 gap-y-10 min-[30rem]:grid-cols-2 xl:grid-cols-3">
+          {VIDEO_SLOTS.map((v) => (
+            <VideoSlot key={v.slot} {...v} />
+          ))}
+        </div>
+      </Panel>
       {PHOTO_SLOTS.map((g, i) => (
         <Panel key={g.group} id={`photos-${i}`} title={g.group}>
           <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 xl:grid-cols-3">
@@ -366,6 +385,99 @@ export function PhotosEditor() {
   );
 }
 
+const VIDEO_SLOTS: { slot: VideoKey; label: string; where: string }[] = [
+  { slot: "fleet", label: "Machines at the yard", where: "Construction page (top) · Gallery" },
+  { slot: "mastBlue", label: "Mast going up (blue machine)", where: "Home (plastering section) · Construction page (At work) · Plastering page · Gallery" },
+  { slot: "mastGreen", label: "Machine at its control panel", where: "Construction page (At work) · Plastering page · Gallery" },
+  { slot: "atelier", label: "Designs showroom walk-through", where: "Designs page (top) · Gallery" },
+  { slot: "rendering", label: "Machine rendering a wall", where: "Gallery (Construction, first)" },
+];
+
+const prettyClip = (name: string) => name.replace(/^up-v-/, "").replace(/-[a-f0-9]{6}$/, "").replace(/-/g, " ");
+const clipFacts = (c: { bytes: number; duration: number }) =>
+  `${(c.bytes / 1024 / 1024).toFixed(1)} MB${c.duration ? ` · ${Math.floor(c.duration / 60)}:${String(Math.round(c.duration % 60)).padStart(2, "0")}` : ""}`;
+
+/** One built-in video: preview, replace (upload or reuse an upload), cover, reset. */
+function VideoSlot({ slot, label, where }: { slot: VideoKey; label: string; where: string }) {
+  const { content, update } = useContent();
+  const [picking, setPicking] = useState(false);
+  const chosen = content.videos?.[slot] || undefined;
+  const clip = chosen ? (content.clips?.[chosen] ?? clipEntry(chosen)) : undefined;
+  const posterSlot = VIDEO_POSTER_SLOT[slot];
+  const ownCover = content.images?.[posterSlot] || undefined;
+  const cover = ownCover ?? clip?.poster ?? VIDEO_DEFAULT[slot].poster;
+  const src = videoSrc(clip?.src ?? VIDEO_DEFAULT[slot].src);
+  const ratio = `${clip?.w ?? VIDEO_DEFAULT[slot].w} / ${clip?.h ?? VIDEO_DEFAULT[slot].h}`;
+  const others = Object.keys(content.clips ?? {}).filter((n) => n !== chosen);
+
+  // A new video brings its own cover, so a cover chosen for the old one is dropped.
+  const setVideo = (name: string | undefined) =>
+    update((c) => {
+      const videos = { ...(c.videos ?? {}) };
+      const images = { ...(c.images ?? {}) };
+      if (name) videos[slot] = name;
+      else delete videos[slot];
+      delete images[posterSlot];
+      return { ...c, videos, images };
+    });
+  const setCover = (name: string) => update((c) => ({ ...c, images: { ...(c.images ?? {}), [posterSlot]: name } }));
+
+  return (
+    <div className="min-w-0 space-y-3">
+      <div>
+        <p className="text-[0.8125rem] font-semibold text-ink">{label}</p>
+        <p className="mt-0.5 text-xs leading-snug text-muted">{where}</p>
+      </div>
+      <video
+        key={`${src}|${cover}`}
+        src={src}
+        poster={jpegUrl(cover)}
+        controls
+        muted
+        playsInline
+        preload="none"
+        aria-label={`Preview: ${label}`}
+        className="max-h-80 w-full max-w-56 rounded-md bg-navy-950 object-contain"
+        style={{ aspectRatio: ratio }}
+      />
+      <div className="flex flex-wrap items-center gap-2 text-xs text-muted">
+        {chosen ? <Badge tone="ok">Your video</Badge> : <Badge>Original</Badge>}
+        {ownCover && <Badge>Own cover</Badge>}
+        {clip && <span>{clipFacts(clip)}</span>}
+      </div>
+      <div className="flex flex-wrap gap-2">
+        <VideoUploadButton size="sm" label="Replace video" onUploaded={(n) => setVideo(n)} />
+        <Btn type="button" size="sm" onClick={() => setPicking(true)}>
+          <ImagePlus aria-hidden /> Change cover
+        </Btn>
+        {(chosen || ownCover) && (
+          <Btn type="button" size="sm" variant="ghost" onClick={() => setVideo(undefined)}>
+            Reset to original
+          </Btn>
+        )}
+      </div>
+      {others.length > 0 && (
+        <label className="block text-xs text-muted">
+          Or use a video you already uploaded
+          <select
+            value=""
+            onChange={(e) => e.target.value && setVideo(e.target.value)}
+            className="mt-1 block min-h-11 w-full max-w-64 rounded-md border border-ink/15 bg-white px-2 text-base text-ink pointer-fine:min-h-9 pointer-fine:text-[0.8125rem]"
+          >
+            <option value="">Choose…</option>
+            {others.map((n) => (
+              <option key={n} value={n}>
+                {prettyClip(n)} ({clipFacts(content.clips![n]!)})
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
+      {picking && <MediaLibrary current={cover} onClose={() => setPicking(false)} onPick={(n) => (setCover(n), setPicking(false))} />}
+    </div>
+  );
+}
+
 /* ───────────────────────── Contact & details ───────────────────────── */
 
 export function ContactEditor() {
@@ -378,8 +490,8 @@ export function ContactEditor() {
   return (
     <div className="space-y-6">
       <PageTitle
-        title="Contact & details"
-        intro="Phone numbers, WhatsApp, email, addresses and hours. They appear everywhere on the site: the header buttons, the footer, the contact page and Google's business data."
+        title="Contact, address & social"
+        intro="Phone numbers, WhatsApp, email, addresses, hours and social media links. Change them any time, then Publish: they update everywhere on the site (the contact button, the footer, the contact page and Google's business data)."
       />
       <nav aria-label="Sections" className="flex flex-wrap gap-2">
         {[["company", "Company"], ...DIVS.map((d) => [d, NAME[d]])].map(([id, l]) => (
@@ -433,6 +545,7 @@ export function ContactEditor() {
           <Panel key={d} id={`c-${d}`} title={NAME[d]}>
             <div className="grid gap-5 md:grid-cols-3">
               <TextInput label="Phone" type="tel" value={o.phone} placeholder={def.phone || "Not set: visitors see the enquiry form"} onChange={(v) => setDiv(d, "phone", v)} hint="As visitors should read it, e.g. +237 6 70 98 66 43" />
+              <TextInput label="Second phone (optional)" type="tel" value={o.phone2} placeholder={def.phone2 || "None"} onChange={(v) => setDiv(d, "phone2", v)} hint="Shown under the main number. Type - (a dash) to show no second number." />
               <TextInput label="WhatsApp number" type="tel" value={o.whatsapp} placeholder={def.whatsapp || "Not set: no WhatsApp button"} onChange={(v) => setDiv(d, "whatsapp", v)} hint="With country code, e.g. 237670986643" />
               <TextInput label="Email" type="email" value={o.email} placeholder={def.email} onChange={(v) => setDiv(d, "email", v)} />
             </div>
@@ -475,13 +588,17 @@ export function GalleryEditor() {
       return l;
     });
   const shown = items.filter((g) => show === "all" || g.division === show);
+  const [coverFor, setCoverFor] = useState<string | null>(null);
   return (
     <div className="space-y-6">
       <PageTitle
         title="Gallery"
         intro="Every photo and video on the Gallery page and in each business's photo strip. Write a short caption in both languages for every photo: it is what blind visitors and Google read."
       />
-      <Panel title="Add photos" intro="Photos are resized and optimised automatically. Choose which business they belong to first.">
+      <Panel
+        title="Add photos & videos"
+        intro="Choose which business they belong to first. Photos are resized and optimised automatically. Videos: MP4 or MOV, up to 60 MB, one at a time (short clips under 20 MB load best on phones)."
+      >
         <div className="flex flex-wrap items-end gap-3">
           <label className="text-[0.8125rem] font-medium text-ink">
             Business
@@ -501,6 +618,11 @@ export function GalleryEditor() {
             onUploaded={(names) =>
               setItems((l) => [...names.map((n) => ({ id: n, division, image: n, alt: { en: "", fr: "" } }) satisfies GalleryItemO), ...l])
             }
+          />
+          <VideoUploadButton
+            label="Upload a video"
+            variant="outline"
+            onUploaded={(n, clip) => setItems((l) => [{ id: n, division, image: clip.poster, video: n, alt: { en: "", fr: "" } } satisfies GalleryItemO, ...l])}
           />
         </div>
       </Panel>
@@ -563,6 +685,11 @@ export function GalleryEditor() {
                   <Btn size="sm" variant="ghost" type="button" aria-label="Move later" disabled={idx === items.length - 1} onClick={() => move(g.id, 1)}>
                     <ArrowDown aria-hidden />
                   </Btn>
+                  {g.video && (
+                    <Btn size="sm" variant="ghost" type="button" onClick={() => setCoverFor(g.id)}>
+                      <ImagePlus aria-hidden /> Cover
+                    </Btn>
+                  )}
                   <Btn size="sm" variant="ghost" type="button" onClick={() => patch(g.id, { hidden: !g.hidden })}>
                     {g.hidden ? <Eye aria-hidden /> : <EyeOff aria-hidden />} {g.hidden ? "Show" : "Hide"}
                   </Btn>
@@ -599,6 +726,13 @@ export function GalleryEditor() {
           );
         })}
       </ul>
+      {coverFor && (
+        <MediaLibrary
+          current={items.find((g) => g.id === coverFor)?.image}
+          onClose={() => setCoverFor(null)}
+          onPick={(n) => (patch(coverFor, { image: n }), setCoverFor(null))}
+        />
+      )}
     </div>
   );
 }
@@ -689,7 +823,7 @@ export function Account({ user, onUser, onLogout }: { user: { email: string; nam
   }, []);
   return (
     <div className="space-y-6">
-      <PageTitle title="Account" intro={`Signed in as ${user.name} (${user.email}).`} actions={<Btn type="button" onClick={onLogout}>Sign out</Btn>} />
+      <PageTitle title="Account" intro={`Signed in as ${user.name} (${user.email}).`} actions={<Btn type="button" onClick={onLogout}>Log out</Btn>} />
       <SignInDetails user={user} onUser={onUser} />
       <Panel title="Change password" intro="Choose a password only you know. You stay signed in on this device.">
         <form

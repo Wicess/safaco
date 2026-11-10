@@ -6,7 +6,7 @@ import { DIVISIONS } from "~/content/site";
 import { href, type Lang } from "~/lib/i18n";
 import { cn } from "~/lib/utils";
 import { Picture } from "../ui/Picture";
-import { posterUrl, videoUrl } from "../ui/Video";
+import { jpegUrl, posterUrl, videoUrl } from "../ui/Video";
 
 const L = {
   open: { en: "Open", fr: "Ouvrir" },
@@ -132,7 +132,7 @@ export function Lightbox({
               {item.video ? (
                 <video
                   src={videoUrl(item.video)}
-                  poster={posterUrl(item.video)}
+                  poster={jpegUrl(item.image) ?? posterUrl(item.video)}
                   controls
                   autoPlay
                   muted
@@ -198,11 +198,11 @@ function NavButton({ label, onClick, className, children }: { label: string; onC
 /* ───────────────────────── Tiles ───────────────────────── */
 
 /** "Lire la vidéo — …" / "Agrandir la photo — …": one clear verb, no double colon. */
-function tileLabel(alt: string, lang: Lang): string {
-  const video = /^(Video|Vidéo)\s?:\s?/.exec(alt);
-  const rest = video ? alt.slice(video[0].length) : alt;
-  if (lang === "fr") return `${video ? "Lire la vidéo" : "Agrandir la photo"} — ${rest}`;
-  return `${video ? "Play video" : "Enlarge photo"} — ${rest}`;
+function tileLabel(alt: string, lang: Lang, isVideo: boolean): string {
+  const prefix = /^(Video|Vidéo)\s?:\s?/.exec(alt);
+  const rest = (prefix ? alt.slice(prefix[0].length) : alt).trim();
+  const verb = lang === "fr" ? (isVideo ? "Lire la vidéo" : "Agrandir la photo") : isVideo ? "Play video" : "Enlarge photo";
+  return rest ? `${verb} — ${rest}` : verb;
 }
 
 export function GalleryTile({
@@ -229,7 +229,7 @@ export function GalleryTile({
     <button
       type="button"
       onClick={onOpen}
-      aria-label={tileLabel(item.alt[lang], lang)}
+      aria-label={tileLabel(item.alt[lang], lang, Boolean(item.video))}
       className={cn("press group/tile relative block w-full overflow-hidden bg-stone text-left", className)}
     >
       <Picture

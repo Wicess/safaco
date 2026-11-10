@@ -1,6 +1,6 @@
 import type { T } from "~/lib/i18n";
 import type { DivisionKey } from "./site";
-import { IMG_DEFAULT as IMG, type VideoKey } from "./media-map";
+import { IMG_DEFAULT as IMG, VIDEO, VIDEO_DEFAULT, type VideoKey } from "./media-map";
 import { O } from "./overrides";
 
 /**
@@ -14,7 +14,8 @@ export type GalleryItem = {
   division: DivisionKey;
   /** Media name from the image pipeline (the poster for videos). */
   image: string;
-  video?: VideoKey;
+  /** A built-in video key or an uploaded clip name. */
+  video?: VideoKey | (string & {});
   alt: T;
 };
 
@@ -31,6 +32,7 @@ export const DEFAULT_GALLERY: GalleryItem[] = [
   { id: "lounge-sofas", division: "apartments", image: IMG.loungeSofas, alt: { en: "Lounge seen from the kitchen, sofas facing the TV wall", fr: "Le salon vu depuis la cuisine, canapés tournés vers le mur TV" } },
 
   // ── Construction ──
+  { id: "rendering", division: "construction", image: IMG.posterRendering, video: "rendering", alt: { en: "Video: an automatic plastering machine applying render to a wall on site", fr: "Vidéo : une machine à crépir automatique applique l’enduit sur un mur, sur chantier" } },
   { id: "mast-blue", division: "construction", image: IMG.posterMastBlue, video: "mastBlue", alt: { en: "Video: a SAFA operator raising the mast of an automatic plastering machine", fr: "Vidéo : un opérateur SAFA déploie le mât d’une machine à crépir automatique" } },
   { id: "fleet-yard", division: "construction", image: IMG.fleetYard, alt: { en: "Two automatic plastering machines, green and blue, with a mortar pump in the yard", fr: "Deux machines à crépir automatiques, verte et bleue, avec une pompe à mortier au dépôt" } },
   { id: "green-mast", division: "construction", image: IMG.greenMast, alt: { en: "Green automatic plastering unit with its mast raised against a wall", fr: "Machine à crépir automatique verte, mât déployé contre un mur" } },
@@ -56,7 +58,14 @@ export const DEFAULT_GALLERY: GalleryItem[] = [
 
 /** What the site shows: the admin's published list if there is one (hidden
  *  items removed), otherwise the built-in list. */
-export const GALLERY: GalleryItem[] = O.gallery?.length ? O.gallery.filter((g) => !g.hidden) : DEFAULT_GALLERY;
+const listed: GalleryItem[] = O.gallery?.length ? O.gallery.filter((g) => !g.hidden) : DEFAULT_GALLERY;
+/** A built-in video whose file or cover was replaced in admin → Photos & videos
+ *  shows the new cover here too (unless this item has its own cover). */
+export const GALLERY: GalleryItem[] = listed.map((g) => {
+  const k = g.video as VideoKey | undefined;
+  if (k && k in VIDEO && g.image === VIDEO_DEFAULT[k].poster) return { ...g, image: VIDEO[k].poster };
+  return g;
+});
 
 export function galleryFor(division: DivisionKey): GalleryItem[] {
   return GALLERY.filter((g) => g.division === division);

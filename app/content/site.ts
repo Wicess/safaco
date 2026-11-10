@@ -66,6 +66,8 @@ export type Division = {
   /** Digits only, international format without "+", e.g. 2376XXXXXXXX */
   whatsapp: string;
   phone: string;
+  /** Optional second line, shown under the main number. */
+  phone2?: string;
   email: string;
   address: {
     /** Landmark-style address, identical everywhere (site, Google, directories) */
@@ -110,12 +112,15 @@ export const DIVISIONS: Record<DivisionKey, Division> = {
       fr: "Appartements meublés avec services, pour courts et longs séjours à Yaoundé.",
     },
     short: { en: "Stay", fr: "Séjourner" },
-    whatsapp: "237600000002", // CLIENT_TODO
-    phone: "+237 6 00 00 00 02", // CLIENT_TODO
+    // Owner, 2026-11-10: "688654756 / 674134833 · Meyo, Yaoundé".
+    // The first number is assumed to be the WhatsApp line (change in admin).
+    whatsapp: "237688654756",
+    phone: "+237 6 88 65 47 56",
+    phone2: "+237 6 74 13 48 33",
     email: EMAIL,
     address: {
-      line: { en: "Meyo, Yaoundé IV", fr: "Meyo, Yaoundé IV" }, // CLIENT_TODO: exact street/landmark address
-      district: "Meyo, Yaoundé IV",
+      line: { en: "Meyo, Yaoundé", fr: "Meyo, Yaoundé" },
+      district: "Meyo, Yaoundé",
       locality: "Yaoundé",
     },
     hours: { en: "Check-in by arrangement · 7 days", fr: "Arrivée sur rendez-vous · 7j/7" },
@@ -130,14 +135,15 @@ export const DIVISIONS: Record<DivisionKey, Division> = {
       fr: "Couture homme sur mesure, machines à coudre spécialisées et centre de formation agréé par le MINEFOP.",
     },
     short: { en: "Wear", fr: "S’habiller" },
-    // From SAFA Designs' own flyer (2026-10-30): "670986643 / 695356742".
-    // CLIENT_TODO: confirm 670 98 66 43 is the WhatsApp line.
+    // Owner, 2026-11-10: "670986643 / 695356742 · Carrefour MEEC, Yaoundé".
+    // The first number is assumed to be the WhatsApp line (change in admin).
     whatsapp: "237670986643",
     phone: "+237 6 70 98 66 43",
+    phone2: "+237 6 95 35 67 42",
     email: EMAIL,
     address: {
-      line: { en: "Carrefour MEEC, Yaoundé VI", fr: "Carrefour MEEC, Yaoundé VI" }, // CLIENT_TODO: exact landmark address
-      district: "Carrefour MEEC, Yaoundé VI",
+      line: { en: "Carrefour MEEC, Yaoundé", fr: "Carrefour MEEC, Yaoundé" },
+      district: "Carrefour MEEC, Yaoundé",
       locality: "Yaoundé",
     },
     hours: { en: "Mon–Sat · 8:00–18:30", fr: "Lun–Sam · 8h00–18h30" }, // CLIENT_TODO: confirm
@@ -158,6 +164,8 @@ export const DIVISIONS: Record<DivisionKey, Division> = {
     const o = O.divisions?.[d.key];
     if (!o) continue;
     d.phone = val(o.phone) ?? d.phone;
+    // Empty keeps the default; "-" removes the second line.
+    if (val(o.phone2)) d.phone2 = val(o.phone2) === "-" ? undefined : val(o.phone2);
     d.whatsapp = val(o.whatsapp)?.replace(/\D/g, "") ?? d.whatsapp;
     d.email = val(o.email) ?? d.email;
     d.address.line = pickT(o.addressLine, d.address.line as { en: string; fr: string });
@@ -178,6 +186,7 @@ export function isPlaceholderNumber(v: string | undefined): boolean {
 }
 for (const d of Object.values(DIVISIONS)) {
   if (isPlaceholderNumber(d.phone)) d.phone = "";
+  if (d.phone2 && isPlaceholderNumber(d.phone2)) d.phone2 = undefined;
   if (isPlaceholderNumber(d.whatsapp)) d.whatsapp = "";
 }
 
@@ -186,7 +195,7 @@ for (const d of Object.values(DIVISIONS)) {
 export const CONTACT_FAB = (() => {
   const phone = val(O.company?.contactPhone);
   const wa = val(O.company?.contactWhatsapp)?.replace(/\D/g, "");
-  const real = Object.values(DIVISIONS);
+  const real = [DIVISIONS.designs, DIVISIONS.apartments, DIVISIONS.construction];
   return {
     phone: phone && !isPlaceholderNumber(phone) ? phone : (real.find((d) => d.phone)?.phone ?? ""),
     whatsapp: wa && !isPlaceholderNumber(wa) ? wa : (real.find((d) => d.whatsapp)?.whatsapp ?? ""),

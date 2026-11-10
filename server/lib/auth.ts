@@ -106,7 +106,9 @@ export function readSession(req: Request): Session | null {
 export function requireAdmin(req: Request, res: Response, next: NextFunction) {
   const s = readSession(req);
   if (!s) return res.status(401).json({ ok: false, error: "unauthorized" });
-  if (req.method !== "GET" && !req.is("application/json") && !req.is("image/*")) {
+  // Only types a plain HTML form can't send (forms can't forge them, and
+  // other sites need a CORS preflight we never grant). Octet-stream = video pieces.
+  if (req.method !== "GET" && !req.is("application/json") && !req.is("image/*") && !req.is("application/octet-stream")) {
     return res.status(415).json({ ok: false, error: "unsupported" });
   }
   res.locals.session = s;

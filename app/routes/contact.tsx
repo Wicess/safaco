@@ -86,6 +86,11 @@ export default function Contact() {
                       <a href={telLink(d.phone)} className="-my-3 inline-flex min-h-11 items-center underline-offset-4 hover:underline">
                         {d.phone}
                       </a>
+                      {d.phone2 && (
+                        <a href={telLink(d.phone2)} className="-mb-3 flex min-h-11 items-center underline-offset-4 hover:underline">
+                          {d.phone2}
+                        </a>
+                      )}
                     </span>
                   </li>
                 )}

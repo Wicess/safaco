@@ -26,6 +26,11 @@ export function newMediaName(hint: string): string {
   return `up-${slug(hint)}-${randomBytes(3).toString("hex")}`;
 }
 
+/** Uploaded videos: "up-v-…", so a clip name never prefixes a photo name. */
+export function newClipName(hint: string): string {
+  return `up-v-${slug(hint)}-${randomBytes(3).toString("hex")}`;
+}
+
 export async function processUpload(buf: Buffer, name: string): Promise<MediaEntry> {
   const input = sharp(buf, { failOn: "error" }).rotate();
   const meta = await input.metadata();

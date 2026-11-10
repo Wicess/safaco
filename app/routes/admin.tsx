@@ -1,4 +1,4 @@
-import { BarChart3, ExternalLink, Home, Image as ImageIcon, Images, Inbox, Users, LayoutTemplate, Loader2, Menu, Phone, UserRound, X } from "lucide-react";
+import { BarChart3, ExternalLink, Home, Image as ImageIcon, Images, Inbox, Users, LayoutTemplate, Loader2, LogOut, Menu, Phone, UserRound, X } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import { ApiError, api, errorText, type User } from "~/admin/api";
@@ -18,10 +18,10 @@ const NAV = [
   { path: "enquiries", label: "Enquiries", icon: Inbox, group: "Overview" },
   { path: "home", label: "Home page", icon: Home, group: "Website" },
   { path: "pages", label: "Page headers", icon: LayoutTemplate, group: "Website" },
-  { path: "contact", label: "Contact & details", icon: Phone, group: "Website" },
   { path: "gallery", label: "Gallery", icon: ImageIcon, group: "Website" },
-  { path: "photos", label: "Photos", icon: Images, group: "Website" },
-  { path: "account", label: "Account", icon: UserRound, group: "Settings" },
+  { path: "photos", label: "Photos & videos", icon: Images, group: "Website" },
+  { path: "contact", label: "Contact, address & social", icon: Phone, group: "Settings" },
+  { path: "account", label: "Account & password", icon: UserRound, group: "Settings" },
 ] as const;
 const EDITS = new Set(["home", "pages", "contact", "gallery", "photos"]);
 
@@ -128,6 +128,11 @@ function Shell({ user, onUser, onLogout }: { user: User; onUser: (u: User) => vo
   const [section = "", sub] = pathname.replace(/^\/admin\/?/, "").split("/");
   const [drawer, setDrawer] = useState(false);
   const main = useRef<HTMLElement>(null);
+  const { dirty } = useContent();
+  // Sessions last until this button is used; unsaved edits are never lost silently.
+  const logout = () => {
+    if (confirm(dirty ? "You have unsaved changes. Log out anyway? They will be lost." : "Log out of the admin on this device?")) onLogout();
+  };
   useEffect(() => {
     setDrawer(false);
     main.current?.focus({ preventScroll: true });
@@ -164,14 +169,19 @@ function Shell({ user, onUser, onLogout }: { user: User; onUser: (u: User) => vo
     <div className="min-h-dvh bg-[#f7f5f0] text-ink" style={{ fontFamily: "var(--font-sans)" }}>
       {/* Desktop sidebar */}
       <aside className="on-dark fixed inset-y-0 left-0 z-30 hidden w-60 flex-col bg-navy-950 text-ivory lg:flex">
-        <Sidebar user={user} section={section} />
+        <Sidebar user={user} section={section} onLogout={logout} />
       </aside>
       {/* Mobile top bar + drawer */}
       <header className="on-dark sticky top-0 z-30 flex h-14 items-center justify-between bg-navy-950 px-4 text-ivory lg:hidden">
         <span className="font-display text-lg">SAFA &amp; Co · Admin</span>
-        <button type="button" onClick={() => setDrawer(true)} aria-label="Open menu" className="grid size-11 place-items-center rounded-md hover:bg-ivory/10">
-          <Menu className="size-5" aria-hidden />
-        </button>
+        <div className="flex items-center gap-1">
+          <button type="button" onClick={logout} aria-label="Log out" className="grid size-11 place-items-center rounded-md text-ivory/75 hover:bg-ivory/10 hover:text-ivory">
+            <LogOut className="size-5" aria-hidden />
+          </button>
+          <button type="button" onClick={() => setDrawer(true)} aria-label="Open menu" className="grid size-11 place-items-center rounded-md hover:bg-ivory/10">
+            <Menu className="size-5" aria-hidden />
+          </button>
+        </div>
       </header>
       {drawer && (
         <div className="fixed inset-0 z-40 lg:hidden">
@@ -180,7 +190,7 @@ function Shell({ user, onUser, onLogout }: { user: User; onUser: (u: User) => vo
             <button type="button" onClick={() => setDrawer(false)} aria-label="Close menu" className="absolute right-3 top-3 grid size-11 place-items-center rounded-md hover:bg-ivory/10">
               <X className="size-5" aria-hidden />
             </button>
-            <Sidebar user={user} section={section} />
+            <Sidebar user={user} section={section} onLogout={logout} />
           </aside>
         </div>
       )}
@@ -196,7 +206,7 @@ function Shell({ user, onUser, onLogout }: { user: User; onUser: (u: User) => vo
   );
 }
 
-function Sidebar({ user, section }: { user: User; section: string }) {
+function Sidebar({ user, section, onLogout }: { user: User; section: string; onLogout: () => void }) {
   let last = "";
   return (
     <>
@@ -235,6 +245,13 @@ function Sidebar({ user, section }: { user: User; section: string }) {
         <a href="/en" target="_blank" rel="noopener" className="flex min-h-11 items-center gap-2 rounded-md px-2 text-sm text-ivory/70 pointer-fine:min-h-10 hover:bg-ivory/6 hover:text-ivory">
           <ExternalLink className="size-4" aria-hidden /> View the website
         </a>
+        <button
+          type="button"
+          onClick={onLogout}
+          className="mt-1 flex min-h-11 w-full items-center gap-2 rounded-md px-2 text-sm text-ivory/70 pointer-fine:min-h-10 hover:bg-ivory/6 hover:text-ivory"
+        >
+          <LogOut className="size-4" aria-hidden /> Log out
+        </button>
         <p className="mt-2 truncate px-2 text-xs text-ivory/45">{user.email}</p>
       </div>
     </>

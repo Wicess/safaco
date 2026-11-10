@@ -1,25 +1,33 @@
 import { Pause, Play } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import manifest from "~/content/media.generated.json";
-import { VIDEO, type VideoKey } from "~/content/media-map";
+import { VIDEO, videoInfo, type VideoKey } from "~/content/media-map";
+import { mediaEntry } from "./Picture";
 import type { Lang } from "~/lib/i18n";
 import { cn } from "~/lib/utils";
 
 const BASE = ((import.meta.env.VITE_MEDIA_BASE as string | undefined) || "/media").replace(/\/$/, "");
-type Entry = { widths: number[]; blur: string };
-const MEDIA = manifest as Record<string, Entry>;
-
-export function videoUrl(key: VideoKey) {
-  return `${BASE}/${VIDEO[key].src}`;
+/** A built-in video key or an uploaded clip name → its file URL (uploads
+ *  carry their own absolute R2 URL). */
+export function videoUrl(ref: string) {
+  return videoSrc(videoInfo(ref)?.src ?? "");
 }
 
-/** Poster URL: the widest JPEG ≤ 720 px from the image pipeline. */
-export function posterUrl(key: VideoKey) {
-  const name = VIDEO[key].poster;
-  const m = MEDIA[name];
-  if (!m) return undefined;
+/** A stored video path (built-in file name or absolute R2 URL) → URL. */
+export function videoSrc(src: string) {
+  return /^https?:\/\//.test(src) ? src : `${BASE}/${src}`;
+}
+
+/** URL of the widest JPEG ≤ 720 px of a photo (built-in or uploaded). */
+export function jpegUrl(name: string | undefined) {
+  const m = name ? mediaEntry(name) : undefined;
+  if (!m || !name) return undefined;
   const w = [...m.widths].reverse().find((x) => x <= 720) ?? m.widths[0];
-  return `${BASE}/${name}-${w}.jpg`;
+  return `${(m.base ?? BASE).replace(/\/$/, "")}/${name}-${w}.jpg`;
+}
+
+/** Cover image URL of a video. */
+export function posterUrl(ref: string) {
+  return jpegUrl(videoInfo(ref)?.poster);
 }
 
 /** Autoplay is a courtesy, not a right: skipped for reduced motion and for
@@ -62,7 +70,7 @@ export function AmbientVideo({
   // null = follow visibility; true/false = the visitor decided.
   const userChoice = useRef<boolean | null>(null);
   const v = VIDEO[video];
-  const blur = MEDIA[v.poster]?.blur;
+  const blur = mediaEntry(v.poster)?.blur;
 
   useEffect(() => {
     const el = ref.current;

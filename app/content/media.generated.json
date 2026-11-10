@@ -695,5 +695,20 @@
       "webp",
       "jpg"
     ]
+  },
+  "safa-video-rendering": {
+    "w": 576,
+    "h": 1024,
+    "widths": [
+      360,
+      540,
+      576
+    ],
+    "blur": "data:image/webp;base64,UklGRuQAAABXRUJQVlA4INgAAADQBQCdASoUACQAPu1wrVMppiOipWmZMB2JQBfnA9YBetrUVJwM3I2E+I3Dnh6Bi3dh8ls97IAAAM4/FLI0u0dDzDz351vnxsVN8DIWrYO8nJnlaOpEFHolCVidvnKyPi12gpqeNWzRfD2lNEGBeZgEJh1qiNcJzuRhuL84YZh3KoQA3iwyrOwOpo4jqkCHKCGEr8DbWmBRhX1t3N/NMupIfOiPbl/qkArcXNVCw3GHKFEpCSI/frY9oDRyCGrn6BAIbtuiGnvcibouU+A9aWNQXWI9QdAAAAA=",
+    "formats": [
+      "avif",
+      "webp",
+      "jpg"
+    ]
   }
 }

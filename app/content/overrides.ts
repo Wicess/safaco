@@ -27,11 +27,29 @@ export type MediaEntry = {
   base?: string;
 };
 
+/** A video uploaded through the admin (stored whole on R2, never re-encoded). */
+export type ClipEntry = {
+  /** Absolute public URL of the file. */
+  src: string;
+  /** R2 object key, for clean-up. */
+  key: string;
+  type: string;
+  w: number;
+  h: number;
+  bytes: number;
+  /** Seconds. */
+  duration: number;
+  /** Cover image (a media name), taken from a frame of the video. */
+  poster: string;
+};
+
 export type GalleryItemO = {
   id: string;
   division: DivisionKeyO;
+  /** Photo, or the cover image of a video. */
   image: string;
-  video?: "atelier" | "mastBlue" | "mastGreen" | "fleet";
+  /** A built-in video key (atelier, mastBlue, mastGreen, fleet) or an uploaded clip name. */
+  video?: string;
   alt: { en: string; fr: string };
   hidden?: boolean;
 };
@@ -54,6 +72,8 @@ export type Overrides = {
       DivisionKeyO,
       {
         phone?: string;
+        /** Second phone line ("-" = none). */
+        phone2?: string;
         whatsapp?: string;
         email?: string;
         addressLine?: TT;
@@ -89,6 +109,11 @@ export type Overrides = {
   };
   /** Photo slots (media-map IMG keys) the owner replaced in admin → Photos. */
   images?: Record<string, string>;
+  /** Built-in video slots (atelier, mastBlue, mastGreen, fleet) the owner
+   *  replaced with an uploaded clip (admin → Photos & videos). */
+  videos?: Record<string, string>;
+  /** Videos uploaded through the admin (served from R2). */
+  clips?: Record<string, ClipEntry>;
   /** The whole gallery, once edited in the admin (order = display order). */
   gallery?: GalleryItemO[];
   /** Images uploaded through the admin (manifest entries, served from R2). */

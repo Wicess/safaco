@@ -44,6 +44,11 @@ export function Footer({ lang }: { lang: Lang }) {
                       {d.phone}
                     </a>
                   )}
+                  {d.phone2 && (
+                    <a className="flex min-h-11 items-center text-ivory hover:text-gold-300" href={telLink(d.phone2)}>
+                      {d.phone2}
+                    </a>
+                  )}
                   {d.whatsapp && (
                     <a className="flex min-h-11 items-center text-ivory/70 underline-offset-4 hover:underline" href={waLink(d.whatsapp, greeting(d.key, lang))} rel="noopener">
                       WhatsApp

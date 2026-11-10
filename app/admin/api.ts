@@ -1,4 +1,4 @@
-import type { MediaEntry, Overrides } from "~/content/overrides";
+import type { ClipEntry, MediaEntry, Overrides } from "~/content/overrides";
 
 /** Thin fetch wrapper for /api/admin/*. Errors carry the server's code. */
 export class ApiError extends Error {
@@ -96,7 +96,115 @@ export const api = {
       body: file,
       headers: { "content-type": file.type || "image/jpeg" },
     }),
+  videoChunk: (id: string, i: number, part: Blob) =>
+    call(`/video/chunk?id=${id}&i=${i}`, { method: "POST", body: part, headers: { "content-type": "application/octet-stream" } }),
+  videoFinish: (b: { id: string; parts: number; type: string; name: string; w: number; h: number; duration: number; poster: string }) =>
+    call<{ name: string; clip: ClipEntry }>("/video/finish", { method: "POST", json: b }),
 };
+
+/* ── Videos ── */
+
+export const MAX_VIDEO_MB = 60;
+/** Each piece stays under Vercel's 4.5 MB request limit. */
+const CHUNK = 3.5 * 1024 * 1024;
+
+/** The stored type: MP4 (incl. .m4v), MOV or WebM; anything else is refused. */
+export function videoType(file: File): string | null {
+  const ext = file.name.toLowerCase().split(".").pop() ?? "";
+  if (file.type === "video/mp4" || file.type === "video/x-m4v" || ext === "mp4" || ext === "m4v") return "video/mp4";
+  if (file.type === "video/quicktime" || ext === "mov") return "video/quicktime";
+  if (file.type === "video/webm" || ext === "webm") return "video/webm";
+  return null;
+}
+
+function waitFor(el: HTMLVideoElement, event: string, ms: number): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const done = (ok: boolean) => {
+      clearTimeout(t);
+      el.removeEventListener(event, onOk);
+      el.removeEventListener("error", onErr);
+      ok ? resolve() : reject(new ApiError(0, "unplayable_video"));
+    };
+    const onOk = () => done(true);
+    const onErr = () => done(false);
+    const t = setTimeout(() => done(false), ms);
+    el.addEventListener(event, onOk);
+    el.addEventListener("error", onErr);
+  });
+}
+
+/**
+ * Opens the video in this browser before anything is uploaded: proves it
+ * plays, reads its size and length, and takes a frame (about 1 s in) as the
+ * cover image.
+ */
+export async function probeVideo(file: File): Promise<{ w: number; h: number; duration: number; cover: Blob }> {
+  const url = URL.createObjectURL(file);
+  const v = document.createElement("video");
+  v.muted = true;
+  v.playsInline = true;
+  v.preload = "auto";
+  v.src = url;
+  try {
+    await waitFor(v, "loadedmetadata", 20_000);
+    const w = v.videoWidth;
+    const h = v.videoHeight;
+    if (!w || !h) throw new ApiError(0, "unplayable_video");
+    // Some phones decode no frame until playback starts.
+    await v.play().catch(() => {});
+    v.pause();
+    const at = Math.min(1, (v.duration || 0) * 0.1);
+    if (Math.abs(v.currentTime - at) > 0.05) {
+      v.currentTime = at;
+      await waitFor(v, "seeked", 15_000);
+    }
+    const scale = Math.min(1, 1600 / Math.max(w, h));
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.round(w * scale);
+    canvas.height = Math.round(h * scale);
+    canvas.getContext("2d")!.drawImage(v, 0, 0, canvas.width, canvas.height);
+    const cover = await new Promise<Blob>((res, rej) => canvas.toBlob((b) => (b ? res(b) : rej(new ApiError(0, "unplayable_video"))), "image/jpeg", 0.86));
+    return { w, h, duration: Number.isFinite(v.duration) ? v.duration : 0, cover };
+  } finally {
+    v.removeAttribute("src");
+    v.load();
+    URL.revokeObjectURL(url);
+  }
+}
+
+/** iPhone "High Efficiency" (HEVC) video: plays on iPhones and recent
+ *  Android phones, but not everywhere. Looks for the codec tag near the start
+ *  and end of the file, where MP4/MOV keep their index. */
+export async function isHevc(file: File): Promise<boolean> {
+  const span = 2 * 1024 * 1024;
+  const parts = [file.slice(0, span), file.slice(Math.max(0, file.size - span))];
+  for (const p of parts) {
+    const text = new TextDecoder("latin1").decode(await p.arrayBuffer());
+    if (text.includes("hvc1") || text.includes("hev1")) return true;
+  }
+  return false;
+}
+
+/** Sends the file in pieces (one retry each), then has the server join them. */
+export async function sendVideo(
+  file: File,
+  meta: { type: string; name: string; w: number; h: number; duration: number; poster: string },
+  onProgress: (fraction: number) => void,
+) {
+  const id = Array.from(crypto.getRandomValues(new Uint8Array(12)), (b) => b.toString(16).padStart(2, "0")).join("");
+  const parts = Math.ceil(file.size / CHUNK);
+  for (let i = 0; i < parts; i++) {
+    const part = file.slice(i * CHUNK, (i + 1) * CHUNK);
+    try {
+      await api.videoChunk(id, i, part);
+    } catch (e) {
+      if (e instanceof ApiError && e.status && e.status < 500) throw e;
+      await api.videoChunk(id, i, part);
+    }
+    onProgress((i + 1) / parts);
+  }
+  return api.videoFinish({ id, parts, ...meta });
+}
 
 /** Shrink a photo in the browser before upload: ≤ 2000 px, JPEG ~0.86.
  *  Keeps uploads small on mobile data and under the 4 MB function limit. */
@@ -121,6 +229,10 @@ export const ERRORS: Record<string, string> = {
   wrong_password: "Your current password is not correct.",
   password_too_short: "Use at least 10 characters.",
   unreadable_image: "That file couldn't be read as a photo. Try a JPEG or PNG.",
+  unplayable_video: "This video doesn't play in this browser, so visitors might not be able to play it either. Save or export it as MP4 and try again.",
+  unreadable_video: "That file isn't a video we can use. Choose an MP4, MOV or WebM file.",
+  video_too_large: `That video is over ${60} MB. Trim it or send a shorter clip (under 20 MB loads best on phones).`,
+  upload_incomplete: "Part of the video didn't arrive. Check your connection and try again.",
   unauthorized: "Your session has ended. Sign in again.",
   nothing_to_publish: "There are no changes to publish.",
   session_not_configured: "Sign-in isn't set up on the server: SESSION_SECRET is missing in Vercel (Settings → Environment Variables), or is shorter than 32 characters. Add it and redeploy.",

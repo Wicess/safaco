@@ -1,4 +1,4 @@
-import { DeleteObjectsCommand, GetObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { DeleteObjectsCommand, GetObjectCommand, ListObjectsV2Command, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
 /**
  * Cloudflare R2 (S3 API). Holds the media and the admin's content documents:
@@ -54,6 +54,23 @@ export async function putJson(key: string, data: unknown): Promise<void> {
       CacheControl: "no-store",
     }),
   );
+}
+
+export async function getBuffer(key: string): Promise<Buffer | null> {
+  try {
+    const out = await s3().send(new GetObjectCommand({ Bucket: bucket(), Key: key }));
+    const bytes = await out.Body?.transformToByteArray();
+    return bytes ? Buffer.from(bytes) : null;
+  } catch (err) {
+    if ((err as { name?: string }).name === "NoSuchKey") return null;
+    throw err;
+  }
+}
+
+/** Keys under a prefix with their last-modified time (first 1000). */
+export async function listKeys(prefix: string): Promise<{ key: string; modified: Date }[]> {
+  const out = await s3().send(new ListObjectsV2Command({ Bucket: bucket(), Prefix: prefix, MaxKeys: 1000 }));
+  return (out.Contents ?? []).filter((o) => o.Key).map((o) => ({ key: o.Key!, modified: o.LastModified ?? new Date(0) }));
 }
 
 export async function putObject(key: string, body: Buffer | string, contentType: string, cache = "public, max-age=31536000, immutable"): Promise<void> {
