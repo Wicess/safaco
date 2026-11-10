@@ -69,6 +69,7 @@ export default function Training() {
   return (
     <>
       <PageHero
+        centered
         lang={lang}
         trail={TRAIL}
         eyebrow={lang === "fr" ? "Centre de formation agréé par le MINEFOP" : "MINEFOP-approved training centre"}

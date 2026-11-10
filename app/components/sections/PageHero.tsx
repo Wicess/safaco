@@ -29,6 +29,7 @@ export function PageHero({
   imageClass,
   media,
   layout = "band",
+  centered = false,
 }: {
   lang: Lang;
   trail: { key: PageKey; name: T }[];
@@ -42,6 +43,9 @@ export function PageHero({
   imageClass?: string;
   media?: ReactNode;
   layout?: "band" | "split";
+  /** Service pages: everything centred; a split visual becomes a centred
+   *  portrait frame below the text (nothing cropped). */
+  centered?: boolean;
 }) {
   const visual =
     media ??
@@ -65,6 +69,49 @@ export function PageHero({
       <h1 className="vt-title mt-6 text-display-lg">{title}</h1>
     </>
   );
+
+  if (centered) {
+    const portrait = layout === "split";
+    const centeredVisual =
+      media ??
+      (image && (
+        <Picture
+          name={image}
+          alt={imageAlt ?? ""}
+          priority={imagePriority}
+          sizes={portrait ? "(min-width: 30rem) 26rem, 100vw" : "(min-width: 88rem) 84rem, 100vw"}
+          className={cn(portrait ? "grain aspect-[4/5]" : "grain aspect-[4/3] md:aspect-[21/9]", imageClass)}
+        />
+      ));
+    return (
+      <section className="pt-[calc(var(--header-h)+0.5rem)] md:pt-[calc(var(--header-h)+2rem)]">
+        <div className="container-x">
+          <div className="flex justify-center text-muted">
+            <Breadcrumbs lang={lang} trail={trail} />
+          </div>
+          <div className="mx-auto mt-6 max-w-4xl text-center md:mt-10">
+            <p className="eyebrow flex items-center justify-center gap-2 sm:gap-3" style={{ color: "var(--accent-ink, var(--accent))" }}>
+              <span aria-hidden className="hidden h-px w-8 shrink-0 bg-current sm:block" />
+              <span className="[text-wrap:balance]">{eyebrow}</span>
+              <span aria-hidden className="hidden h-px w-8 shrink-0 bg-current sm:block" />
+            </p>
+            <h1 className="vt-title mx-auto mt-6 max-w-[20ch] text-display-lg [text-wrap:balance]">{title}</h1>
+            <p className="mx-auto mt-6 max-w-2xl text-lede text-muted [text-wrap:pretty] md:mt-8">{lede}</p>
+            {children && <div className="mt-8 flex flex-wrap items-center justify-center gap-3 md:mt-9">{children}</div>}
+          </div>
+          <TraceLine className="mx-auto mt-10 w-24 md:mt-14" scroll={false} />
+        </div>
+        {centeredVisual && (
+          <div className="container-x mt-8 md:mt-12">
+            <div className={cn(portrait && "mx-auto max-w-[26rem]")}>
+              {centeredVisual}
+              {note}
+            </div>
+          </div>
+        )}
+      </section>
+    );
+  }
 
   if (layout === "split") {
     return (

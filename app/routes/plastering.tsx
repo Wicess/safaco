@@ -82,6 +82,7 @@ export default function Plastering() {
   return (
     <>
       <PageHero
+        centered
         lang={lang}
         trail={TRAIL}
         eyebrow={lang === "fr" ? "Crépissage automatique" : "Automatic plastering"}

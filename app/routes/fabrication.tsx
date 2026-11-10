@@ -67,6 +67,7 @@ export default function Fabrication() {
   return (
     <>
       <PageHero
+        centered
         lang={lang}
         trail={TRAIL}
         eyebrow={lang === "fr" ? "Fabrication mécanisée" : "Mechanised fabrication"}

@@ -59,6 +59,7 @@ export default function Apartments() {
   return (
     <>
       <PageHero
+        centered
         lang={lang}
         trail={TRAIL}
         eyebrow="SAFA Apartments · Meyo"

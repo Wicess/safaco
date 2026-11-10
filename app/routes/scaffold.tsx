@@ -52,6 +52,7 @@ export default function Scaffold() {
   return (
     <>
       <PageHero
+        centered
         lang={lang}
         trail={TRAIL}
         eyebrow={lang === "fr" ? "Accès en hauteur" : "Access at height"}

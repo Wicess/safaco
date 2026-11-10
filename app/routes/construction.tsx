@@ -73,6 +73,7 @@ export default function Construction() {
   return (
     <>
       <PageHero
+        centered
         lang={lang}
         trail={TRAIL}
         eyebrow="SAFA Construction"

@@ -72,6 +72,7 @@ export default function Designs() {
   return (
     <>
       <PageHero
+        centered
         lang={lang}
         trail={TRAIL}
         eyebrow="SAFA Designs · Carrefour MEEC"
