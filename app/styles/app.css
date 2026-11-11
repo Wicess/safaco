@@ -81,13 +81,18 @@
     :root { --gutter: 4rem; }
   }
 
+  /* The page canvas is navy so the phone's browser chin, the overscroll
+     bounce and the area behind the system bars match the site; the body
+     itself stays ivory. */
   html {
+    background-color: var(--color-navy-950);
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
     scroll-padding-top: calc(var(--header-h) + 1rem);
   }
   body {
     @apply bg-ivory font-sans text-ink antialiased;
+    min-height: 100dvh;
     font-size: 1rem;
     line-height: 1.6;
   }
@@ -325,9 +330,15 @@
 }
 .hero-house { font-size: min(clamp(1.75rem, 8.4vw, 2.125rem), calc(var(--row-h) * 0.55)); }
 @media (min-width: 48rem) { .hero-house { font-size: min(3.25rem, calc(var(--row-h) * 0.56)); } }
-/* Very short phones (iPhone SE, small Androids): the lede yields its space
-   to the three houses, which are the way in. */
-@media (max-height: 42rem) and (max-width: 47.99rem) { .hero-lede { display: none; } }
+/* Short phones (Galaxy S21 with the browser bars showing, iPhone SE): the
+   lede stays in full, a touch smaller, and the house rows tighten a little
+   to make room. Only truly tiny screens let it go. */
+@media (max-height: 44rem) and (max-width: 47.99rem) {
+  .hero-fit { --row-h: clamp(3.125rem, 8.6svh, 5.5rem); }
+  .hero-lede { font-size: 0.875rem; line-height: 1.5; }
+  .hero-fit .branch { padding-top: 0.75rem; }
+}
+@media (max-height: 33rem) and (max-width: 47.99rem), (max-height: 37rem) and (max-width: 21.9rem) { .hero-lede { display: none; } }
 @media (max-height: 40rem) and (min-width: 48rem) { .hero-lede { display: none; } }
 /* ── Hero reel (desktop) ──
    Slides stack; only the active one and the one it covers are painted. */

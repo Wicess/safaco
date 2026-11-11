@@ -42,7 +42,11 @@ export function Layout({ children }: { children: ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        {/* Browser bars in the site's navy, in light and dark phone themes. */}
         <meta name="theme-color" content="#14202a" />
+        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#14202a" />
+        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#14202a" />
+        <meta name="color-scheme" content="light" />
         <meta name="format-detection" content="telephone=no" />
         {/* Search-engine ownership proofs. Keep them: removing either one
             un-verifies the site in Google Search Console / Bing Webmaster Tools. */}
